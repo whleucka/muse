@@ -1,0 +1,20 @@
+{
+    "name": "libra-php/nebula-framework",
+    "description": "Nebula is a lightweight and flexible PHP framework designed to empower developers in building modern web applications with ease.",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Nebula\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "William Hleucka",
+            "email": "william.hleucka@gmail.com"
+        }
+    ],
+    "require": {
+        "libra-php/nebula-core": "dev-main"
+    }
+}

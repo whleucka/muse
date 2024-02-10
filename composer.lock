@@ -1,0 +1,59 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "d65aa536be81400b474323299b5702e9",
+    "packages": [
+        {
+            "name": "libra-php/nebula-core",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/libra-php/nebule-core.git",
+                "reference": "4b628a4b3ab56a8b1718c760a737b83b06619ce4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/libra-php/nebule-core/zipball/4b628a4b3ab56a8b1718c760a737b83b06619ce4",
+                "reference": "4b628a4b3ab56a8b1718c760a737b83b06619ce4",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nebula\\Framework\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "William Hleucka",
+                    "email": "william.hleucka@gmail.com"
+                }
+            ],
+            "description": "Nebula framework core library.",
+            "support": {
+                "issues": "https://github.com/libra-php/nebule-core/issues",
+                "source": "https://github.com/libra-php/nebule-core/tree/main"
+            },
+            "time": "2024-02-10T22:16:54+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "libra-php/nebula-core": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}
