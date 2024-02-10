@@ -18,5 +18,10 @@
         "libra-php/lunar-pdo": "dev-main",
         "libra-php/nebula-core": "dev-main",
         "libra-php/stellar-router": "dev-main"
+    },
+    "scripts": {
+        "serve": [
+            "php -S localhost:8000 --docroot=public/"
+        ]
     }
 }
