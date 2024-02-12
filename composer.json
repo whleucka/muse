@@ -19,7 +19,7 @@
     ],
     "require": {
         "libra-php/lunar-pdo": "dev-main",
-        "libra-php/nebula-core": "dev-main",
+        "libra-php/nebula-framework": "dev-main",
         "libra-php/stellar-router": "dev-main"
     },
     "scripts": {

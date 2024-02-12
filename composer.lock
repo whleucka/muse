@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9204d15a6bf6904552023bcc42b3f08a",
+    "content-hash": "c1af6cb850aea1662de3a9629f93c7ef",
     "packages": [
         {
             "name": "libra-php/lunar-pdo",
@@ -51,17 +51,17 @@
             "time": "2024-02-10T21:21:41+00:00"
         },
         {
-            "name": "libra-php/nebula-core",
+            "name": "libra-php/nebula-framework",
             "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/libra-php/nebule-core.git",
-                "reference": "0d1378cc2eaf22800792a7965055200c345e7009"
+                "url": "https://github.com/libra-php/nebula-framework.git",
+                "reference": "80e6d83b99bdd5cba7dd92e813cc8c50137b76a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/libra-php/nebule-core/zipball/0d1378cc2eaf22800792a7965055200c345e7009",
-                "reference": "0d1378cc2eaf22800792a7965055200c345e7009",
+                "url": "https://api.github.com/repos/libra-php/nebula-framework/zipball/80e6d83b99bdd5cba7dd92e813cc8c50137b76a6",
+                "reference": "80e6d83b99bdd5cba7dd92e813cc8c50137b76a6",
                 "shasum": ""
             },
             "default-branch": true,
@@ -83,10 +83,10 @@
             ],
             "description": "Nebula framework core library.",
             "support": {
-                "issues": "https://github.com/libra-php/nebule-core/issues",
-                "source": "https://github.com/libra-php/nebule-core/tree/main"
+                "issues": "https://github.com/libra-php/nebula-framework/issues",
+                "source": "https://github.com/libra-php/nebula-framework/tree/main"
             },
-            "time": "2024-02-10T22:49:44+00:00"
+            "time": "2024-02-12T15:10:32+00:00"
         },
         {
             "name": "libra-php/stellar-router",
@@ -138,7 +138,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "libra-php/lunar-pdo": 20,
-        "libra-php/nebula-core": 20,
+        "libra-php/nebula-framework": 20,
         "libra-php/stellar-router": 20
     },
     "prefer-stable": false,
