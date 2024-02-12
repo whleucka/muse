@@ -1,3 +1,3 @@
-## Nebula Framework
+## Nebula
 
 WIP
