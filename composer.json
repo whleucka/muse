@@ -8,7 +8,8 @@
             "src/Helpers/functions.php"
         ],
         "psr-4": {
-            "Nebula\\": "src/"
+            "Nebula\\": "src/",
+            "App\\": "app/"
         }
     },
     "authors": [
@@ -18,13 +19,11 @@
         }
     ],
     "require": {
-        "libra-php/lunar-pdo": "dev-main",
-        "libra-php/nebula-framework": "dev-main",
-        "libra-php/stellar-router": "dev-main"
+        "libra-php/nebula-framework": "dev-main"
     },
     "scripts": {
         "serve": [
-            "php -S localhost:8000 --docroot=public/"
+            "./bin/serve"
         ]
     }
 }

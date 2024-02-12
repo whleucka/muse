@@ -1,11 +1,13 @@
 <?php
+
 /**
-* NEBULA
-*/
+ * NEBULA v0.0.1
+ */
 require_once __DIR__ . "/../vendor/autoload.php";
 
-//use Nebula\Framework\Http\Kernel;
+use App\Http\Application;
+use Nebula\Framework\Http\Kernel;
 
-//new Kernel();
-
-echo render("test/index.php", ["test" => "Hello, world"]);
+// Run instance of application
+$app = new Application(new Kernel);
+$app->run();
