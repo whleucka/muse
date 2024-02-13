@@ -23,9 +23,13 @@ function dump($data)
  */
 function dd($data)
 {
-	dump($data);die;
+	dump($data);
+	die;
 }
 
+/**
+ * Get application PDO database wrapper
+ */
 function db(): ?DB
 {
 	$config = config("database");
@@ -46,10 +50,18 @@ function db(): ?DB
 }
 
 /**
-* Return application configuration settings
-* @param string $name name of the configuration attribute
-* @return mixed configuration settings
-*/
+ * Get application environment setting
+ */
+function env(string $name, $default = '')
+{
+	return isset($_ENV[$name]) ? $_ENV[$name] : $default;
+}
+
+/**
+ * Get application configuration settings
+ * @param string $name name of the configuration attribute
+ * @return mixed configuration settings
+ */
 function config(string $name): mixed
 {
 	// There could be a warning if $attribute
@@ -66,10 +78,10 @@ function config(string $name): mixed
 }
 
 /**
-* Returns the content of a template
-* @param string $path template path of template
-* @param array $data variables for template replacements
-*/
+ * Generate content using template
+ * @param string $path template path of template
+ * @param array $data variables for template replacements
+ */
 function template(string $path, array $data = []): string
 {
 	$eng = new Engine;

@@ -9,8 +9,7 @@ class Application
 	}
 
 	/**
-	 * Invokes Kernel main method
-	 * Provides application configuration
+	 * Invoke Kernel main method
 	 */
 	public function run(): void
 	{

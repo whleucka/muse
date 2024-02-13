@@ -1,14 +1,14 @@
 <?php
 
 return [
-	"enabled" => false,
-	"type" => "mysql",
-	"path" => "",
-	"dbname" => "test",
-	"username" => "test",
-	"password" => "test",
-	"host" => "127.0.0.1",
-	"port" => 3306,
-	"charset" => "utf8mb4",
+	"enabled" => true,
+	"type" => env("DB_TYPE"),
+	"path" => env("DB_PATH"),
+	"dbname" => env("DB_NAME"),
+	"username" => env("DB_USERNAME"),
+	"password" => env("DB_PASSWORD"),
+	"host" => env("DB_HOST"),
+	"port" => env("DB_PORT"),
+	"charset" => env("DB_CHARSET"),
 	"options" => [],
 ];
