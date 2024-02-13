@@ -1,5 +1,9 @@
 <?php
 
+use Lunar\Connection\MySQL;
+use Lunar\Connection\SQLite;
+use Lunar\Interface\DB;
+
 /**
  * Useful application helper functions
  */
@@ -20,6 +24,25 @@ function dump($data)
 function dd($data)
 {
 	dump($data);die;
+}
+
+function db(): ?DB
+{
+	$config = config("database");
+	if (!$config["enabled"]) return null;
+	return match ($config["type"]) {
+		"mysql" => new MySQL(
+			$config["dbname"],
+			$config["username"],
+			$config["password"],
+			$config["host"],
+			$config["port"],
+			$config["charset"],
+			$config["options"],
+		),
+		"sqlite" => new SQLite($config["path"], $config["options"]),
+		default => throw new Exception("unknown database driver")
+	};
 }
 
 /**

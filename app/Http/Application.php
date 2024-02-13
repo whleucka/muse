@@ -9,17 +9,18 @@ class Application
 	}
 
 	/**
-	* Invokes Kernel main method
-	* Provides application configuration
-	*/
+	 * Invokes Kernel main method
+	 * Provides application configuration
+	 */
 	public function run(): void
 	{
-		$this->kernel->main($this->config());
+		$response = $this->kernel->main($this->config());
+		$response->send();
 	}
 
 	/**
-	* @return array compiled application configuration
-	*/
+	 * @return array compiled application configuration
+	 */
 	public function config(): array
 	{
 		return [

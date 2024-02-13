@@ -6,6 +6,7 @@ $app = $root . "app/";
 return [
 	"root" => $root,
 	"templates" => $root . "templates",
-	"controller" => $app . "Controllers",
+	"controllers" => $app . "Controllers",
+	"middleware" => $app . "Middleware",
 	"public" => $root . "public",
 ];
