@@ -2,8 +2,6 @@
 
 namespace App\Http;
 
-use Nebula\Framework\Http\Kernel;
-
 class Application
 {
 	public function __construct(private Kernel $kernel)

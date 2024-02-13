@@ -18,8 +18,20 @@
             "email": "william.hleucka@gmail.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../nebula-framework",
+            "options": {
+                "versions": {
+                    "libra-php/nebula-framework": "dev-main"
+                }
+            }
+        }
+    ],
     "require": {
-        "libra-php/nebula-framework": "dev-main"
+        "libra-php/lunar-pdo": "dev-main",
+        "libra-php/stellar-router": "dev-main"
     },
     "scripts": {
         "serve": [

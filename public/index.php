@@ -6,7 +6,7 @@
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use App\Http\Application;
-use Nebula\Framework\Http\Kernel;
+use App\Http\Kernel;
 
 // Run instance of application
 $app = new Application(new Kernel);
