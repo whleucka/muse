@@ -1,7 +1,7 @@
 <?php
 
 return [
-	"enabled" => true,
+	"enabled" => env("DB_ENABLED", false),
 	"type" => env("DB_TYPE"),
 	"path" => env("DB_PATH"),
 	"dbname" => env("DB_NAME"),

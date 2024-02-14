@@ -54,7 +54,16 @@ function db(): ?DB
  */
 function env(string $name, $default = '')
 {
-	return isset($_ENV[$name]) ? $_ENV[$name] : $default;
+	if (isset($_ENV[$name])) {
+		$value = strtolower($_ENV[$name]);
+		if ($value === "true") {
+			return true;
+		} else if ($value === "false") {
+			return false;
+		}
+		return $_ENV[$name];
+	}
+	return $default;
 }
 
 /**
