@@ -15,7 +15,7 @@ use Nebula\Framework\Template\Engine;
  */
 function dump($data)
 {
-	printf("<pre>%s</pre>", print_r($data, true));
+    printf("<pre>%s</pre>", print_r($data, true));
 }
 
 /**
@@ -23,8 +23,8 @@ function dump($data)
  */
 function dd($data)
 {
-	dump($data);
-	die;
+    dump($data);
+    die();
 }
 
 /**
@@ -32,38 +32,40 @@ function dd($data)
  */
 function db(): ?DB
 {
-	$config = config("database");
-	if (!$config["enabled"]) return null;
-	return match ($config["type"]) {
-		"mysql" => new MySQL(
-			$config["dbname"],
-			$config["username"],
-			$config["password"],
-			$config["host"],
-			$config["port"],
-			$config["charset"],
-			$config["options"],
-		),
-		"sqlite" => new SQLite($config["path"], $config["options"]),
-		default => throw new Exception("unknown database driver")
-	};
+    $config = config("database");
+    if (!$config["enabled"]) {
+        return null;
+    }
+    return match ($config["type"]) {
+        "mysql" => new MySQL(
+            $config["dbname"],
+            $config["username"],
+            $config["password"],
+            $config["host"],
+            $config["port"],
+            $config["charset"],
+            $config["options"]
+        ),
+        "sqlite" => new SQLite($config["path"], $config["options"]),
+        default => throw new Exception("unknown database driver"),
+    };
 }
 
 /**
  * Get application environment setting
  */
-function env(string $name, $default = '')
+function env(string $name, $default = "")
 {
-	if (isset($_ENV[$name])) {
-		$value = strtolower($_ENV[$name]);
-		if ($value === "true") {
-			return true;
-		} else if ($value === "false") {
-			return false;
-		}
-		return $_ENV[$name];
-	}
-	return $default;
+    if (isset($_ENV[$name])) {
+        $value = strtolower($_ENV[$name]);
+        if ($value === "true") {
+            return true;
+        } elseif ($value === "false") {
+            return false;
+        }
+        return $_ENV[$name];
+    }
+    return $default;
 }
 
 /**
@@ -73,17 +75,17 @@ function env(string $name, $default = '')
  */
 function config(string $name): mixed
 {
-	// There could be a warning if $attribute
-	// is not set, so let's silence it
-	@[$file, $attribute] = explode(".", $name);
-	$config_path = __DIR__ . "/../../config/$file.php";
-	if (file_exists($config_path)) {
-		$config = require $config_path;
-		return $attribute && key_exists($attribute, $config)
-			? $config[$attribute]
-			: $config;
-	}
-	return false;
+    // There could be a warning if $attribute
+    // is not set, so let's silence it
+    @[$file, $attribute] = explode(".", $name);
+    $config_path = __DIR__ . "/../../config/$file.php";
+    if (file_exists($config_path)) {
+        $config = require $config_path;
+        return $attribute && key_exists($attribute, $config)
+            ? $config[$attribute]
+            : $config;
+    }
+    return false;
 }
 
 /**
@@ -93,7 +95,7 @@ function config(string $name): mixed
  */
 function template(string $path, array $data = []): string
 {
-	$eng = new Engine;
-	$template = config("path.templates");
-	return $eng->render("$template/$path", $data);
+    $eng = new Engine();
+    $template = config("path.templates");
+    return $eng->render("$template/$path", $data);
 }

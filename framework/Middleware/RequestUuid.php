@@ -11,11 +11,11 @@ class RequestUuid implements Middleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-		$uuid4 = Uuid::uuid4()->toString();
-		$request->attributes->add(["request_uuid" => $uuid4]);
+        $uuid4 = Uuid::uuid4()->toString();
+        $request->attributes->add(["request_uuid" => $uuid4]);
 
-		$response = $next($request);
+        $response = $next($request);
 
-		return $response;
+        return $response;
     }
 }
