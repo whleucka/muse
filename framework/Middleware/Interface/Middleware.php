@@ -8,5 +8,8 @@ use Closure;
 
 interface Middleware
 {
-	public function handle(Request $request, Closure $next): Response;
+    /**
+     * @param Closure(): Response $next
+     */
+    public function handle(Request $request, Closure $next): Response;
 }

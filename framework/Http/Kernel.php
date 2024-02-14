@@ -128,7 +128,8 @@ class Kernel
 	/**
 	 * Get a controller class map
 	 * @param string $controller_path application controller path
-	 */
+	 * @return array<class-string,non-empty-string>
+ 	 */
 	protected function controllerMap(string $controller_path): array
 	{
 		if (!file_exists($controller_path)) throw new Exception("controller path doesn't exist");

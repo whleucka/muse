@@ -6,7 +6,10 @@ use Exception;
 
 class Engine
 {
-	public function render(string $path, array $data = []): string
+    /**
+     * @param array<string,mixed> $data
+     */
+    public function render(string $path, array $data = []): string
 	{
 		if (!file_exists($path)) throw new Exception("Template path not found");
 		extract($data);

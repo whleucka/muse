@@ -8,11 +8,17 @@ use Closure;
 
 class Middleware
 {
-	public function __construct(private array $layers = [])
+    /**
+     * @param array<int,mixed> $layers
+     */
+    public function __construct(private array $layers = [])
 	{
 	}
 
-	public function layer($layers): Middleware
+    /**
+     * @param mixed $layers
+     */
+    public function layer($layers): Middleware
 	{
 		if ($layers instanceof Middleware) {
 			$layers = $layers->toArray();
@@ -31,7 +37,10 @@ class Middleware
 		return new static(array_merge($this->layers, $layers));
 	}
 
-	public function handle(Request $request, Closure $core)
+    /**
+     * @param Closure(): void $core
+     */
+    public function handle(Request $request, Closure $core): mixed
 	{
 		$coreFunction = $this->createCoreFunction($core);
 
@@ -48,19 +57,31 @@ class Middleware
 		return $next($request);
 	}
 
-	public function toArray(): array
+    /**
+     * @return array<int,mixed>
+     */
+    public function toArray(): array
 	{
 		return $this->layers;
 	}
 
-	private function createCoreFunction(Closure $core): Closure
+    /**
+     * @param Closure(): void $core
+     * @return Closure(<missing>): <missing>
+     */
+    private function createCoreFunction(Closure $core): Closure
 	{
 		return function ($object) use ($core) {
 			return $core($object);
 		};
 	}
 
-	private function createLayer($nextLayer, $layer): Closure
+    /**
+     * @param mixed $nextLayer
+     * @param mixed $layer
+     * @return Closure(<missing>): <missing>
+     */
+    private function createLayer($nextLayer, $layer): Closure
 	{
 		return function ($object) use ($nextLayer, $layer) {
 			return $layer->handle($object, $nextLayer);
