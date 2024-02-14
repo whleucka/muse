@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59409ae22cffc2405eaa1d144639ad63",
+    "content-hash": "891aae460ae5b53a6781393d344b4d38",
     "packages": [
         {
             "name": "brick/math",
@@ -310,42 +310,6 @@
                 "source": "https://github.com/libra-php/lunar-pdo/tree/main"
             },
             "time": "2024-02-10T21:21:41+00:00"
-        },
-        {
-            "name": "libra-php/nebula-framework",
-            "version": "dev-main",
-            "dist": {
-                "type": "path",
-                "url": "../nebula-framework",
-                "reference": "6c87a8d95dc108dc7630d0cfa041c53d105759e0"
-            },
-            "require": {
-                "composer/class-map-generator": "^1.1",
-                "libra-php/lunar-pdo": "dev-main",
-                "libra-php/stellar-router": "dev-main",
-                "ramsey/uuid": "^4.7",
-                "symfony/http-foundation": "^7.0",
-                "vlucas/phpdotenv": "^5.6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Nebula\\Framework\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "William Hleucka",
-                    "email": "william.hleucka@gmail.com"
-                }
-            ],
-            "description": "Nebula framework core library.",
-            "transport-options": {
-                "relative": true
-            }
         },
         {
             "name": "libra-php/stellar-router",
@@ -1193,7 +1157,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "libra-php/nebula-framework": 20,
         "libra-php/lunar-pdo": 20,
         "libra-php/stellar-router": 20
     },

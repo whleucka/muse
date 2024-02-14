@@ -5,10 +5,11 @@
     "license": "MIT",
     "autoload": {
          "files": [
-            "src/Helpers/functions.php"
+            "framework/Helpers/functions.php"
         ],
         "psr-4": {
             "Nebula\\": "src/",
+            "Nebula\\Framework\\": "framework/",
             "App\\": "app/"
         }
     },
@@ -18,21 +19,13 @@
             "email": "william.hleucka@gmail.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../nebula-framework",
-            "options": {
-                "versions": {
-                    "libra-php/nebula-framework": "dev-main"
-                }
-            }
-        }
-    ],
     "require": {
-        "libra-php/nebula-framework": "dev-main",
         "libra-php/lunar-pdo": "dev-main",
-        "libra-php/stellar-router": "dev-main"
+        "libra-php/stellar-router": "dev-main",
+        "symfony/http-foundation": "^7.0",
+        "composer/class-map-generator": "^1.1",
+        "ramsey/uuid": "^4.7",
+        "vlucas/phpdotenv": "^5.6"
     },
     "scripts": {
         "serve": [
