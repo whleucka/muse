@@ -13,17 +13,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Kernel
 {
-	private array $config;
 	protected array $middleware = [];
 
 	/**
 	 * Main kernel method
 	 * Sets up framework and returns an HTTP response
-	 * @param array $config application config array
 	 */
-	public function main(array $config): Response
+	public function main(): Response
 	{
-		$this->bootstrap($config);
+		$this->bootstrap();
 		$request = $this->request();
 		$route = $this->routing($request);
 		$request->attributes->add(["route" => $route]);
@@ -39,14 +37,12 @@ class Kernel
 	/**
 	 * Initializes the framework, sets up essential configurations,
 	 * and prepares the environment for the application to run.
-	 * @param array $config application config array
 	 */
-	protected function bootstrap(array $config): void
+	protected function bootstrap(): void
 	{
-		$env_path = $config["path"]["root"];
+		$env_path = config("path.root");
 		$this->environment($env_path);
 		$this->registerMiddleware();
-		$this->config = $config;
 	}
 
 	/**
@@ -55,6 +51,7 @@ class Kernel
 	 */
 	protected function environment(string $path): void
 	{
+		if (!file_exists($path)) error_log("warning: your .env path: '$path' doesn't exist");
 		$dotenv = Dotenv::createImmutable($path);
 		$dotenv->safeLoad();
 	}
@@ -124,7 +121,7 @@ class Kernel
 	protected function router(): Router
 	{
 		$router = new Router();
-		$controller_path = $this->config['path']['controllers'];
+		$controller_path = config("path.controllers");
 		$this->registerControllers($router, $this->controllerMap($controller_path));
 		return $router;
 	}
