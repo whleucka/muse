@@ -77,7 +77,6 @@ class Kernel
 		if ($route) {
 			try {
 				$content = null;
-				$code = 200;
 				$headers = [];
 				$handlerClass = $route->getHandlerClass();
 				$handlerMethod = $route->getHandlerMethod();
@@ -89,7 +88,7 @@ class Kernel
 				} elseif ($routePayload) {
 					$content = $routePayload(...$routeParameters);
 				}
-				return new Response($content, $code, $headers);
+				return new Response(content: $content, headers: $headers);
 			} catch (Exception $ex) {
 				error_log("Kernel panic! " . $ex->getMessage());
 				die("Fatal error!");
