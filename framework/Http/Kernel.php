@@ -4,6 +4,7 @@ namespace Nebula\Framework\Http;
 
 use Composer\ClassMapGenerator\ClassMapGenerator;
 use Dotenv\Dotenv;
+use Error;
 use Exception;
 use Nebula\Framework\Middleware\Middleware;
 use StellarRouter\Route;
@@ -95,8 +96,9 @@ class Kernel
                 }
                 return new Response(content: $content, headers: $headers);
             } catch (Exception $ex) {
-                error_log("Kernel panic! " . $ex->getMessage());
-                die("Fatal error!");
+                return new Response($ex->getMessage(), 500);
+            } catch (Error $err) {
+                return new Response($err->getMessage(), 500);
             }
         } else {
             return new Response("Page not found", 404);

@@ -29,4 +29,10 @@ class BasicController extends Controller
         dump("Age: " . $this->request('age'));
         return $this->form();
     }
+
+    #[Get("/api/answer", "basic.answer", ["api"])]
+    public function answer(): string
+    {
+        return 42;
+    }
 }
