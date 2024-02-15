@@ -6,4 +6,4 @@ $content = template("basic/message.php", [
 	"message" => $message
 ]);
 
-echo extend("layout/base.php", "content", $content);
+echo extend("layout/base.php", ["main" => $content]);

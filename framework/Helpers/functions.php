@@ -57,12 +57,12 @@ function db(): ?DB
 function env(string $name, $default = "")
 {
     if (isset($_ENV[$name])) {
-        $value = strtolower($_ENV[$name]);
-        if ($value === "true") {
-            return true;
-        } elseif ($value === "false") {
-            return false;
-        }
+        $lower = strtolower($_ENV[$name]);
+        return match($lower) {
+            "true" => true,
+            "false" => false,
+            default => $_ENV[$name],
+        };
         return $_ENV[$name];
     }
     return $default;
@@ -90,8 +90,8 @@ function config(string $name): mixed
 
 /**
  * Generate content using template
- * @param string $path template path of template
- * @param array $data variables for template replacements
+ * @param string $path template path
+ * @param array<string,mixed> $data template data
  */
 function template(string $path, array $data = []): string
 {
@@ -102,13 +102,10 @@ function template(string $path, array $data = []): string
 
 /**
  * Extends a template layout
- * @param string $path template path of template
- * @param string $block replacement block of template
- * @param string $content content of replacement block
+ * @param string $path template path to extend
+ * @param array<string,mixed> $data template data
  */
-function extend(string $path, string $block, string $content)
+function extend(string $path, array $data)
 {
-    return html_entity_decode(template($path, [
-        $block => $content
-    ]));
+    return html_entity_decode(template($path, $data));
 }
