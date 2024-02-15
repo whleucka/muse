@@ -22,7 +22,7 @@ class CSRF implements Middleware
 		return $response;
 	}
 
-	public function token(): string
+	private function token(): string
 	{
 		$token = session()->get("csrf_token");
 		$token_ts = session()->get("csrf_token_ts");
@@ -37,7 +37,7 @@ class CSRF implements Middleware
 	}
 
 
-	public function validate(Request $request, string $token): bool
+	private function validate(Request $request, string $token): bool
 	{
 		$request_method = $request->getMethod();
 		if (in_array($request_method, ["GET", "HEAD", "OPTIONS"])) {

@@ -132,3 +132,23 @@ function generateToken(): string
 {
     return bin2hex(random_bytes(32));
 }
+
+function isEncrypted(mixed $value)
+{
+	return strpos($value, '--2113') !== false;
+}
+
+function encrypt(mixed $value)
+{
+    $app_key = config("security.app_key");
+    $encrypted = openssl_encrypt($value, 'AES-256-CBC', $app_key, 0, substr($app_key, 0, 16));
+    // Add a marker to indicate that the cookie is encrypted
+    $encrypted .= '--2113';
+    return $encrypted;
+}
+
+function decrypt(mixed $value)
+{
+    $app_key = config("security.app_key");
+    return openssl_decrypt(str_replace('--2113', '', $value), 'AES-256-CBC', $app_key, 0, substr($app_key, 0, 16));
+}
