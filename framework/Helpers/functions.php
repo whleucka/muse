@@ -99,3 +99,16 @@ function template(string $path, array $data = []): string
     $template = config("path.templates");
     return $eng->render("$template/$path", $data);
 }
+
+/**
+ * Extends a template layout
+ * @param string $path template path of template
+ * @param string $block replacement block of template
+ * @param string $content content of replacement block
+ */
+function extend(string $path, string $block, string $content)
+{
+    return html_entity_decode(template($path, [
+        $block => $content
+    ]));
+}
