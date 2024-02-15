@@ -23,9 +23,10 @@ class BasicController extends Controller
     }
 
     #[Post("/form/post", "basic.form")]
-    public function post(): void
+    public function post(): string
     {
-        dump($this->request('name'));
-        dump($this->request('age'));
+        dump("Name: " . $this->request('name'));
+        dump("Age: " . $this->request('age'));
+        return $this->form();
     }
 }

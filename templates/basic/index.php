@@ -3,7 +3,7 @@
 // In this example, this template extends the layout/base.php template
 // and sets the main variable with content
 
-$content = template("basic/component/message.php", [
+$content = template("basic/components/message.php", [
 	"message" => $message
 ]);
 
