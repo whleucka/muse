@@ -1,8 +1,9 @@
 <?php
 // The message is received from BasicController
 // In this example, this template extends the layout/base.php template
+// and sets the main variable with content
 
-$content = template("basic/message.php", [
+$content = template("basic/component/message.php", [
 	"message" => $message
 ]);
 
