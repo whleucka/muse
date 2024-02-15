@@ -1,14 +1,15 @@
 <?php
 
+/**
+ * Useful application helper functions
+ * NOTE: do not add namespace
+ */
+
 use Lunar\Connection\MySQL;
 use Lunar\Connection\SQLite;
 use Lunar\Interface\DB;
-
-/**
- * Useful application helper functions
- */
-
 use Nebula\Framework\Template\Engine;
+use Nebula\Framework\Session\Session;
 
 /**
  * Print a debug
@@ -25,6 +26,11 @@ function dd($data)
 {
     dump($data);
     die();
+}
+
+function session(): Session
+{
+    return new Session;
 }
 
 /**
@@ -58,7 +64,7 @@ function env(string $name, $default = "")
 {
     if (isset($_ENV[$name])) {
         $lower = strtolower($_ENV[$name]);
-        return match($lower) {
+        return match ($lower) {
             "true" => true,
             "false" => false,
             default => $_ENV[$name],
@@ -108,4 +114,21 @@ function template(string $path, array $data = []): string
 function extend(string $path, array $data)
 {
     return html_entity_decode(template($path, $data));
+}
+
+/**
+ * Get a CSRF input
+ */
+function csrf(): string
+{
+    $token = session()->get("csrf_token");
+    return template("components/csrf.php", ["token" => $token]);
+}
+
+/**
+ * Get a token string
+ */
+function generateToken(): string
+{
+    return bin2hex(random_bytes(32));
 }

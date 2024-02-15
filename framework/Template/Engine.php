@@ -16,6 +16,8 @@ class Engine
             throw new Exception("Template path not found");
         }
 
+        $data["csrf"] = fn () => csrf();
+
         // You can output unsanitized strings with raw
         $data["raw"] = fn ($value) => html_entity_decode($data[$value]);
 

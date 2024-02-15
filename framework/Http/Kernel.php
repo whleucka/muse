@@ -77,7 +77,7 @@ class Kernel
      * @param Request $request
      * @param Route $route
      */
-    protected function resolve(Request $request, Route $route): Response
+    protected function resolve(Request $request, ?Route $route): Response
     {
         if ($route) {
             try {
@@ -98,6 +98,8 @@ class Kernel
                 error_log("Kernel panic! " . $ex->getMessage());
                 die("Fatal error!");
             }
+        } else {
+            return new Response("Page not found", 404);
         }
     }
 

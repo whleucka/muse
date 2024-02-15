@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use Nebula\Framework\Controller\Controller;
 use StellarRouter\Get;
+use StellarRouter\Post;
 
 class BasicController extends Controller
 {
@@ -13,5 +14,18 @@ class BasicController extends Controller
         return template("basic/index.php", [
             "message" => "Hello, world! " . time(),
         ]);
+    }
+
+    #[Get("/form", "basic.form")]
+    public function form(): string
+    {
+        return template("basic/form.php");
+    }
+
+    #[Post("/form/post", "basic.form")]
+    public function post(): void
+    {
+        dump($this->request('name'));
+        dump($this->request('age'));
     }
 }
