@@ -10,7 +10,7 @@ class APIResponse implements Middleware
 {
 	public function handle(Request $request, Closure $next): Response
 	{
-		$middleware = $request->get("route")->getMiddleware();
+		$middleware = $request->get("route")?->getMiddleware();
 
 		$response = $next($request);
 

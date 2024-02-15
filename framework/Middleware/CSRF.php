@@ -44,9 +44,12 @@ class CSRF implements Middleware
 			return true;
 		}
 
+		$session_token = session()->get("csrf_token");
+
 		if (
+			!is_null($session_token) &&
 			!is_null($token) &&
-			hash_equals(session()->get("csrf_token"), $token)
+			hash_equals($session_token, $token)
 		) {
 			return true;
 		}
