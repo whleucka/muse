@@ -11,9 +11,9 @@ class CSRF implements Middleware
 {
 	public function handle(Request $request, Closure $next): Response
 	{
-		$token = $this->token();
+		$this->token();
 
-		if (!$this->validate($request, $token)) {
+		if (!$this->validate($request)) {
 			return new Response("Invalid request", 403);
 		}
 
@@ -22,7 +22,7 @@ class CSRF implements Middleware
 		return $response;
 	}
 
-	private function token(): string
+	private function token(): void
 	{
 		$token = session()->get("csrf_token");
 		$token_ts = session()->get("csrf_token_ts");
@@ -32,12 +32,10 @@ class CSRF implements Middleware
 			session()->set("csrf_token", $token);
 			session()->set("csrf_token_ts", time());
 		}
-
-		return $token;
 	}
 
 
-	private function validate(Request $request, string $token): bool
+	private function validate(Request $request): bool
 	{
 		$request_method = $request->getMethod();
 		if (in_array($request_method, ["GET", "HEAD", "OPTIONS"])) {
@@ -45,6 +43,7 @@ class CSRF implements Middleware
 		}
 
 		$session_token = session()->get("csrf_token");
+		$token = $request->get("csrf_token");
 
 		if (
 			!is_null($session_token) &&
