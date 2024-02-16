@@ -9,6 +9,7 @@
         ],
         "psr-4": {
             "Nebula\\Framework\\": "framework/",
+            "Nebula\\Migrations\\": "migrations/",
             "App\\": "app/"
         }
     },
