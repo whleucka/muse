@@ -16,7 +16,11 @@ use Nebula\Framework\Session\Session;
  */
 function dump($data)
 {
-    printf("<pre style='font-size: 0.6rem; border-radius: 10px; padding: 10px; background: #133; color: azure; border: 3px dotted azure;'><div style='margin-bottom: 1rem;'><strong style='color: #5effa1;'>DUMP</strong></div><div>%s</div></pre>", print_r($data, true));
+    $debug = debug_backtrace()[0];
+    $pre_style = "overflow-x: auto; font-size: 0.6rem; border-radius: 10px; padding: 10px; background: #133; color: azure; border: 3px dotted azure;";
+    $scrollbar_style = "scrollbar-width: thin; scrollbar-color: #5EFFA1 #113333;";
+
+    printf("<pre style='%s %s'><div style='margin-bottom: 5px;'><strong style='color: #5effa1;'>DUMP</strong></div><div style='margin-bottom: 5px;'><strong>File:</strong> %s:%s</div><div style='margin-top: 10px;'>%s</div></pre>", $pre_style, $scrollbar_style, $debug["file"], $debug["line"], print_r($data, true));
 }
 
 /**
