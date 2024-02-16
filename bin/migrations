@@ -1,0 +1,8 @@
+#!/usr/bin/env php
+<?php
+
+#$migration_file = __DIR__ . "/../../migrations/Users/1708118366.php";
+#if (file_exists($migration_file)) {
+#    $migration = require ($migration_file);
+#    $result = db()->query($migration->up());
+#}
