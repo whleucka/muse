@@ -8,7 +8,6 @@
             "framework/Helpers/Functions.php"
         ],
         "psr-4": {
-            "Nebula\\": "src/",
             "Nebula\\Framework\\": "framework/",
             "App\\": "app/"
         }
