@@ -20,7 +20,11 @@ function dump($data)
     $pre_style = "overflow-x: auto; font-size: 0.6rem; border-radius: 10px; padding: 10px; background: #133; color: azure; border: 3px dotted azure;";
     $scrollbar_style = "scrollbar-width: thin; scrollbar-color: #5EFFA1 #113333;";
 
-    printf("<pre style='%s %s'><div style='margin-bottom: 5px;'><strong style='color: #5effa1;'>DUMP</strong></div><div style='margin-bottom: 5px;'><strong>File:</strong> %s:%s</div><div style='margin-top: 10px;'>%s</div></pre>", $pre_style, $scrollbar_style, $debug["file"], $debug["line"], print_r($data, true));
+    if (php_sapi_name() === 'cli') {
+        print_r($data);
+    } else {
+        printf("<pre style='%s %s'><div style='margin-bottom: 5px;'><strong style='color: #5effa1;'>DUMP</strong></div><div style='margin-bottom: 5px;'><strong>File:</strong> %s:%s</div><div style='margin-top: 10px;'>%s</div></pre>", $pre_style, $scrollbar_style, $debug["file"], $debug["line"], print_r($data, true));
+    }
 }
 
 /**

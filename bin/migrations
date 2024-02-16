@@ -1,8 +1,41 @@
 #!/usr/bin/env php
 <?php
 
-#$migration_file = __DIR__ . "/../../migrations/Users/1708118366.php";
-#if (file_exists($migration_file)) {
-#    $migration = require ($migration_file);
-#    $result = db()->query($migration->up());
-#}
+include_once __DIR__ . "/../vendor/autoload.php";
+
+function getMigrationFiles(string $migration_path): array
+{
+	$iterator = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($migration_path),
+        RecursiveIteratorIterator::SELF_FIRST
+    );
+
+    $files = array();
+
+    foreach ($iterator as $file) {
+        if ($file->isFile() && $file->getExtension() === "php") {
+            $files[] = $file->getPathname();
+        }
+    }
+
+    return $files;
+}
+
+function getMigrations()
+{
+	$migration_path = config("path.migrations");
+	$migrations = getMigrationFiles($migration_path);
+	dump($migrations);
+}
+
+function migrationUp($migration)
+{
+	$result = db()->query($migration->up());
+}
+
+function migrationDown($migration)
+{
+	$result = db()->query($migration->down());
+}
+
+getMigrations();
