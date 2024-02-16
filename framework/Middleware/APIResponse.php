@@ -33,7 +33,7 @@ class APIResponse implements Middleware
 		}
 
 		arsort($data);
-		return in_array("api", $middleware)
+		return $middleware && in_array("api", $middleware)
 			? new JsonResponse($data, $code, $headers)
 			: $response;
 	}
