@@ -5,7 +5,7 @@
     "license": "MIT",
     "autoload": {
          "files": [
-            "framework/Helpers/functions.php"
+            "framework/Helpers/Functions.php"
         ],
         "psr-4": {
             "Nebula\\": "src/",
