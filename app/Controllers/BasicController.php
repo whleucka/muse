@@ -11,15 +11,18 @@ class BasicController extends Controller
     #[Get("/", "basic.index")]
     public function index(): string
     {
-        return template("basic/index.php", [
-            "message" => "Hello, world! " . time(),
+        $content = template("basic/components/message.php", [
+            "message" => "Hello, world! " . time()
         ]);
+
+        return extend("layout/base.php", ["main" => $content]);
     }
 
     #[Get("/form", "basic.form")]
     public function form(): string
     {
-        return template("basic/form.php");
+        $content = template("basic/components/form.php");
+        return extend("layout/base.php", ["main" => $content]);
     }
 
     #[Post("/form/post", "basic.form")]

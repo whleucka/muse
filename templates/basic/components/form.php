@@ -1,4 +1,5 @@
-<form method="POST" action="/form/post">
+<div id="target"></div>
+<form method="POST" hx-post="/form/post" hx-target="#target">
 	<?=$csrf()?>
 	<h2>Form</h2>
 	<div>
