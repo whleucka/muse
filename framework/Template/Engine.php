@@ -16,6 +16,7 @@ class Engine
             throw new Exception("Template path not found");
         }
 
+        // Adds a csrf token to a hidden input for a form
         $data["csrf"] = fn () => csrf();
 
         // You can output unsanitized strings with raw

@@ -16,7 +16,7 @@ use Nebula\Framework\Session\Session;
  */
 function dump($data)
 {
-    printf("<pre>%s</pre>", print_r($data, true));
+    printf("<pre style='font-size: 0.6rem; border-radius: 10px; padding: 10px; background: #133; color: azure; border: 3px dotted azure;'><div style='margin-bottom: 1rem;'><strong style='color: #5effa1;'>DUMP</strong></div><div>%s</div></pre>", print_r($data, true));
 }
 
 /**
