@@ -23,11 +23,10 @@ class BasicController extends Controller
     }
 
     #[Post("/form/post", "basic.form")]
-    public function post(): string
+    public function post(): void
     {
         dump("Name: " . $this->request('name'));
         dump("Age: " . $this->request('age'));
-        return $this->form();
     }
 
     #[Get("/api/answer", "basic.answer", ["api"])]

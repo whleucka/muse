@@ -30,7 +30,6 @@ class EncryptCookies implements Middleware
 			if (!isEncrypted($value) && $key !== "PHPSESSID") {
 				$encryptedValue = encrypt($value);
 				setcookie($key, $encryptedValue, time() + (86400 * 30), "/", "", false, true);
-				$request->cookies->set($key, $encryptedValue);
 			}
         }
     }
@@ -40,6 +39,7 @@ class EncryptCookies implements Middleware
         foreach ($request->cookies as $key => $value) {
 			if (isEncrypted($value) && $key !== "PHPSESSID") {
 				$decryptedValue = decrypt($value);
+				$_COOKIE[$key] = $decryptedValue;
 				$request->cookies->set($key, $decryptedValue);
 			}
         }
