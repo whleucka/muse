@@ -3,12 +3,12 @@
 	<h1>Register</h1>
 	<div>
 		<label>Email</label><br>
-		<input name="email" type="email" value="<?=$email?>" />
+		<input name="email" type="email" value="<?=$escape('email')?>" />
 		<?= $request_errors("email") ?>
 	</div>
 	<div>
 		<label>Name</label><br>
-		<input name="name" type="text" value="<?=$name?>" />
+		<input name="name" type="text" value="<?=$escape('name')?>" />
 		<?= $request_errors("name") ?>
 	</div>
 	<div>

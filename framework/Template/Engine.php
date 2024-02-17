@@ -25,23 +25,10 @@ class Engine
             return template("components/csrf.php", ["token" => $token]);
         };
 
-        $data["escape"] = fn($value) => $this->escape($value);
-
         extract($data);
 
         ob_start();
         require $path;
         return ob_get_clean();
-    }
-
-    /**
-     * Sanitize value for template
-     */
-    public function escape(mixed $value): mixed
-    {
-        if (is_string($value)) {
-            return htmlspecialchars($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        }
-        return $value;
     }
 }

@@ -26,7 +26,17 @@ class Controller
         $data["request_errors"] = fn(string $field) => isset($this->request_errors[$field])
             ? template("components/request_errors.php", ["errors" => $this->request_errors[$field]])
             : "";
+        $data["escape"] = fn(string $key) => $this->escapeRequest($key);
+
         return template($path, $data, true);
+    }
+
+    /**
+     * Sanitize value for template
+     */
+    public function escapeRequest(string $key): mixed
+    {
+        return htmlspecialchars($this->request($key), ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
 
     public function validateRequest(array $ruleset): array

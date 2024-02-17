@@ -3,7 +3,7 @@
 	<h1>Sign In</h1>
 	<div>
 		<label>Email</label><br>
-		<input name="email" type="email" value="<?=$email?>" />
+		<input name="email" type="email" value="<?=$escape('email')?>" />
 		<?=$request_errors('email')?>
 	</div>
 	<div>
