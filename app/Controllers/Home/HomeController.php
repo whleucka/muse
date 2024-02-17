@@ -13,6 +13,6 @@ class HomeController extends Controller
 	{
 		$content = template("home/index.php");
 
-		return extend("layout/base.php", ["main" => $content]);
+		return template("layout/base.php", ["main" => $content]);
 	}
 }

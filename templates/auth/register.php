@@ -1,5 +1,4 @@
 <?php
 // receives form
-$content = extend("auth/section/register.php", ["form" => $form]);
-echo extend("layout/base.php", ["main" => $content]);
-
+$content = template("auth/section/register.php", ["form" => $form]);
+echo template("layout/base.php", ["main" => $content]);

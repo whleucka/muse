@@ -25,11 +25,9 @@ class Engine
             return template("components/csrf.php", ["token" => $token]);
         };
 
-        // You can output unsanitized strings with raw
-        $data["raw"] = fn ($value) => html_entity_decode($data[$value]);
+        $data["escape"] = fn($value) => $this->escape($value);
 
-        $sanitized = array_map(fn ($value) => $this->sanitize($value), $data);
-        extract($sanitized);
+        extract($data);
 
         ob_start();
         require $path;
@@ -39,7 +37,7 @@ class Engine
     /**
      * Sanitize value for template
      */
-    public function sanitize(mixed $value): mixed
+    public function escape(mixed $value): mixed
     {
         if (is_string($value)) {
             return htmlspecialchars($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');

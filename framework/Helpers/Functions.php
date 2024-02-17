@@ -114,14 +114,3 @@ function template(string $path, array $data = [], bool $decode = false): string
         ? html_entity_decode($engine->render("$template/$path", $data))
         : $engine->render("$template/$path", $data);
 }
-
-/**
- * Extend a template path
- * @param string $path template path
- * @param array<string,mixed> $data template data
- * @param bool $decode decode html entities
- */
-function extend(string $path, array $data = []): string
-{
-    return template($path, $data, true);
-}
