@@ -34,7 +34,7 @@ class SignInController extends Controller
 			die("wip");
 		}
 		return $this->form([
-			"email" => '"/><script>alert(`test`);</script>'
+			"email" => $this->request("email")
 		]);
 	}
 }
