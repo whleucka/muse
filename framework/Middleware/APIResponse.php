@@ -14,27 +14,29 @@ class APIResponse implements Middleware
 
 		$response = $next($request);
 
-		$code = $response->getStatusCode();
-		$headers = [
-			...$response->headers,
-			"Content-Type" => "application/json; charset=utf-8",
-		];
-		$data = [
-			"success" => $code === 200,
-			"id" => $request->get("request_uuid"),
-			"status" => $code,
-			"ts" => time(),
-		];
+		if ($middleware && in_array("api", $middleware)) {
+			$code = $response->getStatusCode();
+			$headers = [
+				...$response->headers,
+				"Content-Type" => "application/json; charset=utf-8",
+			];
+			$data = [
+				"success" => $code === 200,
+				"id" => $request->get("request_uuid"),
+				"status" => $code,
+				"ts" => time(),
+			];
 
-		if ($code === 200) {
-			$data["data"] = $response->getContent();
-		} else {
-			$data["error"] = $response->getContent();
+			if ($code === 200) {
+				$data["data"] = $response->getContent();
+			} else {
+				$data["error"] = $response->getContent();
+			}
+
+			arsort($data);
+			$response = new JsonResponse($data, $code, $headers);
 		}
 
-		arsort($data);
-		return $middleware && in_array("api", $middleware)
-			? new JsonResponse($data, $code, $headers)
-			: $response;
+		return $response;
 	}
 }
