@@ -10,11 +10,7 @@ class BasicController extends Controller
     #[Get("/", "basic.index")]
     public function index(): string
     {
-        $content = template("basic/components/message.php", [
-            "message" => "Hello, world! " . time()
-        ]);
-
-        return extend("layout/base.php", ["main" => $content]);
+        return $this->render("basic/index.php", ["message" => "Hello, world " . time()]);
     }
 
     #[Get("/test", "basic.answer", ["api"])]

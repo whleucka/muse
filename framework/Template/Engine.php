@@ -35,9 +35,8 @@ class Engine
      */
     public function sanitize(mixed $value): mixed
     {
-        switch ($value) {
-            case is_string($value):
-                return htmlspecialchars($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        if (is_string($value)) {
+            return htmlspecialchars($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
         }
         return $value;
     }

@@ -8,8 +8,8 @@
 use Lunar\Connection\MySQL;
 use Lunar\Connection\SQLite;
 use Lunar\Interface\DB;
-use Nebula\Framework\Template\Engine;
 use Nebula\Framework\Session\Session;
+use Nebula\Framework\Template\Engine;
 
 /**
  * Print a debug
@@ -103,28 +103,6 @@ function config(string $name): mixed
 }
 
 /**
- * Generate content using template
- * @param string $path template path
- * @param array<string,mixed> $data template data
- */
-function template(string $path, array $data = []): string
-{
-    $eng = new Engine();
-    $template = config("path.templates");
-    return $eng->render("$template/$path", $data);
-}
-
-/**
- * Extends a template layout
- * @param string $path template path to extend
- * @param array<string,mixed> $data template data
- */
-function extend(string $path, array $data)
-{
-    return html_entity_decode(template($path, $data));
-}
-
-/**
  * Get a CSRF input
  */
 function csrf(): string
@@ -143,7 +121,7 @@ function generateToken(): string
 
 function isEncrypted(mixed $value)
 {
-	return strpos($value, '|crypt|') !== false;
+    return strpos($value, '|crypt|') !== false;
 }
 
 function encrypt(mixed $value)
@@ -159,4 +137,30 @@ function decrypt(mixed $value)
 {
     $app_key = config("security.app_key");
     return openssl_decrypt(str_replace('|crypt|', '', $value), 'AES-256-CBC', $app_key, 0, substr($app_key, 0, 16));
+}
+
+/**
+ * Generate content using template
+ * @param string $path template path
+ * @param array<string,mixed> $data template data
+ * @param bool $decode decode html entities
+ */
+function template(string $path, array $data = [], bool $decode = false): string
+{
+    $eng = new Engine();
+    $template = config("path.templates");
+    return $decode
+        ? html_entity_decode($eng->render("$template/$path", $data))
+        : $eng->render("$template/$path", $data);
+}
+
+/**
+ * Extend a template path
+ * @param string $path template path
+ * @param array<string,mixed> $data template data
+ * @param bool $decode decode html entities
+ */
+function extend(string $path, array $data = []): string
+{
+    return template($path, $data, true);
 }

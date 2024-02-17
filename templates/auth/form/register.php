@@ -4,14 +4,17 @@
 	<div>
 		<label>Email</label><br>
 		<input name="email" type="email" value="<?=$email?>" />
+		<?= $request_errors("email") ?>
 	</div>
 	<div>
 		<label>Name</label><br>
 		<input name="name" type="text" value="<?=$name?>" />
+		<?= $request_errors("name") ?>
 	</div>
 	<div>
 		<label>Password</label><br>
 		<input name="password" type="password" value="" />
+		<?= $request_errors("password") ?>
 	</div>
 	<div>
 		<label>Password (again)</label><br>

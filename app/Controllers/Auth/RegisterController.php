@@ -13,25 +13,31 @@ class RegisterController extends Controller
      */
     private function form(array $data = []): string
 	{
-		return template("auth/form/register.php", $data);
+		return $this->render("auth/form/register.php", $data);
 	}
 
 	#[Get("/register", "sign-in.index")]
 	public function index(): string
 	{
-		$content = extend("auth/register.php", [
+		return $this->render("auth/register.php", [
 			"form" => $this->form()
 		]);
-
-		return extend("layout/base.php", ["main" => $content]);
 	}
 
 	#[Post("/register", "sign-in.post")]
 	public function post(): string
 	{
+		$data = $this->validateRequest([
+			"email" => ["required", "unique|users"],
+			"name" => ["required"],
+			"password" => ["required"],
+		]);
+		if ($data) {
+			die("wip");
+		}
 		return $this->form([
-			"email" => $this->request->get("email"),
-			"name" => $this->request->get("name"),
+			"email" => $this->request("email"),
+			"name" => $this->request("name"),
 		]);
 	}
 }

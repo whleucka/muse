@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/libra-php/lunar-pdo.git",
-                "reference": "ab1edc5a6205815375c22d1ccbd2c8af766708e5"
+                "reference": "135edda81eff6f2bde7e4fd7e6db61a3241cbd23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/libra-php/lunar-pdo/zipball/ab1edc5a6205815375c22d1ccbd2c8af766708e5",
-                "reference": "ab1edc5a6205815375c22d1ccbd2c8af766708e5",
+                "url": "https://api.github.com/repos/libra-php/lunar-pdo/zipball/135edda81eff6f2bde7e4fd7e6db61a3241cbd23",
+                "reference": "135edda81eff6f2bde7e4fd7e6db61a3241cbd23",
                 "shasum": ""
             },
             "require": {
@@ -309,7 +309,7 @@
                 "issues": "https://github.com/libra-php/lunar-pdo/issues",
                 "source": "https://github.com/libra-php/lunar-pdo/tree/main"
             },
-            "time": "2024-02-10T21:21:41+00:00"
+            "time": "2024-02-17T08:10:55+00:00"
         },
         {
             "name": "libra-php/stellar-router",
