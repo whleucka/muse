@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?= $meta ?? '' ?>
 	<title><?= $title ?? 'Nebula' ?></title>
-	<link href="css/main.css" rel="stylesheet">
+	<link href="/css/main.css" rel="stylesheet">
 	<?= $head ?? '' ?>
 </head>
 
@@ -14,8 +14,8 @@
 	<main>
 		<?= $main ?? '' ?>
 	</main>
-	<script src="js/htmx.min.js"></script>
-	<script src="js/main.js"></script>
+	<script src="/js/htmx.min.js"></script>
+	<script src="/js/main.js"></script>
 	<?= $scripts ?? '' ?>
 </body>
 
