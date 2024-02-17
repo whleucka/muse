@@ -30,8 +30,10 @@ class RegisterController extends Controller
 			"email" => ["required", "unique|users"],
 			"name" => ["required"],
 			"password" => ["required"],
+			"password_match" => ["required", "match|password"]
 		]);
 		if ($data) {
+			dump($data);
 			die("wip");
 		}
 		return $this->form([

@@ -7,8 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 class Controller
 {
     protected array $error_messages = [
-        "required" => "%s is a required field.",
-        "unique" => "%s must be unique."
+        "required" => "required field",
+        "unique" => "must be unique",
+        "match" => "must match",
     ];
     protected array $request_errors = [];
 
@@ -21,25 +22,31 @@ class Controller
      * @param string $path template path
      * @param array<string,mixed> $data template data
      */
-    function render(string $path, array $data = []): string
+    protected function render(string $path, array $data = []): string
     {
-        $data["request_errors"] = fn(string $field) => isset($this->request_errors[$field])
-            ? template("components/request_errors.php", ["errors" => $this->request_errors[$field]])
-            : "";
+        $data["request_errors"] = fn(string $field, string $title = '') => $this->getRequestErrors($field, $title);
         $data["escape"] = fn(string $key) => $this->escapeRequest($key);
 
         return template($path, $data, true);
     }
 
+    private function getRequestErrors(string $field, string $title = ''): ?string
+    {
+        if (!$title) $title = ucfirst($field);
+        return isset($this->request_errors[$field])
+            ? template("components/request_errors.php", ["errors" => $this->request_errors[$field], "title" => $title])
+            : "";
+    }
+
     /**
      * Sanitize value for template
      */
-    public function escapeRequest(string $key): mixed
+    private function escapeRequest(string $key): mixed
     {
         return htmlspecialchars($this->request($key), ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
 
-    public function validateRequest(array $ruleset): array
+    protected function validateRequest(array $ruleset): array
     {
         $data = [];
         foreach ($ruleset as $field => $rules) {
@@ -52,12 +59,13 @@ class Controller
                 $value = $this->request($field);
                 $result = match ($rule) {
                     "required" => $value && trim($value) !== '',
+                    "match" => $value === $mod,
                     "array" => is_array($value),
                     "string" => is_string($value),
                     "numeric" => is_numeric($value),
                     "int" => is_int($value),
                     "float" => is_float($value),
-                    "unique" => $this->is_unique($mod, $field, $value),
+                    "unique" => !db()->fetch("SELECT * FROM $mod WHERE $field = ?", $value),
                 };
                 if (!$result && isset($this->error_messages[$rule])) {
                     $this->addRequestError($field, $this->error_messages[$rule]);
@@ -67,17 +75,12 @@ class Controller
         return count($this->request_errors) === 0 ? $data : [];
     }
 
-    private function is_unique(string $mod, string $field, string $value): bool
-    {
-        return !db()->fetch("SELECT * FROM $mod WHERE $field = ?", $value);
-    }
-
     protected function addRequestError(string $field, string $message): void
     {
-        $this->request_errors[$field][] = sprintf($message, ucfirst($field));
+        $this->request_errors[$field][] = $message;
     }
 
-    public function request(?string $key = null, mixed $default = null): mixed
+    protected function request(?string $key = null, mixed $default = null): mixed
     {
         if (!$key) {
             return $this->request;

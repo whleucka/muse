@@ -19,6 +19,7 @@
 	<div>
 		<label>Password (again)</label><br>
 		<input name="password_match" type="password" value="" />
+		<?= $request_errors("password_match", "Password") ?>
 	</div>
 	<div>
 		<br>
