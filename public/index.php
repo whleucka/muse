@@ -1,7 +1,7 @@
 <?php
 
 /**
- * NEBULA v0.0.1
+ * NEBULA
  */
 require_once __DIR__ . "/../vendor/autoload.php";
 
