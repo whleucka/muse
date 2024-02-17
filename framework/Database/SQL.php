@@ -27,11 +27,20 @@ class SQL
 	/**
 	 * Load SQL from file
 	 */
-	public function file(string $migration_file): void
+	public function file(string $path): void
 	{
-		if (!file_exists($migration_file)) {
+		if (!file_exists($path)) {
 			throw new Exception("migration file doesn't exist");
 		}
-		$this->query = file_get_contents($migration_file);
+		$this->query = file_get_contents($path);
+	}
+
+	/**
+	 * Load SQL from migration path
+	 */
+	public function migrationFile(string $path): void
+	{
+		$migration_path = config("path.migrations") . $path;
+		$this->file($migration_path);
 	}
 }

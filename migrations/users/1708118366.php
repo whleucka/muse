@@ -1,6 +1,6 @@
 <?php
 
-namespace Nebula\Migrations\Users;
+namespace Nebula\Migrations\users;
 
 use Nebula\Framework\Database\{SQL, Schema};
 use Nebula\Framework\Database\Interfaces\Migration;
@@ -9,13 +9,11 @@ return new class implements Migration
 {
 		public function up()
 		{
-			$migration_path = config("path.migrations");
-			return Schema::run(fn(SQL $sql) => $sql->file($migration_path . "/users/up.sql"));
+			return Schema::run(fn(SQL $sql) => $sql->migrationFile("/users/up.sql"));
 		}
 
 		public function down()
 		{
-			$migration_path = config("path.migrations");
-			return Schema::run(fn(SQL $sql) => $sql->file($migration_path . "/users/down.sql"));
+			return Schema::run(fn(SQL $sql) => $sql->migrationFile("/users/down.sql"));
 		}
 };
