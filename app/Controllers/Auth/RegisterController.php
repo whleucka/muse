@@ -3,9 +3,8 @@
 namespace App\Controllers\Auth;
 
 use Nebula\Framework\Controller\Controller;
-use StellarRouter\{Group, Get, Post};
+use StellarRouter\{Get, Post};
 
-#[Group(prefix: "/auth")]
 class RegisterController extends Controller
 {
     /**

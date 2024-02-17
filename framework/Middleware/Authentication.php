@@ -2,6 +2,7 @@
 
 namespace Nebula\Framework\Middleware;
 use Closure;
+use Nebula\Framework\Auth\Auth;
 use Nebula\Framework\Middleware\Interface\Middleware;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,8 +14,7 @@ class Authentication implements Middleware
 		$middleware = $request->get("route")?->getMiddleware();
 
 		if ($middleware && in_array("auth", $middleware)) {
-			header("Location: /auth/sign-in");
-			exit;
+			Auth::redirectSignIn();
 		}
 
 		$response = $next($request);

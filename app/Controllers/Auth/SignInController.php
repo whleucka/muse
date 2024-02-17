@@ -3,9 +3,8 @@
 namespace App\Controllers\Auth;
 
 use Nebula\Framework\Controller\Controller;
-use StellarRouter\{Group, Get, Post};
+use StellarRouter\{Get, Post};
 
-#[Group(prefix: "/auth")]
 class SignInController extends Controller
 {
     /**
@@ -27,6 +26,13 @@ class SignInController extends Controller
 	#[Post("/sign-in", "sign-in.post")]
 	public function post(): string
 	{
+		$data = $this->validateRequest([
+			"email" => ["required"],
+			"password" => ["required"],
+		]);
+		if ($data) {
+			die("wip");
+		}
 		return $this->form(["email" => $this->request("email")]);
 	}
 }

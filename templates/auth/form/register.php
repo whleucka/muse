@@ -1,4 +1,4 @@
-<form method="POST" id="form-register" hx-post="/auth/register" hx-swap="outerHTML">
+<form method="POST" id="form-register" hx-post="/register" hx-swap="outerHTML">
 	<?=$csrf()?>
 	<h1>Register</h1>
 	<div>
