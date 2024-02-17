@@ -1,6 +1,6 @@
 <?php
 
-namespace Nebula\Framework\System\Interfaces;
+namespace Nebula\Framework\System\Interface;
 
 interface Kernel
 {

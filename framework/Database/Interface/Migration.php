@@ -1,6 +1,6 @@
 <?php
 
-namespace Nebula\Framework\Database\Interfaces;
+namespace Nebula\Framework\Database\Interface;
 
 interface Migration
 {

@@ -2,7 +2,7 @@
 
 namespace Nebula\Framework\Console;
 
-use Nebula\Framework\Database\Interfaces\Migration;
+use Nebula\Framework\Database\Interface\Migration;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 

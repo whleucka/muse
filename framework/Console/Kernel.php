@@ -2,7 +2,7 @@
 
 namespace Nebula\Framework\Console;
 
-use Nebula\Framework\System\Interfaces\Kernel as NebulaKernel;
+use Nebula\Framework\System\Interface\Kernel as NebulaKernel;
 use Nebula\Framework\Traits\Singleton;
 
 class Kernel implements NebulaKernel

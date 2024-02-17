@@ -7,7 +7,7 @@ use Lunar\Connection\MySQL;
 use Lunar\Connection\SQLite;
 use Lunar\Interface\DB;
 use Nebula\Framework\Traits\Singleton;
-use Nebula\Framework\System\Interfaces\Kernel;
+use Nebula\Framework\System\Interface\Kernel;
 
 class Application
 {

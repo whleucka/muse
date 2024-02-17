@@ -7,7 +7,7 @@ use Dotenv\Dotenv;
 use Error;
 use Exception;
 use Nebula\Framework\Middleware\Middleware;
-use Nebula\Framework\System\Interfaces\Kernel as NebulaKernel;
+use Nebula\Framework\System\Interface\Kernel as NebulaKernel;
 use Nebula\Framework\Traits\Singleton;
 use StellarRouter\Route;
 use StellarRouter\Router;

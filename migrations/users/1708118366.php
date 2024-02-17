@@ -3,7 +3,7 @@
 namespace Nebula\Migrations\users;
 
 use Nebula\Framework\Database\{SQL, Schema};
-use Nebula\Framework\Database\Interfaces\Migration;
+use Nebula\Framework\Database\Interface\Migration;
 
 return new class implements Migration
 {
