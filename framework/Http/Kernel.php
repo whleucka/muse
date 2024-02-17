@@ -7,6 +7,7 @@ use Dotenv\Dotenv;
 use Error;
 use Exception;
 use Nebula\Framework\Middleware\Middleware;
+use Nebula\Framework\Traits\Singleton;
 use StellarRouter\Route;
 use StellarRouter\Router;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,15 +15,20 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Kernel
 {
+    use Singleton;
+
     protected array $middleware = [];
 
     /**
      * Main kernel method
-     * Sets up framework and returns an HTTP response
      */
-    public function main(): Response
+    public function main(): void
     {
         $this->bootstrap();
+    }
+
+    public function response(): Response
+    {
         $request = $this->request();
         $route = $this->routing($request);
         $request->attributes->add(["route" => $route]);
@@ -41,8 +47,7 @@ class Kernel
      */
     protected function bootstrap(): void
     {
-        $env_path = config("path.root");
-        $this->environment($env_path);
+        $this->environment();
         $this->registerMiddleware();
     }
 
@@ -50,8 +55,9 @@ class Kernel
      * Load environment variables
      * @param string $path path to .env
      */
-    protected function environment(string $path): void
+    protected function environment(): void
     {
+        $path = config("path.root");
         if (!file_exists($path)) {
             error_log("warning: your .env path: '$path' doesn't exist");
         }
@@ -94,7 +100,7 @@ class Kernel
                 } elseif ($routePayload) {
                     $content = $routePayload(...$routeParameters);
                 }
-                return new Response(content: $content, headers: $headers);
+                return new Response($content, 200, $headers);
             } catch (Exception $ex) {
                 return new Response($ex->getMessage(), 500);
             } catch (Error $err) {

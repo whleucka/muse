@@ -2,8 +2,12 @@
 
 namespace Nebula\Framework\Session;
 
+use Nebula\Framework\Traits\Singleton;
+
 class Session
 {
+	use Singleton;
+
 	private $data = [];
 
 	public function __construct()

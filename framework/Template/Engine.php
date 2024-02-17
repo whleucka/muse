@@ -3,9 +3,12 @@
 namespace Nebula\Framework\Template;
 
 use Exception;
+use Nebula\Framework\Traits\Singleton;
 
 class Engine
 {
+    use Singleton;
+
     /**
      * @param string $path template path
      * @param array<string,mixed> $data

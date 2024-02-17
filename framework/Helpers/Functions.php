@@ -5,11 +5,31 @@
  * NOTE: do not add namespace
  */
 
-use Lunar\Connection\MySQL;
-use Lunar\Connection\SQLite;
+use App\Http\Application;
+use App\Http\Kernel;
 use Lunar\Interface\DB;
 use Nebula\Framework\Session\Session;
 use Nebula\Framework\Template\Engine;
+
+function app(): Application
+{
+    $kernel = Kernel::getInstance();
+    return Application::getInstance($kernel);
+}
+
+function session(): Session
+{
+    return Session::getInstance();
+}
+
+/**
+ * Get application PDO database wrapper
+ */
+function db(): ?DB
+{
+    return app()->database;
+}
+
 
 /**
  * Print a debug
@@ -34,35 +54,6 @@ function dd($data)
 {
     dump($data);
     die();
-}
-
-function session(): Session
-{
-    return new Session;
-}
-
-/**
- * Get application PDO database wrapper
- */
-function db(): ?DB
-{
-    $config = config("database");
-    if (!$config["enabled"]) {
-        return null;
-    }
-    return match ($config["type"]) {
-        "mysql" => new MySQL(
-            $config["dbname"],
-            $config["username"],
-            $config["password"],
-            $config["host"],
-            $config["port"],
-            $config["charset"],
-            $config["options"]
-        ),
-        "sqlite" => new SQLite($config["path"], $config["options"]),
-        default => throw new Exception("unknown database driver"),
-    };
 }
 
 /**
@@ -147,11 +138,11 @@ function decrypt(mixed $value)
  */
 function template(string $path, array $data = [], bool $decode = false): string
 {
-    $eng = new Engine();
+    $engine = Engine::getInstance();
     $template = config("path.templates");
     return $decode
-        ? html_entity_decode($eng->render("$template/$path", $data))
-        : $eng->render("$template/$path", $data);
+        ? html_entity_decode($engine->render("$template/$path", $data))
+        : $engine->render("$template/$path", $data);
 }
 
 /**
