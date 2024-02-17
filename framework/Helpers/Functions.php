@@ -5,15 +5,22 @@
  * NOTE: do not add namespace
  */
 
-use App\Http\Application;
-use App\Http\Kernel;
+use App\Application;
+use App\Http\Kernel as HttpKernel;
+use App\Console\Kernel as ConsoleKernel;
 use Lunar\Interface\DB;
 use Nebula\Framework\Session\Session;
 use Nebula\Framework\Template\Engine;
 
 function app(): Application
 {
-    $kernel = Kernel::getInstance();
+    $kernel = HttpKernel::getInstance();
+    return Application::getInstance($kernel);
+}
+
+function console(): Application
+{
+    $kernel = ConsoleKernel::getInstance();
     return Application::getInstance($kernel);
 }
 
@@ -91,43 +98,6 @@ function config(string $name): mixed
             : $config;
     }
     return false;
-}
-
-/**
- * Get a CSRF input
- */
-function csrf(): string
-{
-    $token = session()->get("csrf_token");
-    return template("components/csrf.php", ["token" => $token]);
-}
-
-/**
- * Get a token string
- */
-function generateToken(): string
-{
-    return bin2hex(random_bytes(32));
-}
-
-function isEncrypted(mixed $value)
-{
-    return strpos($value, '|crypt|') !== false;
-}
-
-function encrypt(mixed $value)
-{
-    $app_key = config("security.app_key");
-    $encrypted = openssl_encrypt($value, 'AES-256-CBC', $app_key, 0, substr($app_key, 0, 16));
-    // Add a marker to indicate that the cookie is encrypted
-    $encrypted .= '|crypt|';
-    return $encrypted;
-}
-
-function decrypt(mixed $value)
-{
-    $app_key = config("security.app_key");
-    return openssl_decrypt(str_replace('|crypt|', '', $value), 'AES-256-CBC', $app_key, 0, substr($app_key, 0, 16));
 }
 
 /**

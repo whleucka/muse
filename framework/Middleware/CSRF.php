@@ -28,12 +28,19 @@ class CSRF implements Middleware
 		$token_ts = session()->get("csrf_token_ts");
 
 		if (is_null($token) || is_null($token_ts) || $token_ts + 3600 < time()) {
-			$token = generateToken();
+			$token = $this->generateToken();
 			session()->set("csrf_token", $token);
 			session()->set("csrf_token_ts", time());
 		}
 	}
 
+	/**
+	 * Get a token string
+	 */
+	function generateToken(): string
+	{
+		return bin2hex(random_bytes(32));
+	}
 
 	private function validate(Request $request): bool
 	{

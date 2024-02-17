@@ -7,13 +7,14 @@ use Dotenv\Dotenv;
 use Error;
 use Exception;
 use Nebula\Framework\Middleware\Middleware;
+use Nebula\Framework\System\Interfaces\Kernel as NebulaKernel;
 use Nebula\Framework\Traits\Singleton;
 use StellarRouter\Route;
 use StellarRouter\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Kernel
+class Kernel implements NebulaKernel
 {
     use Singleton;
 
@@ -27,7 +28,7 @@ class Kernel
         $this->bootstrap();
     }
 
-    public function response(): Response
+    public function response(): void
     {
         $request = $this->request();
         $route = $this->routing($request);
@@ -38,7 +39,7 @@ class Kernel
                 return $this->resolve($request, $route);
             });
         $response->prepare($request);
-        return $response;
+        $response->send();
     }
 
     /**
