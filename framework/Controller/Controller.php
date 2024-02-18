@@ -34,7 +34,10 @@ class Controller
     {
         if (!$title) $title = ucfirst($field);
         return isset($this->request_errors[$field])
-            ? template("components/request_errors.php", ["errors" => $this->request_errors[$field], "title" => $title])
+            ? template("components/request_errors.php", [
+                "errors" => $this->request_errors[$field],
+                "title" => $title
+            ])
             : "";
     }
 
@@ -54,25 +57,27 @@ class Controller
             foreach ($rules as $rule) {
                 $rules = explode("|", $rule);
                 $rule = $rules[0];
-                $mod = $rules[1] ?? null;
+                $arg_1 = $rules[1] ?? null;
                 $rule = strtolower($rule);
                 $value = $this->request($field);
                 $result = match ($rule) {
                     "required" => $value && trim($value) !== '',
-                    "match" => $value === $mod,
+                    "match" => $value === $this->request($arg_1),
                     "array" => is_array($value),
                     "string" => is_string($value),
                     "numeric" => is_numeric($value),
                     "int" => is_int($value),
                     "float" => is_float($value),
-                    "unique" => !db()->fetch("SELECT * FROM $mod WHERE $field = ?", $value),
+                    "unique" => !db()->fetch("SELECT * FROM $arg_1 WHERE $field = ?", $value),
                 };
                 if (!$result && isset($this->error_messages[$rule])) {
                     $this->addRequestError($field, $this->error_messages[$rule]);
                 }
             }
         }
-        return count($this->request_errors) === 0 ? $data : [];
+        return count($this->request_errors) === 0
+            ? $data
+            : [];
     }
 
     protected function addRequestError(string $field, string $message): void
