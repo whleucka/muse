@@ -11,7 +11,7 @@ class EncryptCookies implements Middleware
 	public function handle(Request $request, Closure $next): Response
 	{
 		// Application key is required
-		$app_key = config("security.app_key");
+		$app_key = config("application.key");
 		if (!$app_key) return new Response("Application key is not set", 500);
 
 		// All cookies except PHPSESSID will be encrypted/decrypted
@@ -52,7 +52,7 @@ class EncryptCookies implements Middleware
 
 	function encryptValue(mixed $value)
 	{
-		$app_key = config("security.app_key");
+		$app_key = config("application.key");
 		$encrypted = openssl_encrypt($value, 'AES-256-CBC', $app_key, 0, substr($app_key, 0, 16));
 		// Add a marker to indicate that the cookie is encrypted
 		$encrypted .= '|crypt|';
@@ -61,7 +61,7 @@ class EncryptCookies implements Middleware
 
 	function decryptValue(mixed $value)
 	{
-		$app_key = config("security.app_key");
+		$app_key = config("application.key");
 		return openssl_decrypt(str_replace('|crypt|', '', $value), 'AES-256-CBC', $app_key, 0, substr($app_key, 0, 16));
 	}
 }

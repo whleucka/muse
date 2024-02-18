@@ -16,7 +16,6 @@ class Kernel implements NebulaKernel
 
 	public function response(): void
 	{
-		printf("wip!!!!\n");
 	}
 
 	protected function bootstrap(): void
