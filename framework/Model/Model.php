@@ -17,7 +17,7 @@ class Model
 		}
 	}
 
-	private function load(): void
+	public function load(): void
 	{
 		$result = db()->run($this->selectQuery(), [$this->key])->fetch(PDO::FETCH_ASSOC);
 		if ($result) {
