@@ -27,7 +27,7 @@ class SignInController extends Controller
 	public function post(): string
 	{
 		$data = $this->validateRequest([
-			"email" => ["required"],
+			"email" => ["required", "email"],
 			"password" => ["required"],
 		]);
 		if ($data) {

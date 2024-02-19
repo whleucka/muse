@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Auth;
 
+use Nebula\Framework\Auth\Auth;
 use Nebula\Framework\Controller\Controller;
 use StellarRouter\{Get, Post};
 
@@ -26,15 +27,21 @@ class RegisterController extends Controller
 	#[Post("/register", "sign-in.post")]
 	public function post(): string
 	{
+		// Override the default request error messages
+		$this->error_messages["unique"] = "address already in use";
+		$this->error_messages["minlength"] = "must be at least 10 characters long";
 		$data = $this->validateRequest([
-			"email" => ["required", "unique|users"],
+			"email" => ["required", "email", "unique|users"],
 			"name" => ["required"],
-			"password" => ["required"],
+			"password" => ["required", "minlength|8", "symbol"],
 			"password_match" => ["required", "match|password"]
 		]);
 		if ($data) {
-			dump($data);
-			die("wip");
+			unset($data["password_match"]);
+			$user = Auth::registerUser($data);
+			if ($user) {
+				Auth::signIn($user);
+			}
 		}
 		return $this->form([
 			"email" => $this->request("email"),
@@ -42,4 +49,3 @@ class RegisterController extends Controller
 		]);
 	}
 }
-
