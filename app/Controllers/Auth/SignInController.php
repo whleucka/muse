@@ -2,7 +2,10 @@
 
 namespace App\Controllers\Auth;
 
+use App\Models\User;
+use Nebula\Framework\Auth\Auth;
 use Nebula\Framework\Controller\Controller;
+use PDO;
 use StellarRouter\{Get, Post};
 
 class SignInController extends Controller
@@ -31,7 +34,12 @@ class SignInController extends Controller
 			"password" => ["required"],
 		]);
 		if ($data) {
-			die("wip");
+			$user = Auth::userAuth($data);
+			if ($user) {
+				Auth::signIn($user);
+			} else {
+				$this->request_errors["password"][] = "bad email and/or password";
+			}
 		}
 		return $this->form([
 			"email" => $this->request("email")

@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Home;
 
+use App\Models\User;
 use Nebula\Framework\Controller\Controller;
 use StellarRouter\{Get, Group};
 

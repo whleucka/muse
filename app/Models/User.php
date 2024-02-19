@@ -11,6 +11,7 @@ class User extends Model
 		"name",
 		"email",
 		"password",
+		"login_at",
 		"updated_at",
 		"created_at",
 	];
