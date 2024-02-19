@@ -27,20 +27,20 @@ class Migrations
 		return $files;
 	}
 
-	public function getMigrations(): void
+	public function getMigrations(): array
 	{
 		$migration_path = config("path.migrations");
 		$migrations = $this->getMigrationFiles($migration_path);
-		dump($migrations);
+		return array_map(fn($path) => require($path), $migrations);
 	}
 
 	public function migrationUp(Migration $migration)
 	{
-		$result = db()->query($migration->up());
+		return db()->query($migration->up());
 	}
 
 	public function migrationDown(Migration $migration)
 	{
-		$result = db()->query($migration->down());
+		return db()->query($migration->down());
 	}
 }

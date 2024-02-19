@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use Nebula\Framework\Console\Migrations;
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
 
@@ -12,7 +13,8 @@ class Adapter extends CLI
 		$options->setHelp('Nebula console application');
 
 		$options->registerCommand("serve", "Start development server", "serve");
-		$options->registerOption('generate-key', 'Generate secure application key');
+		$options->registerCommand("generate-key", "Generate secure application key", "generate-key");
+		$options->registerCommand("migrate-fresh", "Migrate fresh database", "migrate-fresh");
 
 		$options->registerOption('version', 'Print version', 'v');
 	}
@@ -22,6 +24,7 @@ class Adapter extends CLI
 		match ($options->getCmd()) {
 			"serve" => $this->serve($options->getArgs()),
 			"generate-key" => $this->generate_key(),
+			"migrate-fresh" => $this->migrate_fresh(),
 			default => ''
 		};
 		foreach ($options->getOpt() as $opt => $val) {
@@ -30,6 +33,27 @@ class Adapter extends CLI
 			};
 		}
 		echo $options->help();
+	}
+
+	private function migrate_fresh(): void
+	{
+		$migrations = new Migrations();
+		$migs = $migrations->getMigrations();
+		rsort($migs);
+		foreach ($migs as $mig) {
+			$result = $migrations->migrationDown($mig);
+			if ($result) {
+				$this->success("Migration down");
+			}
+		}
+		rsort($migs);
+		foreach ($migs as $mig) {
+			$result = $migrations->migrationUp($mig);
+			if ($result) {
+				$this->success("Migration up");
+			}
+		}
+		exit;
 	}
 
 	private function version(): void
