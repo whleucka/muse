@@ -15,4 +15,9 @@ class Schema
 		$callback($sql);
 		return $sql->query();
 	}
+
+	public static function skip()
+	{
+		return self::run(fn(SQL $sql) => $sql->raw("SELECT 1"));
+	}
 }

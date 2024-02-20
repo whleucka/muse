@@ -30,8 +30,7 @@ class Migrations
 	public function getMigrations(): array
 	{
 		$migration_path = config("path.migrations");
-		$migrations = $this->getMigrationFiles($migration_path);
-		return array_map(fn($path) => require($path), $migrations);
+		return $this->getMigrationFiles($migration_path);
 	}
 
 	public function migrationUp(Migration $migration)

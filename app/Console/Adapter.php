@@ -8,6 +8,14 @@ use splitbrain\phpcli\Options;
 
 class Adapter extends CLI
 {
+	private Migrations $migrations;
+
+	public function __construct()
+	{
+		$this->migrations = new Migrations();
+		parent::__construct();
+	}
+
 	protected function setup(Options $options): void
 	{
 		$options->setHelp('Nebula console application');
@@ -17,6 +25,12 @@ class Adapter extends CLI
 		$options->registerCommand("migrate-fresh", "Migrate fresh database", "migrate-fresh");
 
 		$options->registerOption('version', 'Print version', 'v');
+	}
+
+	private function mapMigrations(): array
+	{
+		$migs = $this->migrations->getMigrations();
+		return array_map(fn($path) => ["name" => basename($path), "class" => require($path)], $migs);
 	}
 
 	protected function main(Options $options): void
@@ -37,23 +51,37 @@ class Adapter extends CLI
 
 	private function migrateFresh(): void
 	{
-		$migrations = new Migrations();
-		$migs = $migrations->getMigrations();
-		rsort($migs);
-		foreach ($migs as $mig) {
-			$result = $migrations->migrationDown($mig);
-			if ($result) {
-				$this->success("Migration down: " . $mig->down());
-			}
-		}
-		rsort($migs);
-		foreach ($migs as $mig) {
-			$result = $migrations->migrationUp($mig);
-			if ($result) {
-				$this->success("Migration up: " . $mig->up());
-			}
-		}
+		$migrations = $this->mapMigrations();
+		uasort($migrations, fn($a, $b) => $b["name"] <=> $a["name"]);
+		$this->migrateDown($migrations);
+		// Now reverse the migrations again, and run up
+		uasort($migrations, fn($a, $b) => $a["name"] <=> $b["name"]);
+		$this->migrateUp($migrations);
 		exit;
+	}
+
+	private function migrateUp(array $migrations): void
+	{
+		foreach ($migrations as $migration) {
+			$class = $migration["class"];
+			$name = $migration["name"];
+			$result = $this->migrations->migrationUp($class);
+			if ($result) {
+				$this->success("Migration up: " . $name);
+			}
+		}
+	}
+
+	private function migrateDown(array $migrations): void
+	{
+		foreach ($migrations as $migration) {
+			$class = $migration["class"];
+			$name = $migration["name"];
+			$result = $this->migrations->migrationDown($class);
+			if ($result) {
+				$this->success("Migration down: " . $name);
+			}
+		}
 	}
 
 	private function version(): void
