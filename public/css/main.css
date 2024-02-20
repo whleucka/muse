@@ -1,3 +1,14 @@
 .request-error {
+	font-size: 0.9rem;
+}
+.request-error strong {
 	color: #ff0000;
+}
+.request-error strong small {
+	font-size: 0.8rem;
+}
+input.invalid {
+	background-color: #fff0f0;
+	border-radius: inherit;
+	border: 1px solid #ff0000 !important;
 }

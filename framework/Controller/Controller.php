@@ -39,7 +39,9 @@ class Controller
      */
     protected function render(string $path, array $data = []): string
     {
+        // Template functions
         $data["request_errors"] = fn(string $field, string $title = '') => $this->getRequestErrors($field, $title);
+        $data["has_error"] = fn(string $field) => $this->hasRequestError($field);
         $data["escape"] = fn(string $key) => $this->escapeRequest($key);
 
         return template($path, $data, true);
@@ -118,6 +120,11 @@ class Controller
     protected function addRequestError(string $field, string $message): void
     {
         $this->request_errors[$field][] = $message;
+    }
+
+    protected function hasRequestError(string $field): bool
+    {
+        return isset($this->request_errors[$field]);
     }
 
     protected function request(?string $key = null, mixed $default = null): mixed
