@@ -23,8 +23,8 @@ class Adapter extends CLI
 	{
 		match ($options->getCmd()) {
 			"serve" => $this->serve($options->getArgs()),
-			"generate-key" => $this->generate_key(),
-			"migrate-fresh" => $this->migrate_fresh(),
+			"generate-key" => $this->generateKey(),
+			"migrate-fresh" => $this->migrateFresh(),
 			default => ''
 		};
 		foreach ($options->getOpt() as $opt => $val) {
@@ -35,7 +35,7 @@ class Adapter extends CLI
 		echo $options->help();
 	}
 
-	private function migrate_fresh(): void
+	private function migrateFresh(): void
 	{
 		$migrations = new Migrations();
 		$migs = $migrations->getMigrations();
@@ -62,7 +62,7 @@ class Adapter extends CLI
 		exit;
 	}
 
-	private function generate_key(): void
+	private function generateKey(): void
 	{
 		$unique = uniqid(more_entropy: true);
 		$key = `echo -n $unique | openssl dgst -binary -sha256 | openssl base64`;
