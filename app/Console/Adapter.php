@@ -43,14 +43,14 @@ class Adapter extends CLI
 		foreach ($migs as $mig) {
 			$result = $migrations->migrationDown($mig);
 			if ($result) {
-				$this->success("Migration down");
+				$this->success("Migration down: " . $mig->down());
 			}
 		}
 		rsort($migs);
 		foreach ($migs as $mig) {
 			$result = $migrations->migrationUp($mig);
 			if ($result) {
-				$this->success("Migration up");
+				$this->success("Migration up: " . $mig->up());
 			}
 		}
 		exit;
