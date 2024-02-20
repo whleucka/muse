@@ -26,7 +26,11 @@ class Controller
 
     public function __construct(protected Request $request)
     {
+        $this->bootstrap();
     }
+
+    protected function bootstrap(): void
+    {}
 
     /**
      * Render template response

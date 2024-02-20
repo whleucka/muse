@@ -6,10 +6,13 @@ use App\Models\User;
 
 class Auth
 {
-	public static function user(): User
+	public static function user(): ?User
 	{
 		$id = session()->get("user_id");
-		return new User($id);
+		if ($id) {
+			return new User($id);
+		}
+		return null;
 	}
 
 	public static function redirectSignIn(): void

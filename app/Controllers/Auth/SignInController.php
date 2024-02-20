@@ -2,14 +2,19 @@
 
 namespace App\Controllers\Auth;
 
-use App\Models\User;
 use Nebula\Framework\Auth\Auth;
 use Nebula\Framework\Controller\Controller;
-use PDO;
 use StellarRouter\{Get, Post};
 
 class SignInController extends Controller
 {
+	protected function bootstrap(): void
+	{
+		if (Auth::user()) {
+			Auth::redirectHome();
+		}
+	}
+
     /**
      * @param array<int,mixed> $data sign-in form data
      */

@@ -8,6 +8,13 @@ use StellarRouter\{Get, Post};
 
 class RegisterController extends Controller
 {
+	protected function bootstrap(): void
+	{
+		if (Auth::user()) {
+			Auth::redirectHome();
+		}
+	}
+
     /**
      * @param array<int,mixed> $data sign-in form data
      */

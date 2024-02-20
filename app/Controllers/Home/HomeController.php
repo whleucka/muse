@@ -2,14 +2,13 @@
 
 namespace App\Controllers\Home;
 
-use App\Models\User;
 use Nebula\Framework\Controller\Controller;
 use StellarRouter\{Get, Group};
 
 #[Group(middleware: ["auth"])]
 class HomeController extends Controller
 {
-	#[Get("/home", "home.index")]
+	#[Get("/home", "home.index", ["Hx-Push-Url=/home"])]
 	public function index(): string
 	{
 		$content = template("home/index.php");

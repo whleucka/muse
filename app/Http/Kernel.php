@@ -15,6 +15,7 @@ class Kernel extends HttpKernel
         \Nebula\Framework\Middleware\CSRF::class,
         \Nebula\Framework\Middleware\EncryptCookies::class,
         \Nebula\Framework\Middleware\RequestUuid::class,
+        \Nebula\Framework\Middleware\HTMX::class,
         \Nebula\Framework\Middleware\APIResponse::class,
     ];
 }
