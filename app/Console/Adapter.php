@@ -58,6 +58,7 @@ class Adapter extends CLI
 		$unique = uniqid(more_entropy: true);
 		$key = `echo -n $unique | openssl dgst -binary -sha256 | openssl base64`;
 		$this->success("Application key: " . $key);
+		$this->info("Add this key to your .env file under APP_KEY");
 		exit;
 	}
 
@@ -75,6 +76,8 @@ class Adapter extends CLI
 	private function runMigration(array $migration_file, string $direction): void
 	{
 		if (!isset($migration_file[0])) return;
+		$this->info("Now running database migration...");
+		sleep(1);
 		$migration = array_filter($this->migrations->mapMigrations(), fn($mig) => $mig["name"] === basename($migration_file[0]));
 
 		if ($direction === 'up') {
@@ -84,15 +87,19 @@ class Adapter extends CLI
 		} else {
 			$this->error("unknown migration direction");
 		}
+		$this->success("Complete!");
 		exit;
 	}
 
 	private function migrateFresh(): void
 	{
+		$this->info("Creating a new database...");
+		sleep(1);
 		$migrations = $this->migrations->mapMigrations();
 		$this->migrations->dropDatabase();
 		uasort($migrations, fn($a, $b) => $a["name"] <=> $b["name"]);
 		$this->migrateUp($migrations);
+		$this->success("Complete!");
 		exit;
 	}
 
