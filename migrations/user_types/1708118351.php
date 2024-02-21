@@ -14,7 +14,7 @@ return new class implements Migration
 
 		public function down()
 		{
-			return Schema::run(fn(SQL $sql) => $sql->raw("DELETE FROM user_types"));
+			return Schema::run(fn(SQL $sql) => $sql->migrationFile("/user_types/delete.sql"));
 		}
 };
 
