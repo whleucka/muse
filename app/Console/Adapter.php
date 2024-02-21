@@ -57,8 +57,8 @@ class Adapter extends CLI
 	{
 		$unique = uniqid(more_entropy: true);
 		$key = `echo -n $unique | openssl dgst -binary -sha256 | openssl base64`;
-		$this->success("Application key: " . $key);
-		$this->info("Add this key to your .env file under APP_KEY");
+		$this->success(" Application key: " . $key);
+		$this->info(" Add this key to your .env file under APP_KEY");
 		exit;
 	}
 
@@ -76,30 +76,34 @@ class Adapter extends CLI
 	private function runMigration(array $migration_file, string $direction): void
 	{
 		if (!isset($migration_file[0])) return;
-		$this->info("Now running database migration...");
+		$this->info(" Now running database migration...");
 		sleep(1);
 		$migration = array_filter($this->migrations->mapMigrations(), fn($mig) => $mig["name"] === basename($migration_file[0]));
+		if (!$migration) {
+			$this->error(" Migration file doesn't exist");
+			exit;
+		}
 
 		if ($direction === 'up') {
 			$this->migrateUp($migration);
 		} else if ($direction === 'down') {
 			$this->migrateDown($migration);
 		} else {
-			$this->error("unknown migration direction");
+			$this->error(" Unknown migration direction");
 		}
-		$this->success("Complete!");
+		$this->notice(" Complete!");
 		exit;
 	}
 
 	private function migrateFresh(): void
 	{
-		$this->info("Creating a new database...");
+		$this->info(" Creating a new database...");
 		sleep(1);
 		$migrations = $this->migrations->mapMigrations();
 		$this->migrations->dropDatabase();
 		uasort($migrations, fn($a, $b) => $a["name"] <=> $b["name"]);
 		$this->migrateUp($migrations);
-		$this->success("Complete!");
+		$this->notice(" Complete!");
 		exit;
 	}
 
@@ -110,9 +114,9 @@ class Adapter extends CLI
 			$name = $migration["name"];
 			$result = $this->migrations->up($class);
 			if ($result) {
-				$this->success("Migration up: " . $name);
+				$this->success(" Migration up: " . $name);
 			} else {
-				$this->error("Migration error: " . $name);
+				$this->error(" Migration error: " . $name);
 			}
 		}
 	}
@@ -124,9 +128,9 @@ class Adapter extends CLI
 			$name = $migration["name"];
 			$result = $this->migrations->down($class);
 			if ($result) {
-				$this->success("Migration down: " . $name);
+				$this->success(" Migration down: " . $name);
 			} else {
-				$this->error("Migration error: " . $name);
+				$this->error(" Migration error: " . $name);
 			}
 		}
 	}
