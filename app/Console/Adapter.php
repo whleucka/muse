@@ -51,10 +51,11 @@ class Adapter extends CLI
 
 	private function migrateFresh(): void
 	{
+		$db_name = config("database.dbname");
+		db()->query(sprintf("DROP DATABASE %s", $db_name));
+		db()->query(sprintf("CREATE DATABASE %s", $db_name));
+		db()->query(sprintf("USE %s", $db_name));
 		$migrations = $this->mapMigrations();
-		uasort($migrations, fn($a, $b) => $b["name"] <=> $a["name"]);
-		$this->migrateDown($migrations);
-		// Now reverse the migrations again, and run up
 		uasort($migrations, fn($a, $b) => $a["name"] <=> $b["name"]);
 		$this->migrateUp($migrations);
 		exit;
