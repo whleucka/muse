@@ -23,7 +23,7 @@ class SignInController extends Controller
 		return $this->render("auth/form/sign-in.php", $data);
 	}
 
-	#[Get("/sign-in", "sign-in.index")]
+	#[Get("/sign-in", "sign-in.index", ["Hx-Push-Url=/sign-in"])]
 	public function index(): string
 	{
 		return $this->render("auth/sign-in.php", [

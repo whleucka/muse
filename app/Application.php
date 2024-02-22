@@ -17,8 +17,8 @@ class Application
 
     public function __construct(private Kernel $kernel)
     {
-        $this->database = $this->initDatabase();
         $this->kernel->main();
+        $this->database = $this->initDatabase();
     }
 
     public function run(): void

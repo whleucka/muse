@@ -23,7 +23,7 @@ class RegisterController extends Controller
 		return $this->render("auth/form/register.php", $data);
 	}
 
-	#[Get("/register", "sign-in.index")]
+	#[Get("/register", "sign-in.index", ["Hx-Push-Url=/sign-in"])]
 	public function index(): string
 	{
 		return $this->render("auth/register.php", [

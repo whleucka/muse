@@ -103,9 +103,11 @@ class Kernel implements NebulaKernel
                 }
                 return new Response($content, 200, $headers);
             } catch (Exception $ex) {
-                return new Response($ex->getMessage(), 500);
+                throw new Exception($ex);
+                //return new Response($ex->getMessage(), 500);
             } catch (Error $err) {
-                return new Response($err->getMessage(), 500);
+                throw new Error($err);
+                //return new Response($err->getMessage(), 500);
             }
         } else {
             return new Response("Page not found", 404);
