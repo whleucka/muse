@@ -16,14 +16,14 @@ class RegisterController extends Controller
 	}
 
     /**
-     * @param array<int,mixed> $data sign-in form data
+     * @param array<int,mixed> $data register form data
      */
     private function form(array $data = []): string
 	{
 		return $this->render("auth/form/register.php", $data);
 	}
 
-	#[Get("/register", "sign-in.index", ["Hx-Push-Url=/sign-in"])]
+	#[Get("/register", "register.index", ["Hx-Push-Url=/register"])]
 	public function index(): string
 	{
 		return $this->render("auth/register.php", [
@@ -31,7 +31,7 @@ class RegisterController extends Controller
 		]);
 	}
 
-	#[Post("/register", "sign-in.post")]
+	#[Post("/register", "register.post")]
 	public function post(): string
 	{
 		// Override the default request error messages
