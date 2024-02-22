@@ -22,15 +22,20 @@ class Adapter extends CLI
 
 		$options->registerCommand("serve", "Start development server", "serve");
 		$options->registerCommand("generate-key", "Generate secure application key", "generate-key");
-		$options->registerCommand("migrate-fresh", "Migrate fresh database", "migrate-fresh");
-		$options->registerCommand("migrate-up", "Run migration up method  eg) migrate-up 1708118350.php", "migrate-up");
-		$options->registerCommand("migrate-down", "Run migration down method  eg) migrate-down 1708118350.php", "migrate-down");
+		$options->registerCommand("migrate-fresh", "WARNING: Drops database and migrates fresh database", "migrate-fresh");
+		$options->registerCommand("migrate-up <file>", "Run migration UP method", "migrate-up");
+		$options->registerCommand("migrate-down <file>", "Run migration DOWN method", "migrate-down");
 
 		$options->registerOption('version', 'Print version', 'v');
 	}
 
 	protected function main(Options $options): void
 	{
+		foreach ($options->getOpt() as $opt => $val) {
+			match ($opt) {
+				"version" => $this->version(),
+			};
+		}
 		match ($options->getCmd()) {
 			"serve" => $this->serve($options->getArgs()),
 			"generate-key" => $this->generateKey(),
@@ -39,11 +44,6 @@ class Adapter extends CLI
 			"migrate-down" => $this->runMigration($options->getArgs(), 'down'),
 			default => ''
 		};
-		foreach ($options->getOpt() as $opt => $val) {
-			match ($opt) {
-				"version" => $this->version(),
-			};
-		}
 		echo $options->help();
 	}
 
@@ -78,7 +78,10 @@ class Adapter extends CLI
 		if (!isset($migration_file[0])) return;
 		$this->info(" Now running database migration...");
 		sleep(1);
-		$migration = array_filter($this->migrations->mapMigrations(), fn($mig) => $mig["name"] === basename($migration_file[0]));
+		$migration = array_filter(
+			$this->migrations->mapMigrations(),
+			fn($mig) => $mig["name"] === basename($migration_file[0])
+		);
 		if (!$migration) {
 			$this->error(" Migration file doesn't exist");
 			exit;
