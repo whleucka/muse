@@ -12,7 +12,7 @@
 		<?= $request_errors('password') ?>
 	</div>
 	<div>
-		<p>Don't have an account? <a hx-boost="true" href="/register" hx-select="main" hx-target="main">Create a new account</a></p>
+		<p><a hx-boost="true" href="/register" hx-select="main" hx-target="main">        Don't have an account?</a></p>
 	</div>
 	<div>
 		<button>Submit</button>

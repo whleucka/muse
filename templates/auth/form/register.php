@@ -22,7 +22,7 @@
 		<?= $request_errors("password_match", "Password") ?>
 	</div>
 	<div>
-		<p>Already have an account? <a hx-boost="true" href="/sign-in" hx-select="main" hx-target="main">Sign in</a></p>
+		<p><a hx-boost="true" href="/sign-in" hx-select="main" hx-target="main">        Already have an account?</a></p>
 	</div>
 	<div>
 		<button type="submit">Submit</button>
