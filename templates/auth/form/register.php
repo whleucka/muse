@@ -1,14 +1,14 @@
 <form method="POST" id="form-register" hx-post="/register" hx-swap="outerHTML">
-	<?=$csrf()?>
+	<?= $csrf() ?>
 	<h1>Register</h1>
 	<div id="email-input">
 		<label>Email</label><br>
-		<input name="email" type="email" value="<?=$escape('email')?>" />
+		<input name="email" type="email" value="<?= $escape('email') ?>" />
 		<?= $request_errors("email") ?>
 	</div>
 	<div id="name-input">
 		<label>Name</label><br>
-		<input name="name" type="text" value="<?=$escape('name')?>" />
+		<input name="name" type="text" value="<?= $escape('name') ?>" />
 		<?= $request_errors("name") ?>
 	</div>
 	<div>
@@ -22,7 +22,9 @@
 		<?= $request_errors("password_match", "Password") ?>
 	</div>
 	<div>
-		<br>
+		<p>Already have an account? <a hx-boost="true" href="/sign-in" hx-select="main" hx-target="main">Sign in</a></p>
+	</div>
+	<div>
 		<button type="submit">Submit</button>
 	</div>
 </form>
