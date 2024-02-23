@@ -9,8 +9,12 @@ class Auth
 	public static function user(): ?User
 	{
 		$id = session()->get("user_id");
+		$uuid = $_COOKIE["user_uuid"];
 		if ($id) {
 			return new User($id);
+		} else if ($uuid) {
+			$user = User::findByAttribute("uuid", $uuid);
+			return new User($user->id);
 		}
 		return null;
 	}
