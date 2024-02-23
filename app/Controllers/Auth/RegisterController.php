@@ -15,10 +15,10 @@ class RegisterController extends Controller
 		}
 	}
 
-    /**
-     * @param array<int,mixed> $data register form data
-     */
-    private function form(array $data = []): string
+	/**
+	 * @param array<int,mixed> $data register form data
+	 */
+	private function form(array $data = []): string
 	{
 		return $this->render("auth/form/register.php", $data);
 	}
