@@ -8,6 +8,7 @@ class User extends Model
 {
 	protected array $columns = [
 		"id",
+		"uuid",
 		"name",
 		"email",
 		"password",

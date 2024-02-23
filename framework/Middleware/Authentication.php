@@ -2,6 +2,7 @@
 
 namespace Nebula\Framework\Middleware;
 
+use App\Models\User;
 use Closure;
 use Nebula\Framework\Auth\Auth;
 use Nebula\Framework\Middleware\Interface\Middleware;
@@ -15,7 +16,7 @@ class Authentication implements Middleware
 		$middleware = $request->get("route")?->getMiddleware();
 
 		if ($middleware && in_array("auth", $middleware)) {
-			if (!$this->userAuth()) {
+			if (!$this->userAuth($request)) {
 				Auth::redirectSignIn();
 			}
 		}
@@ -25,15 +26,26 @@ class Authentication implements Middleware
 		return $response;
 	}
 
-	private function userAuth(): bool
+	private function userAuth(Request $request): bool
 	{
 		$id = session()->get("user_id");
-		if ($id) {
-			$user = db()->fetch("SELECT name FROM users WHERE id = ?", $id);
+		$uuid = $request->cookies->get("user_uuid");
+
+		// Cookie
+		if ($uuid) {
+			$user = User::findByAttribute("uuid", $uuid);
 			if ($user) {
 				return true;
 			}
 		}
+		// Session
+		if ($id) {
+			$user = User::find($id);
+			if ($user) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 }

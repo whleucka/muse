@@ -12,7 +12,11 @@
 		<?= $request_errors('password') ?>
 	</div>
 	<div>
-		<p><a hx-boost="true" href="/register" hx-select="main" hx-target="main">        Don't have an account?</a></p>
+		<br>
+		<input type="checkbox" name="remember_me" value="1" /> <label>Remember Me</label>
+	</div>
+	<div>
+		<p><a hx-boost="true" href="/register" hx-select="main" hx-target="main">Don't have an account?</a></p>
 	</div>
 	<div>
 		<button>Submit</button>

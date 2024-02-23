@@ -27,9 +27,13 @@ class Auth
 		exit;
 	}
 
-	public static function signIn(User $user): void
+	public static function signIn(User $user, bool $remember_me = false): void
 	{
 		session()->set("user_id", $user->id);
+		if ($remember_me) {
+			$future_time = time() + (86400 * 30);
+			setcookie("user_uuid", $user->uuid, $future_time, "/");
+		}
 		$user->login_at = date("Y-m-d H:i:s");
 		$user->save();
 		self::redirectHome();
@@ -38,6 +42,8 @@ class Auth
 	public static function signOut(): void
 	{
 		session()->destroy();
+		unset($_COOKIE["user_uuid"]);
+		setcookie("user_uuid", '', -1, "/");
 		self::redirectSignIn();
 	}
 

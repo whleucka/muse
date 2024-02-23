@@ -11,9 +11,9 @@ class Kernel extends HttpKernel
      * @var array $middleware application middleware
      */
     protected array $middleware = [
+        \Nebula\Framework\Middleware\EncryptCookies::class,
         \Nebula\Framework\Middleware\Authentication::class,
         \Nebula\Framework\Middleware\CSRF::class,
-        \Nebula\Framework\Middleware\EncryptCookies::class,
         \Nebula\Framework\Middleware\RequestUuid::class,
         \Nebula\Framework\Middleware\HTMX::class,
         \Nebula\Framework\Middleware\APIResponse::class,
