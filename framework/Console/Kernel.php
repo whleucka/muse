@@ -8,21 +8,21 @@ use Dotenv\Dotenv;
 
 class Kernel implements NebulaKernel
 {
-	use Singleton;
+    use Singleton;
 
-	public function main(): void
-	{
-		$this->bootstrap();
-	}
+    public function main(): void
+    {
+        $this->bootstrap();
+    }
 
-	public function response(): void
-	{
-	}
+    public function response(): void
+    {
+    }
 
-	protected function bootstrap(): void
-	{
-		$this->environment();
-	}
+    protected function bootstrap(): void
+    {
+        $this->environment();
+    }
 
     /**
      * Load environment variables

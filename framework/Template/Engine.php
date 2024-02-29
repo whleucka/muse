@@ -20,7 +20,7 @@ class Engine
         }
 
         // Adds a csrf token to a hidden input for a form
-        $data["csrf"] = function() {
+        $data["csrf"] = function () {
             $token = session()->get("csrf_token");
             return template("components/csrf.php", ["token" => $token]);
         };

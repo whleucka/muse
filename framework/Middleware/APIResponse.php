@@ -8,35 +8,35 @@ use Symfony\Component\HttpFoundation\{JsonResponse, Response, Request};
 
 class APIResponse implements Middleware
 {
-	public function handle(Request $request, Closure $next): Response
-	{
-		$middleware = $request->get("route")?->getMiddleware();
+    public function handle(Request $request, Closure $next): Response
+    {
+        $middleware = $request->get("route")?->getMiddleware();
 
-		$response = $next($request);
+        $response = $next($request);
 
-		if ($middleware && in_array("api", $middleware)) {
-			$code = $response->getStatusCode();
-			$headers = [
-				...$response->headers,
-				"Content-Type" => "application/json; charset=utf-8",
-			];
-			$data = [
-				"success" => $code === 200,
-				"id" => $request->get("request_uuid"),
-				"status" => $code,
-				"ts" => time(),
-			];
+        if ($middleware && in_array("api", $middleware)) {
+            $code = $response->getStatusCode();
+            $headers = [
+                ...$response->headers,
+                "Content-Type" => "application/json; charset=utf-8",
+            ];
+            $data = [
+                "success" => $code === 200,
+                "id" => $request->get("request_uuid"),
+                "status" => $code,
+                "ts" => time(),
+            ];
 
-			if ($code === 200) {
-				$data["data"] = $response->getContent();
-			} else {
-				$data["error"] = $response->getContent();
-			}
+            if ($code === 200) {
+                $data["data"] = $response->getContent();
+            } else {
+                $data["error"] = $response->getContent();
+            }
 
-			arsort($data);
-			$response = new JsonResponse($data, $code, $headers);
-		}
+            arsort($data);
+            $response = new JsonResponse($data, $code, $headers);
+        }
 
-		return $response;
-	}
+        return $response;
+    }
 }

@@ -20,7 +20,7 @@ class Controller
         "required" => "required field",
         "string" => "must be a string",
         "unique" => "must be unique",
-        "symbol" => "must contain a special character"
+        "symbol" => "must contain a special character",
     ];
     protected array $request_errors = [];
 
@@ -30,7 +30,8 @@ class Controller
     }
 
     protected function bootstrap(): void
-    {}
+    {
+    }
 
     /**
      * Render template response
@@ -40,20 +41,29 @@ class Controller
     protected function render(string $path, array $data = []): string
     {
         // Template functions
-        $data["request_errors"] = fn(string $field, string $title = '') => $this->getRequestErrors($field, $title);
-        $data["has_error"] = fn(string $field) => $this->hasRequestError($field);
+        $data["request_errors"] = fn(
+            string $field,
+            string $title = ""
+        ) => $this->getRequestErrors($field, $title);
+        $data["has_error"] = fn(string $field) => $this->hasRequestError(
+            $field
+        );
         $data["escape"] = fn(string $key) => $this->escapeRequest($key);
 
         return template($path, $data, true);
     }
 
-    private function getRequestErrors(string $field, string $title = ''): ?string
-    {
-        if (!$title) $title = ucfirst($field);
+    private function getRequestErrors(
+        string $field,
+        string $title = ""
+    ): ?string {
+        if (!$title) {
+            $title = ucfirst($field);
+        }
         return isset($this->request_errors[$field])
             ? template("components/request_errors.php", [
                 "errors" => $this->request_errors[$field],
-                "title" => $title
+                "title" => $title,
             ])
             : "";
     }
@@ -63,7 +73,11 @@ class Controller
      */
     private function escapeRequest(string $key): mixed
     {
-        return htmlspecialchars($this->request($key), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        return htmlspecialchars(
+            $this->request($key),
+            ENT_QUOTES | ENT_HTML5,
+            "UTF-8"
+        );
     }
 
     protected function validateRequest(array $ruleset): array
@@ -99,22 +113,26 @@ class Controller
                     // value is numeric
                     "numeric" => is_numeric($value),
                     // value is required
-                    "required" => $value && trim($value) !== '',
+                    "required" => $value && trim($value) !== "",
                     // vlaue is a string
                     "string" => is_string($value),
                     // value is unique in db
-                    "unique" => !db()->fetch("SELECT * FROM $arg_1 WHERE $field = ?", $value),
+                    "unique" => !db()->fetch(
+                        "SELECT * FROM $arg_1 WHERE $field = ?",
+                        $value
+                    ),
                     // value contains a symbol
-                    "symbol" => preg_match('/[^\w\s]/', $value),
+                    "symbol" => preg_match("/[^\w\s]/", $value),
                 };
                 if (!$result && isset($this->error_messages[$rule])) {
-                    $this->addRequestError($field, $this->error_messages[$rule]);
+                    $this->addRequestError(
+                        $field,
+                        $this->error_messages[$rule]
+                    );
                 }
             }
         }
-        return count($this->request_errors) === 0
-            ? $data
-            : [];
+        return count($this->request_errors) === 0 ? $data : [];
     }
 
     protected function addRequestError(string $field, string $message): void
@@ -127,8 +145,10 @@ class Controller
         return isset($this->request_errors[$field]);
     }
 
-    protected function request(?string $key = null, mixed $default = null): mixed
-    {
+    protected function request(
+        ?string $key = null,
+        mixed $default = null
+    ): mixed {
         if (!$key) {
             return $this->request;
         }

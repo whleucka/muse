@@ -6,23 +6,26 @@ trait Singleton
 {
     protected static $instance;
 
-	public static function getInstance(...$args)
-	{
+    public static function getInstance(...$args)
+    {
         if (static::$instance === null) {
             static::$instance = new static(...$args);
         }
         return static::$instance;
     }
 
-	private function __construct()
-	{ // Prevent instantiation from outside
-	}
-
-	private function __clone(): void
-	{ // Prevent cloning
+    private function __construct()
+    {
+        // Prevent instantiation from outside
     }
 
-	public function __wakeup(): void
-	{ // Prevent unserialization
+    private function __clone(): void
+    {
+        // Prevent cloning
+    }
+
+    public function __wakeup(): void
+    {
+        // Prevent unserialization
     }
 }

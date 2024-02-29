@@ -8,10 +8,9 @@ use StellarRouter\Get;
 
 class SignOutController extends Controller
 {
-	#[Get("/sign-out", "sign-out.index")]
-	public function index(): void
-	{
-		Auth::signOut();
-	}
+    #[Get("/sign-out", "sign-out.index")]
+    public function index(): void
+    {
+        Auth::signOut();
+    }
 }
-

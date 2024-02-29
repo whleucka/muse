@@ -8,11 +8,11 @@ use StellarRouter\{Get, Group};
 #[Group(middleware: ["auth"])]
 class HomeController extends Controller
 {
-	#[Get("/home", "home.index", ["Hx-Push-Url=/home"])]
-	public function index(): string
-	{
-		$content = template("home/index.php");
+    #[Get("/home", "home.index", ["Hx-Push-Url=/home"])]
+    public function index(): string
+    {
+        $content = template("home/index.php");
 
-		return template("layout/base.php", ["main" => $content]);
-	}
+        return template("layout/base.php", ["main" => $content]);
+    }
 }
