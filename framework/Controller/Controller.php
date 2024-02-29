@@ -49,7 +49,7 @@ class Controller
             $field
         );
         $data["escape"] = fn(string $key) => $this->escapeRequest($key);
-        if (!$data["title"]) $data["title"] = config("application.name");
+        $data["title"] = config("application.name");
 
         return template($path, $data, true);
     }
