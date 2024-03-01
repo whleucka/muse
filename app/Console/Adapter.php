@@ -20,26 +20,22 @@ class Adapter extends CLI
     {
         $options->setHelp("Nebula console application");
 
-        $options->registerCommand("serve", "Start development server", "serve");
+        $options->registerCommand("serve", "Start development server");
         $options->registerCommand(
             "generate-key",
             "Generate secure application key",
-            "generate-key"
         );
         $options->registerCommand(
             "migrate-fresh",
             "WARNING: Drops database and migrates fresh database",
-            "migrate-fresh"
         );
         $options->registerCommand(
-            "migrate-up <file>",
+            "migrate-up",
             "Run migration UP method",
-            "migrate-up"
         );
         $options->registerCommand(
-            "migrate-down <file>",
+            "migrate-down",
             "Run migration DOWN method",
-            "migrate-down"
         );
 
         $options->registerOption("version", "Print version", "v");
@@ -94,7 +90,8 @@ class Adapter extends CLI
         string $direction
     ): void {
         if (!isset($migration_file[0])) {
-            return;
+            $this->warning(" No migration file was given");
+            exit();
         }
         $this->info(" Now running database migration...");
         sleep(1);
