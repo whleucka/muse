@@ -85,7 +85,7 @@ class Kernel implements NebulaKernel
      * @param Request $request
      * @param Route $route
      */
-    protected function resolve(Request $request, ?Route $route): Response
+    protected function resolve(Request $request, ?Route $route): array|Response
     {
         if ($route) {
             try {
@@ -94,12 +94,16 @@ class Kernel implements NebulaKernel
                 $handlerClass = $route->getHandlerClass();
                 $handlerMethod = $route->getHandlerMethod();
                 $routeParameters = $route->getParameters();
+                $routeMiddleware = $route->getMiddleware();
                 $routePayload = $route->getPayload();
                 if ($handlerClass) {
                     $class = new $handlerClass($request);
                     $content = $class->$handlerMethod(...$routeParameters);
                 } elseif ($routePayload) {
                     $content = $routePayload(...$routeParameters);
+                }
+                if (in_array("api", $routeMiddleware)) {
+                    return $content;
                 }
                 return new Response($content, 200, $headers);
             } catch (Exception $ex) {
@@ -113,6 +117,7 @@ class Kernel implements NebulaKernel
             return new Response("Page not found", 404);
         }
     }
+
 
     /**
      * Get framework middleware class

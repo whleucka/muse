@@ -15,9 +15,8 @@ class APIResponse implements Middleware
         $response = $next($request);
 
         if ($middleware && in_array("api", $middleware)) {
-            $code = $response->getStatusCode();
+            $code = 200;
             $headers = [
-                ...$response->headers,
                 "Content-Type" => "application/json; charset=utf-8",
             ];
             $data = [
@@ -28,9 +27,7 @@ class APIResponse implements Middleware
             ];
 
             if ($code === 200) {
-                $data["data"] = $response->getContent();
-            } else {
-                $data["error"] = $response->getContent();
+                $data["data"] = $response;
             }
 
             arsort($data);
