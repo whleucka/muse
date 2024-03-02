@@ -1,6 +1,6 @@
 <form method="POST" id="form-sign-in" hx-post="/sign-in" hx-swap="outerHTML">
 	<?= $csrf() ?>
-	<h1>Sign In</h1>
+	<h2>Sign In</h2>
 	<div>
 		<label>Email</label><br>
 		<input name="email" type="email" value="<?= $escape('email') ?>" />
@@ -12,8 +12,7 @@
 		<?= $request_errors('password') ?>
 	</div>
 	<div>
-		<br>
-		<input type="checkbox" name="remember_me" value="1" /> <label>Remember Me</label>
+		<input type="checkbox" name="remember_me" value="1" /> <label>Remember me</label>
 	</div>
 	<div>
 		<p><a hx-boost="true" href="/register" hx-select="main" hx-target="main">Don't have an account?</a></p>
