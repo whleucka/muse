@@ -20,7 +20,7 @@ class SearchController extends Controller
 			ORDER BY artist,album,track_number", ...array_fill(0, 4, "$term%"));
 	}
 
-	#[Get("/search", "search.index")]
+	#[Get("/search", "search.index", ["HX-Replace-Url=/search"])]
 	public function index(): string
 	{
 		$content = template("muse/search/index.php", [
@@ -30,7 +30,7 @@ class SearchController extends Controller
         return $this->render("layout/base.php", ["main" => $content]);
 	}
 
-	#[Post("/search", "search.post", [])]
+	#[Post("/search", "search.post")]
 	public function post(): ?string
 	{
 		$data = $this->validateRequest([

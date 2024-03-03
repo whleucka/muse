@@ -6,5 +6,9 @@
 		<?php foreach ($playlist as $track): ?>
 			<?=template("muse/tracks/row.php", ["track" => $track])?>
 		<?php endforeach ?>
+
+		<?php if (!$playlist): ?>
+			<p class="mt-3"><em>There are no tracks available</em></p>
+		<?php endif ?>
 	</div>
 </section>

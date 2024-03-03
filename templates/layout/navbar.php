@@ -9,11 +9,11 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link text-secondary" href="#" hx-get="/playlist" hx-target="#main" hx-select="#main"
-            hx-swap="outerHTML" hx-push-url="/playlist">Playlist</a>
+            hx-swap="outerHTML">Playlist</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-secondary" href="#" hx-get="/search" hx-target="#main" hx-select="#main"
-            hx-swap="outerHTML" hx-push-url="/search">Search</a>
+            hx-swap="outerHTML">Search</a>
         </li>
       </ul>
     </div>

@@ -173,7 +173,7 @@ navigator.mediaSession.setActionHandler('pause', function() {
 
 try {
 	navigator.mediaSession.setActionHandler('stop', function() {
-		// ?
+		pauseAudio();
 	});
 } catch (error) {
 	console.log('Warning! The "stop" media session action is not supported.');
