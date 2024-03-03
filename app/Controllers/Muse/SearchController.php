@@ -47,13 +47,13 @@ class SearchController extends Controller
 		return null;
 	}
 
-	#[Get("/search/playlist", "search.playlist", ["HX-Redirect=/playlist"])]
+	#[Get("/search/playlist", "search.playlist", ['HX-Location={"path": "/playlist", "target": "#main", "select": "#main"}'])]
 	public function playlist(): void
 	{
 		$term = session()->get("term");
 		if ($term) {
 			$tracks = $this->search($term);
-			// This might have a limitation
+			// This might have a size limitation
 			session()->set("playlist", $tracks);
 		}
 	}

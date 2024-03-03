@@ -23,6 +23,11 @@ main {
 	border-bottom: 1px solid #ddd;
 }
 
+#navbar .navbar-brand {
+	font-size: 1.4rem;
+	margin-top: 5px;
+}
+
 #search .track-row:hover {
 	cursor: pointer;
 	background-color: rgba(0, 0, 0, 0.1);
