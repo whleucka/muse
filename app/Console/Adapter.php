@@ -2,7 +2,11 @@
 
 namespace App\Console;
 
+use App\Models\Track;
+use App\Models\TrackMeta;
+use App\Muse\Music\Scan;
 use Nebula\Framework\Console\Migrations;
+use PDO;
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
 
@@ -37,6 +41,10 @@ class Adapter extends CLI
             "migrate-down",
             "Run migration DOWN method",
         );
+        $options->registerCommand(
+            "music-scan",
+            "Scan and sync music files to the database",
+        );
 
         $options->registerOption("version", "Print version", "v");
     }
@@ -54,6 +62,7 @@ class Adapter extends CLI
             "migrate-fresh" => $this->migrateFresh(),
             "migrate-up" => $this->runMigration($options->getArgs(), "up"),
             "migrate-down" => $this->runMigration($options->getArgs(), "down"),
+            "music-scan" => $this->musicScan($options->getArgs()),
             default => "",
         };
         echo $options->help();
@@ -97,7 +106,7 @@ class Adapter extends CLI
         sleep(1);
         $migration = array_filter(
             $this->migrations->mapMigrations(),
-            fn($mig) => $mig["name"] === basename($migration_file[0])
+            fn ($mig) => $mig["name"] === basename($migration_file[0])
         );
         if (!$migration) {
             $this->error(" Migration file doesn't exist");
@@ -121,7 +130,7 @@ class Adapter extends CLI
         sleep(1);
         $migrations = $this->migrations->mapMigrations();
         $this->migrations->dropDatabase();
-        uasort($migrations, fn($a, $b) => $a["name"] <=> $b["name"]);
+        uasort($migrations, fn ($a, $b) => $a["name"] <=> $b["name"]);
         $this->migrateUp($migrations);
         $this->notice(" Complete!");
         exit();
@@ -153,5 +162,65 @@ class Adapter extends CLI
                 $this->error(" Migration error: " . $name);
             }
         }
+    }
+
+    private function musicScan(array $paths): void
+    {
+        $files = [];
+        foreach ($paths as $path) {
+            if (!file_exists($path)) {
+                $this->error(" Path does not exist");
+            }
+            $scanner = new Scan();
+            $files = [...$files, ...$scanner->find($path)];
+        }
+        $this->synchronize($files);
+        $this->id3();
+        exit();
+    }
+
+    private function synchronize(array $files): void
+    {
+        $this->info(" Now scanning music directory...");
+        sleep(1);
+        $file_count = count($files);
+        $new = 0;
+        foreach ($files as $file) {
+            $exists = db()->fetch("SELECT * FROM tracks WHERE name = ?", $file);
+            if (!$exists) {
+                Track::new(["name" => $file]);
+                $new++;
+            }
+        }
+        $this->info(" File count: $file_count");
+        $this->info(" New files: $new");
+        $this->success(" Scan complete.");
+    }
+
+    private function id3(): void
+    {
+        $this->info(" Updating track metadata...");
+        sleep(1);
+        $tracks = db()->run("SELECT id FROM tracks")->fetchAll(PDO::FETCH_COLUMN);
+        foreach ($tracks as $id) {
+            $track = new Track($id);
+            $tags = $track->analyze();
+            $comments = $tags["comments_html"];
+            TrackMeta::new([
+                "track_id" => $track->id,
+                "filesize" => intval($tags["filesize"]),
+                "bitrate" => intval($tags["bitrate"]),
+                "mime_type" => $tags["mime_type"],
+                "playtime_string" => $tags["playtime_string"] ?? '0:00',
+                "playtime_seconds" => round($tags["playtime_seconds"]),
+                "track_number" => intval($comments["track_number"][0]),
+                "title" => $comments["title"][0] ?? "No Title",
+                "artist" => $comments["artist"][0] ?? "No Artist",
+                "album" => $comments["album"][0] ?? "No Album",
+                "genre" => isset($comments["genre"]) ? implode(", ", $comments["genre"]) : "",
+                "year" => intval($comments["year"][0]),
+            ]);
+        }
+        $this->success(" Analysis complete.");
     }
 }

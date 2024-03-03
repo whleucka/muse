@@ -17,4 +17,3 @@ return new class implements Migration
 			return Schema::run(fn(SQL $sql) => $sql->migrationFile("/user_types/down.sql"));
 		}
 };
-

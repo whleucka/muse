@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS track_meta (
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	track_id INT UNSIGNED NOT NULL,
+	filesize INT UNSIGNED,
+	bitrate INT UNSIGNED,
+	mime_type VARCHAR(255),
+	playtime_string VARCHAR(255),
+	playtime_seconds INT UNSIGNED,
+	track_number INT UNSIGNED,
+	title VARCHAR(255),
+	artist VARCHAR(255),
+	album VARCHAR(255),
+	genre VARCHAR(255),
+	year INT UNSIGNED,
+	updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	FOREIGN KEY(track_id) REFERENCES tracks(id)
+);

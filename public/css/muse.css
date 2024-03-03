@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+main {
+	font-family: "Roboto", sans-serif;
+	overflow: hidden;
+}
+
+#main {
+	overflow: auto;
+}
+
+#main h1,
+#main h2,
+#main h3,
+#main h4,
+#main h5 {
+	font-weight: 400;
+	font-style: normal;
+	color: #444;
+}
+
+#navbar {
+	border-bottom: 1px solid #ddd;
+}
+
+#search .track-row:hover {
+	cursor: pointer;
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+#search .track-row .cover {
+	border-radius: 4px;
+	height: 24px;
+	width: 24px;
+}
+
+#player {
+	border-top: solid 1px #ddd;
+}
+
+#player .cover {
+	border-radius: 4px;
+	height: 40px;
+	width: 40px;
+	margin: 5px;
+}
+
+#player #controls .btn svg {
+	fill: #444;
+}
+
+#player #preload-progress {
+	background: #DDD;
+}

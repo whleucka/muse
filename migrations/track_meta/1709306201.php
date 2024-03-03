@@ -1,6 +1,6 @@
 <?php
 
-namespace Nebula\Migrations\user_types;
+namespace Nebula\Migrations\track_meta;
 
 use Nebula\Framework\Database\{SQL, Schema};
 use Nebula\Framework\Database\Interface\Migration;
@@ -9,11 +9,11 @@ return new class implements Migration
 {
 		public function up()
 		{
-			return Schema::run(fn(SQL $sql) => $sql->migrationFile("/user_types/insert.sql"));
+			return Schema::run(fn(SQL $sql) => $sql->migrationFile("/track_meta/up.sql"));
 		}
 
 		public function down()
 		{
-			return Schema::run(fn(SQL $sql) => $sql->migrationFile("/user_types/delete.sql"));
+			return Schema::run(fn(SQL $sql) => $sql->migrationFile("/track_meta/down.sql"));
 		}
 };
