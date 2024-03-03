@@ -19,6 +19,18 @@ class PlaylistController extends Controller
 		return $this->render("layout/base.php", ["main" => $content]);
 	}
 
+	#[Get("/playlist/clear", "playlist.clear")]
+	public function clear(): string
+	{
+		$playlist = session()->delete("playlist");
+
+		$content = template("muse/playlist/index.php", [
+			"playlist" => []
+		]);
+
+		return $this->render("layout/base.php", ["main" => $content]);
+	}
+
 	public function nextTrack()
 	{
 		 die("wip");

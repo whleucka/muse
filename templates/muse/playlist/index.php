@@ -1,6 +1,14 @@
 <section id="search" class="w-100">
 	<h3 class="d-flex align-items-center">
 		Playlist
+		<?php if ($playlist): ?>
+			<button class="btn btn-sm btn-outline-success ms-3"
+				hx-get="/playlist/clear"
+				hx-target="#main"
+				hx-select="#main"
+				hx-swap="outerHTML"
+				><small>Reset</small></button>
+		<?php endif ?>
 	</h3>
 	<div id="tracks" class="my-2">
 		<?php foreach ($playlist as $track): ?>
