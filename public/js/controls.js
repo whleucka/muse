@@ -7,7 +7,7 @@ const defaultSkipTime = 10;
 let playlist = [];
 let index = 0;
 let currentTrack = {};
-const progressColour = "#fc4503";
+const progressColour = "#0362fc";
 const pauseColour = "#888";
 
 const playTrack = async (uuid) => {

@@ -3,7 +3,8 @@
 	<img class="cover me-2"
 		src="<?=$track->cover?>"
 		title="<?=$track->album?>"
-		alt="cover" />
+		alt="cover"
+		loading="lazy" />
 	<span><?=$track->artist?></span>
 	<span class="mx-1">—</span>
 	<span><?=$track->title?></span>
