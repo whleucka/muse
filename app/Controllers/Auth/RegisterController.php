@@ -26,9 +26,9 @@ class RegisterController extends Controller
     #[Get("/register", "register.index", ["Hx-Push-Url=/register"])]
     public function index(): string
     {
-        return $this->render("auth/register.php", [
-            "form" => $this->form(),
-        ]);
+        $content = template("auth/register.php", ["form" => $this->form()]);
+
+        return $this->render("layout/base.php", ["main" => $content]);
     }
 
     #[Post("/register", "register.post")]

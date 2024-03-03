@@ -26,9 +26,9 @@ class SignInController extends Controller
     #[Get("/sign-in", "sign-in.index", ["Hx-Push-Url=/sign-in"])]
     public function index(): string
     {
-        return $this->render("auth/sign-in.php", [
-            "form" => $this->form(),
-        ]);
+        $content = template("auth/sign-in.php", ["form" => $this->form()]);
+
+        return $this->render("layout/base.php", ["main" => $content]);
     }
 
     #[Post("/sign-in", "sign-in.post")]
