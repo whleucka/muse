@@ -47,7 +47,7 @@ class SearchController extends Controller
 		return null;
 	}
 
-	#[Get("/search/playlist", "search.playlist", ['HX-Location={"path": "/playlist", "target": "#main", "select": "#main"}'])]
+	#[Get("/search/playlist", "search.playlist", ['HX-Location={"path": "/playlist", "target": "#main", "select": "#main", "swap": "outerHTML"}'])]
 	public function playlist(): void
 	{
 		$term = session()->get("term");

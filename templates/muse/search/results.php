@@ -11,5 +11,5 @@
 <?php endforeach ?>
 
 <?php if (!$tracks): ?>
-	<p class="text-danger p-2">No tracks found</p>
+	<p class="mt-3"><em>Sorry, no tracks could be found</em></p>
 <?php endif ?>
