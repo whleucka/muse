@@ -25,7 +25,8 @@ main {
 
 #navbar .navbar-brand {
 	font-size: 1.4rem;
-	margin-top: 5px;
+	color: #666;
+	cursor: pointer;
 }
 
 #search .track-row:hover {
