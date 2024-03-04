@@ -1,6 +1,7 @@
 <section id="search" class="w-100">
 	<h3 class="d-flex align-items-center">
 		Search
+		<span data-feather="search" class="ms-2"></span>
 		<span class="htmx-indicator ms-2" style="font-size: 0.8rem;">
 			<div class="spinner-border spinner-border-sm text-success" role="status">
 			</div>
@@ -22,3 +23,6 @@
 	<div id="results" class="my-2">
 	</div>
 </section>
+<script>
+feather.replace();
+</script>

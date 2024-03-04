@@ -1,5 +1,5 @@
 <?php if ($tracks): ?>
-<div class="p-2 d-flex">
+<div class="px-2 my-3 d-flex">
 	<button class="btn btn-sm btn-outline-success"
 		hx-get="/search/playlist"
 		hx-swap="none">Add to playlist</button>
@@ -11,5 +11,5 @@
 <?php endforeach ?>
 
 <?php if (!$tracks): ?>
-	<p class="mt-3"><em>Sorry, no tracks could be found</em></p>
+	<p class="mt-2"><em>Sorry, no tracks could be found</em></p>
 <?php endif ?>

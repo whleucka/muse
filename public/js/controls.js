@@ -39,6 +39,7 @@ const setTrack = (track) => {
 }
 
 const updatePlayPause = () => {
+	if (audio.src === "") return;
 	// Update play/pause icon
 	const play_btn = document.querySelector("#player #controls > .play");
 	play_btn.innerHTML = audio.paused ? playIcon : pauseIcon;
