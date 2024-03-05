@@ -30,7 +30,7 @@ class SearchController extends Controller
         return $this->render("layout/base.php", ["main" => $content]);
 	}
 
-	#[Get("/search/term", "search.post")]
+	#[Post("/search", "search.post")]
 	public function post(): ?string
 	{
 		$data = $this->validateRequest([

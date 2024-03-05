@@ -7,10 +7,10 @@
 			</div>
 		</span>
 	</h3>
-	<form method="GET" onkeydown="return event.key != 'Enter';">
+	<form onkeydown="return event.key != 'Enter';">
 		<?=$csrf()?>
 		<input id="input"
-			hx-get="/search/term"
+			hx-post="/search"
 			hx-trigger="load, input changed delay:500ms, search"
 			hx-target="#results"
 			hx-indicator=".htmx-indicator"

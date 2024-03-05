@@ -3,7 +3,7 @@
 namespace App\Controllers\Muse;
 
 use Nebula\Framework\Controller\Controller;
-use StellarRouter\Get;
+use StellarRouter\{Get, Post};
 
 class PlaylistController extends Controller
 {
