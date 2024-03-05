@@ -2,8 +2,11 @@
 <div class="table-responsive">
 	<div class="my-3 d-flex">
 		<button class="btn btn-sm btn-outline-success"
-			hx-get="/search/playlist"
-			hx-swap="none">Add to playlist</button>
+			hx-get="/playlist/clear"
+			hx-target="#main"
+			hx-select="#main"
+			hx-swap="outerHTML"
+			>Reset</button>
 	</div>
 </div>
 <?php endif ?>
@@ -13,5 +16,6 @@
 <?php endforeach ?>
 
 <?php if (!$tracks): ?>
-	<p class="mt-2"><em>Sorry, no tracks could be found</em></p>
+	<p class="mt-2"><em>There are no tracks available</em></p>
 <?php endif ?>
+

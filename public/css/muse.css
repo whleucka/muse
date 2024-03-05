@@ -10,6 +10,10 @@ main {
 	overflow: auto;
 }
 
+#main > section {
+	padding: 10px;
+}
+
 #main h1,
 #main h2,
 #main h3,
@@ -35,7 +39,11 @@ main {
 	background-color: rgba(0, 0, 0, 0.1);
 }
 
-#search .track-row .cover {
+.track-row {
+	cursor: pointer;
+}
+
+.track-row .cover {
 	border-radius: 4px;
 	height: 24px;
 	width: 24px;

@@ -7,10 +7,10 @@
 			</div>
 		</span>
 	</h3>
-	<form method="POST" onkeydown="return event.key != 'Enter';">
+	<form method="GET" onkeydown="return event.key != 'Enter';">
 		<?=$csrf()?>
 		<input id="input"
-			hx-post="/search"
+			hx-get="/search/term"
 			hx-trigger="load, input changed delay:500ms, search"
 			hx-target="#results"
 			hx-indicator=".htmx-indicator"
@@ -20,9 +20,11 @@
 			value="<?=$term?>"
 			placeholder="What do you want to listen to?" />
 	</form>
-	<div id="results" class="my-2">
+	<div id="results">
 	</div>
 </section>
 <script>
-feather.replace();
+if (typeof feather !== 'undefined') {
+	feather.replace();
+}
 </script>

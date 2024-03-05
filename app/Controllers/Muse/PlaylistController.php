@@ -12,12 +12,19 @@ class PlaylistController extends Controller
 	{
 		$playlist = session()->get("playlist");
 
-		$content = template("muse/playlist/index.php", [
-			"playlist" => $playlist ?? []
-		]);
+		$content = template("muse/playlist/index.php");
 
 		return $this->render("layout/base.php", ["main" => $content]);
 	}
+
+	#[Get("/playlist/load", "playlist.load")]
+	public function load(): string
+	{
+		$playlist = session()->get("playlist");
+
+		return template("muse/playlist/playlist.php", ["tracks" => $playlist ?? []]);
+	}
+
 
 	#[Get("/playlist/clear", "playlist.clear")]
 	public function clear(): string
