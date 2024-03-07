@@ -54,7 +54,7 @@ class SearchController extends Controller
 		if ($term) {
 			$tracks = $this->search($term);
 			// This might have a size limitation
-			session()->set("playlist", $tracks);
+			session()->set("playlist_tracks", $tracks);
 		}
 	}
 }

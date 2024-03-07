@@ -213,12 +213,12 @@ class Adapter extends CLI
                 "mime_type" => $tags["mime_type"],
                 "playtime_string" => $tags["playtime_string"] ?? '0:00',
                 "playtime_seconds" => round($tags["playtime_seconds"]),
-                "track_number" => intval($comments["track_number"][0]),
+                "track_number" => intval($comments["track_number"][0] ?? 0),
                 "title" => $comments["title"][0] ?? "No Title",
                 "artist" => $comments["artist"][0] ?? "No Artist",
                 "album" => $comments["album"][0] ?? "No Album",
                 "genre" => isset($comments["genre"]) ? implode(", ", $comments["genre"]) : "",
-                "year" => intval($comments["year"][0]),
+                "year" => intval($comments["year"][0] ?? 0),
             ]);
         }
         $this->success(" Analysis complete.");

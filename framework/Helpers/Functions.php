@@ -18,6 +18,11 @@ function app(): Application
     return Application::getInstance($kernel);
 }
 
+function json(mixed $data)
+{
+    return json_encode($data, JSON_PRETTY_PRINT);
+}
+
 function console(): Application
 {
     $kernel = ConsoleKernel::getInstance();

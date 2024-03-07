@@ -32,6 +32,7 @@ const getTrack = async (uuid) => {
 }
 
 const setTrack = (track) => {
+	console.log("Now playing", track);
 	// Assign current track
 	currentTrack = track;
 	// Set the audio src
@@ -90,16 +91,16 @@ const seekBackward = () => {
 	updatePositionState();
 }
 
-const nextTrack = () => {
-	// Next track in the playlist
-	index = (index + 1) % playlist.length;
-	playAudio();
+const nextTrack = async () => {
+	const response = await fetch("/playlist/next-track");
+	uuid = await response.json();
+	if (uuid && uuid !== 'end') playTrack(uuid);
 }
 
-const prevTrack = () => {
-	// Previous track in the playlist
-	index = (index - 1 + playlist.length) % playlist.length;
-	playAudio();
+const prevTrack = async () => {
+	const response = await fetch("/playlist/prev-track");
+	uuid = await response.json();
+	if (uuid && uuid !== 'end') playTrack(uuid);
 }
 
 const updateMetadata = () => {
