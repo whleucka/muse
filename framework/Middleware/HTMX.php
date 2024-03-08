@@ -13,10 +13,12 @@ class HTMX implements Middleware
         $middlewares = $request->get("route")?->getMiddleware();
         $response = $next($request);
 
-        foreach ($middlewares as $middleware) {
-            if (strtolower(substr($middleware, 0, 2)) === "hx") {
-                $opts = explode("=", $middleware);
-                $response->headers->set($opts[0], $opts[1]);
+        if ($middlewares) {
+            foreach ($middlewares as $middleware) {
+                if (strtolower(substr($middleware, 0, 2)) === "hx") {
+                    $opts = explode("=", $middleware);
+                    $response->headers->set($opts[0], $opts[1]);
+                }
             }
         }
 

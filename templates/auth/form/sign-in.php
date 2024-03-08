@@ -1,6 +1,6 @@
 <form method="POST" id="form-sign-in" hx-post="/sign-in" hx-swap="outerHTML">
 	<?= $csrf() ?>
-	<h2>Sign In</h2>
+	<h3>Sign In</h3>
 	<div>
 		<label>Email</label><br>
 		<input name="email" type="email" value="<?= $escape('email') ?>" />
