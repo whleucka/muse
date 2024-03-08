@@ -1,6 +1,6 @@
 <form method="POST" id="form-register" hx-post="/register" hx-swap="outerHTML">
 	<?= $csrf() ?>
-	<h2>Register</h2>
+	<h3>Register</h3>
 	<div id="email-input">
 		<label>Email</label><br>
 		<input name="email" type="email" value="<?= $escape('email') ?>" />
