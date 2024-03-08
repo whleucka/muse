@@ -33,4 +33,17 @@ class Track extends Model
         getid3_lib::CopyTagsToComments($tags);
         return $tags;
     }
+
+	public static function search(string $term): array|bool
+	{
+		return db()->fetchAll("SELECT tracks.uuid, track_meta.*, '/img/no-album.png' as cover
+			FROM tracks
+			INNER JOIN track_meta ON track_meta.track_id = tracks.id
+			WHERE title LIKE ? OR
+			artist LIKE ? OR
+			album LIKE ? OR
+			genre LIKE ?
+			ORDER BY artist,album,track_number", ...array_fill(0, 4, "$term%"));
+	}
+
 }

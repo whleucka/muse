@@ -1,5 +1,5 @@
 <div class="track-row d-flex align-items-center w-100 py-2"
-	onClick="playTrack('<?=$track->uuid?>')">
+onClick="playlistIndex(<?=$index?>); playTrack('<?=$track->uuid?>');">
 	<img class="cover me-2"
 		src="<?=$track->cover?>"
 		title="<?=$track->album?>"

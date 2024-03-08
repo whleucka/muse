@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Muse;
 
+use App\Models\Track;
 use Nebula\Framework\Controller\Controller;
 use StellarRouter\{Get, Post};
 
@@ -15,6 +16,29 @@ class PlaylistController extends Controller
 		$content = template("muse/playlist/index.php");
 
 		return $this->render("layout/base.php", ["main" => $content]);
+	}
+
+	#[Get("/playlist/set", "playlist.set", ['HX-Location={"path": "/playlist", "target": "#main", "select": "#main", "swap": "outerHTML"}'])]
+	public function playlist(): void
+	{
+		$term = session()->get("term");
+		if ($term) {
+			$tracks = Track::search($term);
+			// This might have a size limitation
+			session()->set("playlist_tracks", $tracks);
+		}
+	}
+
+	#[Post("/playlist/index", "playlist.set-index", ["api"])]
+	public function setIndex(): void
+	{
+		$data = $this->validateRequest([
+			"index" => ["required"],
+		]);
+		error_log("DATA: " . $data["index"]);
+		if ($data) {
+			session()->set("playlist_index", $data["index"]);
+		}
 	}
 
 	#[Get("/playlist/load", "playlist.load")]
@@ -46,7 +70,6 @@ class PlaylistController extends Controller
 		$playlist_index = session()->get("playlist_index");
 		$playlist_count = count($playlist);
 		$next_index = ($playlist_index + 1) % $playlist_count;
-		error_log($next_index);
 
 		if (isset($playlist[$next_index])) {
 			session()->set("playlist_index", $next_index);
@@ -63,7 +86,6 @@ class PlaylistController extends Controller
 		$playlist_index = session()->get("playlist_index");
 		$playlist_count = count($playlist);
 		$prev_index = ($playlist_index - 1 + $playlist_count)  % $playlist_count;
-		error_log($prev_index);
 
 		if (isset($playlist[$prev_index])) {
 			session()->set("playlist_index", $prev_index);

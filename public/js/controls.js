@@ -21,6 +21,28 @@ const playTrack = async (uuid) => {
 	}
 }
 
+const postData = async (endpoint, data) => {
+    var formdata = new FormData();
+    if (data) {
+        for (const property in data) {
+            formdata.append(property, data[property]);
+        }
+    }
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        body: formdata,
+        redirect: 'follow'
+    });
+    return response.json();
+}
+
+const playlistIndex = async (index) => {
+	const payload = {
+		"index": index
+	}
+	postData("/playlist/index", payload);
+}
+
 const getTrack = async (uuid) => {
 	// Get track info from API
 	const response = await fetch(`/track/${uuid}`);

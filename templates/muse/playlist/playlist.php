@@ -11,8 +11,8 @@
 </div>
 <?php endif ?>
 
-<?php foreach ($tracks as $track) : ?>
-	<?=template("muse/tracks/row.php", ["track" => $track])?>
+<?php foreach ($tracks as $i => $track) : ?>
+	<?=template("muse/tracks/row.php", ["track" => $track, "index" => $i])?>
 <?php endforeach ?>
 
 <?php if (!$tracks): ?>
