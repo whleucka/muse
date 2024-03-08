@@ -1,6 +1,6 @@
 <nav id="navbar" class="navbar navbar-expand-sm bg-light">
   <div class="container-fluid">
-    <a id="colours" class="navbar-brand">Muse</a>
+    <a id="colours" class="navbar-brand d-flex align-items-center">Muse <span data-feather="headphones" width="18" class="ms-2"></span></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#top-nav"
       aria-controls="top-nav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"><span data-feather="menu"></span></span>
