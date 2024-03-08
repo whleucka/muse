@@ -68,15 +68,17 @@ class PlaylistController extends Controller
 	{
 		$playlist = session()->get("playlist_tracks");
 		$playlist_index = session()->get("playlist_index");
-		$playlist_count = count($playlist);
-		$next_index = ($playlist_index + 1) % $playlist_count;
-
-		if (isset($playlist[$next_index])) {
-			session()->set("playlist_index", $next_index);
-			$track = $playlist[$next_index] ?? null;
-			return @json($track->uuid);
+		if ($playlist) {
+			$playlist_count = count($playlist);
+			$next_index = ($playlist_index + 1) % $playlist_count;
+			if (isset($playlist[$next_index])) {
+				session()->set("playlist_index", $next_index);
+				$track = $playlist[$next_index] ?? null;
+				return @json($track->uuid);
+			}
 		}
-		return json('end');
+
+		return null;
 	}
 
 	#[Get("/playlist/prev-track", "playlist.prev-track")]
@@ -84,15 +86,17 @@ class PlaylistController extends Controller
 	{
 		$playlist = session()->get("playlist_tracks");
 		$playlist_index = session()->get("playlist_index");
-		$playlist_count = count($playlist);
-		$prev_index = ($playlist_index - 1 + $playlist_count)  % $playlist_count;
-
-		if (isset($playlist[$prev_index])) {
-			session()->set("playlist_index", $prev_index);
-			$track = $playlist[$prev_index] ?? null;
-			return @json($track->uuid);
+		if ($playist) {
+			$playlist_count = count($playlist);
+			$prev_index = ($playlist_index - 1 + $playlist_count)  % $playlist_count;
+			if (isset($playlist[$prev_index])) {
+				session()->set("playlist_index", $prev_index);
+				$track = $playlist[$prev_index] ?? null;
+				return @json($track->uuid);
+			}
 		}
-		return json('end');
+
+		return null;
 	}
 }
 
