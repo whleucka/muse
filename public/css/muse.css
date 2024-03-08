@@ -4,6 +4,7 @@ main {
 	font-family: "Roboto", sans-serif;
 	overflow: hidden;
 	color: #444;
+	min-width: 375px;
 }
 
 #main {
@@ -70,4 +71,10 @@ main {
 
 #player #preload-progress {
 	background: #DDD;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

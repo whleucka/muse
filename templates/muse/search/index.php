@@ -7,19 +7,21 @@
 			</div>
 		</span>
 	</h3>
-	<form onkeydown="return event.key != 'Enter';">
-		<?=$csrf()?>
-		<input id="input"
-			hx-post="/search"
-			hx-trigger="load, input changed delay:500ms, search"
-			hx-target="#results"
-			hx-indicator=".htmx-indicator"
-			class="form-control"
-			type="search"
-			name="term"
-			value="<?=$term?>"
-			placeholder="What do you want to listen to?" />
-	</form>
+	<div id="search-input" class="mt-4">
+		<form onkeydown="return event.key != 'Enter';">
+			<?=$csrf()?>
+			<input id="input"
+				hx-post="/search"
+				hx-trigger="load, input changed delay:500ms, search"
+				hx-target="#results"
+				hx-indicator=".htmx-indicator"
+				class="form-control"
+				type="search"
+				name="term"
+				value="<?=$term?>"
+				placeholder="What do you want to listen to?" />
+		</form>
+	</div>
 	<div id="results">
 	</div>
 </section>

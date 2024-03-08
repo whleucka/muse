@@ -16,6 +16,6 @@
 <?php endforeach ?>
 
 <?php if (!$tracks): ?>
-	<p class="mt-2"><em>There are no tracks available</em></p>
+	<p class="mt-4"><em>There are no tracks available</em></p>
 <?php endif ?>
 

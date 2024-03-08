@@ -1,4 +1,4 @@
-<div class="track-row d-flex align-items-center w-100 py-2"
+<div class="track-row d-flex align-items-center w-100 py-2 truncate"
 onClick="<?php if($index !== false): ?>playlistIndex(<?=$index?>);<?php endif ?>playTrack('<?=$track->uuid?>');">
 	<img class="cover me-2"
 		src="<?=$track->cover?>"
@@ -7,7 +7,7 @@ onClick="<?php if($index !== false): ?>playlistIndex(<?=$index?>);<?php endif ?>
 		loading="lazy" />
 	<span><?=$track->artist?></span>
 	<span class="mx-1">—</span>
-	<span><?=$track->title?></span>
+	<span class="truncate"><?=$track->title?></span>
 	<span class="flex-grow-1 text-end"><?=$track->playtime_string?></span>
 </div>
 
