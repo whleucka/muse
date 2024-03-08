@@ -11,9 +11,10 @@ class CSRF implements Middleware
 {
     public function handle(Request $request, Closure $next): Response
     {
+        $middleware = $request->get("route")?->getMiddleware();
         $this->token();
 
-        if (!$this->validate($request)) {
+        if (!in_array("api", $middleware) && !$this->validate($request)) {
             return new Response("Invalid request", 403);
         }
 

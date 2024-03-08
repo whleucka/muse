@@ -85,7 +85,7 @@ class Kernel implements NebulaKernel
      * @param Request $request
      * @param Route $route
      */
-    protected function resolve(Request $request, ?Route $route): array|Response
+    protected function resolve(Request $request, ?Route $route): mixed
     {
         if ($route) {
             try {
