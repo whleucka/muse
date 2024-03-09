@@ -8,7 +8,7 @@
 	<title><?= $title ?? 'Muse' ?></title>
 	<link href="/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/css/main.css" rel="stylesheet">
-	<link href="/css/muse.css" rel="stylesheet">
+	<link href="/css/muse.css?<?=time()?>" rel="stylesheet">
 	<?= $head ?? '' ?>
 </head>
 
@@ -22,7 +22,7 @@
 	<script src="/js/bootstrap.bundle.min.js"></script>
 	<script src="/js/feather.min.js"></script>
 	<script src="/js/main.js"></script>
-	<script src="/js/controls.js"></script>
+	<script src="/js/controls.js?<?=time()?>"></script>
 	<?= $scripts ?? '' ?>
 </body>
 

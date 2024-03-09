@@ -10,37 +10,43 @@ let currentTrack = {};
 const progressColour = "orangered";
 const pauseColour = "darkgrey";
 
+const playlistPlay = async (event) => {
+	const uuid = event.currentTarget.dataset.uuid;
+	await playTrack(uuid);
+}
+
+const playlistIndex = async (event) => {
+	const index = event.currentTarget.dataset.index;
+	const payload = {
+		"index": index
+	}
+	postData("/playlist/index", payload);
+}
+
 const playTrack = async (uuid) => {
 	// Play track
 	if (currentTrack && currentTrack.uuid === uuid) {
 		playPause();
 	} else {
 		let track = await getTrack(uuid);
-		setTrack(track);
+		await setTrack(track);
 		playAudio();
 	}
 }
 
 const postData = async (endpoint, data) => {
-    var formdata = new FormData();
-    if (data) {
-        for (const property in data) {
-            formdata.append(property, data[property]);
-        }
-    }
-    const response = await fetch(endpoint, {
-        method: 'POST',
-        body: formdata,
-        redirect: 'follow'
-    });
-    return response.json();
-}
-
-const playlistIndex = async (index) => {
-	const payload = {
-		"index": index
+	var formdata = new FormData();
+	if (data) {
+		for (const property in data) {
+			formdata.append(property, data[property]);
+		}
 	}
-	postData("/playlist/index", payload);
+	const response = await fetch(endpoint, {
+		method: 'POST',
+		body: formdata,
+		redirect: 'follow'
+	});
+	return response.json();
 }
 
 const getTrack = async (uuid) => {
@@ -53,8 +59,8 @@ const getTrack = async (uuid) => {
 	return false;
 }
 
-const setTrack = (track) => {
-	console.log("Now playing", track);
+const setTrack = async (track) => {
+	console.log("Now playing", track.uuid);
 	// Assign current track
 	currentTrack = track;
 	// Set the audio src
@@ -116,13 +122,17 @@ const seekBackward = () => {
 const nextTrack = async () => {
 	const response = await fetch("/playlist/next-track");
 	uuid = await response.json();
-	if (uuid && uuid !== 'end') playTrack(uuid);
+	if (uuid && uuid !== 'end') {
+		await playTrack(uuid);
+	}
 }
 
 const prevTrack = async () => {
 	const response = await fetch("/playlist/prev-track");
 	uuid = await response.json();
-	if (uuid && uuid !== 'end') playTrack(uuid);
+	if (uuid && uuid !== 'end') {
+		await playTrack(uuid);
+	}
 }
 
 const updateMetadata = () => {

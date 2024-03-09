@@ -17,9 +17,9 @@ class TrackController extends Controller
 			return [
 				"uuid" => $track->uuid,
 				"src" => "/track/stream/$uuid",
-				"title" => $track->meta()->title,
-				"artist" => $track->meta()->artist,
-				"album" => $track->meta()->album,
+				"title" => html_entity_decode($track->meta()->title),
+				"artist" => html_entity_decode($track->meta()->artist),
+				"album" => html_entity_decode($track->meta()->album),
 				"cover" => "/img/no-album.png",
 			];
 		}
