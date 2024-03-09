@@ -10,13 +10,17 @@ let currentTrack = {};
 const progressColour = "orangered";
 const pauseColour = "darkgrey";
 
-const playlistPlay = async (event) => {
+const trackRowPlay = async (event) => {
 	const uuid = event.currentTarget.dataset.uuid;
+	const playlist_index = event.currentTarget.dataset.playlist_index;
+	if (playlist_index !== '') {
+		await setPlaylistIndex(playlist_index);
+	}
+
 	await playTrack(uuid);
 }
 
-const playlistIndex = async (event) => {
-	const index = event.currentTarget.dataset.index;
+const setPlaylistIndex = async (index) => {
 	const payload = {
 		"index": index
 	}

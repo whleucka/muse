@@ -1,7 +1,7 @@
 <div class="track-row d-flex align-items-center w-100 py-2 px-1 truncate"
 	data-uuid="<?=$track->uuid?>"
-	data-index="<?=$index?>"
-	onClick="playlistIndex(event); playlistPlay(event);">
+	data-playlist_index="<?=$index?>"
+	onClick="trackRowPlay(event);">
 	<img class="cover me-2"
 		src="<?=$track->cover?>"
 		title="<?=$track->album?>"
