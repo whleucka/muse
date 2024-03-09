@@ -10,13 +10,15 @@ class BasicController extends Controller
     #[Get("/", "basic.index")]
     public function index(): string
     {
-        return $this->render("basic/index.php", [
+        $content =  $this->render("basic/index.php", [
             "message" => "Hello, world " . time(),
         ]);
+
+        return $this->render("layout/base.php", ["main" => $content]);
     }
 
     #[Get("/test", "basic.answer", ["api"])]
-    public function answer(): string
+    public function answer(): mixed
     {
         return 42;
     }
