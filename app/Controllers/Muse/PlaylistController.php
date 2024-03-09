@@ -4,11 +4,12 @@ namespace App\Controllers\Muse;
 
 use App\Models\Track;
 use Nebula\Framework\Controller\Controller;
-use StellarRouter\{Get, Post};
+use StellarRouter\{Get, Group, Post};
 
+#[Group(prefix: "/playlist")]
 class PlaylistController extends Controller
 {
-	#[Get("/playlist", "playlist.index", ["HX-Replace-Url=/playlist"])]
+	#[Get("/", "playlist.index", ["HX-Replace-Url=/playlist"])]
 	public function index(): string
 	{
 		$playlist = session()->get("playlist_tracks");
@@ -18,30 +19,32 @@ class PlaylistController extends Controller
 		return $this->render("layout/base.php", ["main" => $content]);
 	}
 
-	#[Get("/playlist/set", "playlist.set", ['HX-Location={"path": "/playlist", "target": "#main", "select": "#main", "swap": "outerHTML"}'])]
+	// NOTE: formatting is important for hx-location header
+	#[Get("/set", "playlist.set", ['HX-Location={"path": "/playlist", "target": "#main", "select": "#main", "swap": "outerHTML"}'])]
 	public function playlist(): void
 	{
 		$term = session()->get("term");
 		if ($term) {
 			$tracks = Track::search($term);
-			// This might have a size limitation
-			session()->set("playlist_tracks", $tracks);
+			if ($tracks) {
+				// This might have a size limitation
+				session()->set("playlist_tracks", $tracks);
+			}
 		}
 	}
 
-	#[Post("/playlist/index", "playlist.set-index", ["api"])]
+	#[Post("/index", "playlist.set-index", ["api"])]
 	public function setIndex(): void
 	{
 		$data = $this->validateRequest([
 			"index" => ["required"],
 		]);
-		error_log("DATA: " . $data["index"]);
 		if ($data) {
 			session()->set("playlist_index", $data["index"]);
 		}
 	}
 
-	#[Get("/playlist/load", "playlist.load")]
+	#[Get("/load", "playlist.load")]
 	public function load(): string
 	{
 		$playlist = session()->get("playlist_tracks");
@@ -51,7 +54,7 @@ class PlaylistController extends Controller
 	}
 
 
-	#[Get("/playlist/clear", "playlist.clear")]
+	#[Get("/clear", "playlist.clear")]
 	public function clear(): string
 	{
 		$playlist = session()->delete("playlist_tracks");
@@ -63,7 +66,7 @@ class PlaylistController extends Controller
 		return $this->render("layout/base.php", ["main" => $content]);
 	}
 
-	#[Get("/playlist/next-track", "playlist.next-track")]
+	#[Get("/next-track", "playlist.next-track")]
 	public function nextTrack(): ?string
 	{
 		$playlist = session()->get("playlist_tracks");
@@ -77,16 +80,15 @@ class PlaylistController extends Controller
 				return @json($track->uuid);
 			}
 		}
-
 		return null;
 	}
 
-	#[Get("/playlist/prev-track", "playlist.prev-track")]
+	#[Get("/prev-track", "playlist.prev-track")]
 	public function previousTrack(): ?string
 	{
 		$playlist = session()->get("playlist_tracks");
 		$playlist_index = session()->get("playlist_index");
-		if ($playist) {
+		if ($playlist) {
 			$playlist_count = count($playlist);
 			$prev_index = ($playlist_index - 1 + $playlist_count)  % $playlist_count;
 			if (isset($playlist[$prev_index])) {
@@ -95,7 +97,6 @@ class PlaylistController extends Controller
 				return @json($track->uuid);
 			}
 		}
-
 		return null;
 	}
 }

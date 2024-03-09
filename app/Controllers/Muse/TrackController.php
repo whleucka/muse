@@ -4,11 +4,12 @@ namespace App\Controllers\Muse;
 
 use App\Models\Track;
 use Nebula\Framework\Controller\Controller;
-use StellarRouter\Get;
+use StellarRouter\{Get, Group};
 
+#[Group(prefix: "/track")]
 class TrackController extends Controller
 {
-	#[Get("/track/{uuid}", "track.uuid", ["api"])]
+	#[Get("/{uuid}", "track.uuid", ["api"])]
 	public function track(string $uuid): ?array
 	{
 		$track = Track::findByAttribute("uuid", $uuid);
@@ -24,7 +25,7 @@ class TrackController extends Controller
 		}
 	}
 
-	#[Get("/track/stream/{uuid}", "track.stream")]
+	#[Get("/stream/{uuid}", "track.stream")]
 	public function stream(string $uuid): void
 	{
 		$track = Track::findByAttribute("uuid", $uuid);
@@ -39,7 +40,7 @@ class TrackController extends Controller
 		}
 	}
 
-	#[Get("/track/play/{uuid}", "track.play")]
+	#[Get("/play/{uuid}", "track.play")]
 	public function play(string $uuid): string
 	{
 		return template("muse/player/audio.php", [
