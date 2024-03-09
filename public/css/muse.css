@@ -69,8 +69,13 @@ main {
 	fill: #444;
 }
 
+#player .progress {
+	border: 1px solid #ddd;
+	background-color: #eee;
+}
+
 #player #preload-progress {
-	background: #DDD;
+	background: #ddd;
 }
 
 .truncate {

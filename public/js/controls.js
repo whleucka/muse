@@ -7,8 +7,8 @@ const defaultSkipTime = 10;
 let playlist = [];
 let index = 0;
 let currentTrack = {};
-const progressColour = "orangered";
-const pauseColour = "darkgrey";
+let progressColour = "royalblue";
+let pauseColour = "#f9f9f9";
 
 const trackRowPlay = async (event) => {
 	const uuid = event.currentTarget.dataset.uuid;

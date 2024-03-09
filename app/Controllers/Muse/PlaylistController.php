@@ -12,8 +12,6 @@ class PlaylistController extends Controller
 	#[Get("/", "playlist.index", ["HX-Replace-Url=/playlist"])]
 	public function index(): string
 	{
-		$playlist = session()->get("playlist_tracks");
-
 		$content = template("muse/playlist/index.php");
 
 		return $this->render("layout/base.php", ["main" => $content]);
@@ -29,6 +27,8 @@ class PlaylistController extends Controller
 			if ($tracks) {
 				// This might have a size limitation
 				session()->set("playlist_tracks", $tracks);
+				// Forget the search term
+				session()->delete("term");
 			}
 		}
 	}
