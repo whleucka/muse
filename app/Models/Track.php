@@ -43,7 +43,7 @@ class Track extends Model
 			artist LIKE ? OR
 			album LIKE ? OR
 			genre LIKE ?
-			ORDER BY artist,album,track_number", ...array_fill(0, 4, "$term%"));
+			ORDER BY artist,album,track_number", ...array_fill(0, 4, "%".htmlspecialchars($term)."%"));
 	}
 
 }
