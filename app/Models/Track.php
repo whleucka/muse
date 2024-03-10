@@ -34,7 +34,7 @@ class Track extends Model
         return $tags;
     }
 
-	public static function search(string $term): array|bool
+	public static function search(string $term): ?array
 	{
 		return db()->fetchAll("SELECT tracks.uuid, track_meta.*, '/img/no-album.png' as cover
 			FROM tracks
