@@ -1,4 +1,4 @@
-<div class="track-row d-flex align-items-center w-100 py-2 px-1 truncate"
+<div class="track-row d-flex align-items-center w-100 px-1 truncate mt-2"
 	data-uuid="<?=$track->uuid?>"
 	<?php if ($index): ?>data-playlist_index="<?=$index?>"<?php endif ?>
 	onClick="trackRowPlay(event);">

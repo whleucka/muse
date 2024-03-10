@@ -45,13 +45,14 @@ main {
 }
 
 .track-row {
+	user-select: none;
 	cursor: pointer;
 }
 
 .track-row .cover {
 	border-radius: 4px;
-	height: 24px;
-	width: 24px;
+	height: 32px;
+	width: 32px;
 }
 
 #player {
