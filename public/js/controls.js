@@ -7,8 +7,6 @@ const defaultSkipTime = 10;
 let playlist = [];
 let index = 0;
 let currentTrack = {};
-let progressColour = "orangered";
-let pauseColour = "#888";
 
 const trackRowPlay = async (event) => {
 	const uuid = event.currentTarget.id;
@@ -93,7 +91,7 @@ const playAudio = () => {
 	// Play audio
 	audio.play()
 		.then(_ => {
-			playerProgress.style.background = progressColour;
+			playerProgress.classList.remove("disabled");
 			updatePlayPause();
 			updateMetadata();
 		})
@@ -102,7 +100,7 @@ const playAudio = () => {
 
 const pauseAudio = () => {
 	// Pause audio
-	playerProgress.style.background = pauseColour;
+	playerProgress.classList.add("disabled");
 	audio.pause();
 	updatePlayPause();
 }

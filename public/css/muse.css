@@ -72,9 +72,17 @@ main {
 }
 
 #top-progress .progress {
-	border: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
     background-color: #eee;
     height: 7px;
+}
+
+#top-progress #player-progress {
+	background: orangered;
+}
+
+#top-progress #player-progress.disabled {
+	background: #aaa;
 }
 
 #top-progress #preload-progress {

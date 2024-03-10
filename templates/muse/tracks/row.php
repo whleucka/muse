@@ -10,7 +10,7 @@
 		loading="lazy" />
 	<span><?=$track->artist?></span>
 	<span class="mx-1">—</span>
-	<span class="truncate"><?=$track->title?></span>
+	<span class="truncate pe-2"><?=$track->title?></span>
 	<span class="flex-grow-1 text-end"><?=$track->playtime_string?></span>
 </div>
 
