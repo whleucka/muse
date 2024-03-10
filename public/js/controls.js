@@ -163,7 +163,12 @@ const updateMetadata = () => {
 	});
 
 	if (document.getElementById(currentTrack.uuid)) {
+		const rows = document.querySelectorAll(".track-row");
+		rows.forEach((el) => {
+			el.classList.remove("active");
+		});
 		document.getElementById(currentTrack.uuid).focus();
+		document.getElementById(currentTrack.uuid).classList.add("active");
 	}
 
 	updatePositionState();
