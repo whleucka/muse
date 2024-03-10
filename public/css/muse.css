@@ -72,7 +72,11 @@ main {
 
 #player .progress {
 	border: 1px solid #ddd;
-	background-color: #eee;
+    background-color: #eee;
+    position: absolute;
+    top: 54px;
+    left: 0;
+    height: 7px;
 }
 
 #player #preload-progress {

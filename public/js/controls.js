@@ -7,11 +7,11 @@ const defaultSkipTime = 10;
 let playlist = [];
 let index = 0;
 let currentTrack = {};
-let progressColour = "royalblue";
-let pauseColour = "#f9f9f9";
+let progressColour = "orangered";
+let pauseColour = "#888";
 
 const trackRowPlay = async (event) => {
-	const uuid = event.currentTarget.dataset.uuid;
+	const uuid = event.currentTarget.id;
 	const playlist_index = event.currentTarget.dataset.playlist_index;
 	if (playlist_index !== '') {
 		await setPlaylistIndex(playlist_index);
@@ -124,19 +124,33 @@ const seekBackward = () => {
 }
 
 const nextTrack = async () => {
+	const nextTrackButton = document.querySelector(".btn.next");
+	nextTrackButton.disabled = true;
 	const response = await fetch("/playlist/next-track");
 	uuid = await response.json();
 	if (uuid && uuid !== 'end') {
 		await playTrack(uuid);
+		nextTrackButton.disabled = false;
 	}
 }
 
 const prevTrack = async () => {
+	const prevTrackButton = document.querySelector(".btn.prev");
+	prevTrackButton.disabled = true;
 	const response = await fetch("/playlist/prev-track");
 	uuid = await response.json();
 	if (uuid && uuid !== 'end') {
 		await playTrack(uuid);
+		prevTrackButton.disabled = false;
 	}
+}
+
+const shuffle = () => {
+	console.log("wip");
+}
+
+const repeat = () => {
+	console.log("wip");
 }
 
 const updateMetadata = () => {
@@ -149,6 +163,10 @@ const updateMetadata = () => {
 			{ src: currentTrack.cover, sizes: '256x256', type: 'image/png' },
 		]
 	});
+
+	if (document.getElementById(currentTrack.uuid)) {
+		document.getElementById(currentTrack.uuid).focus();
+	}
 
 	updatePositionState();
 }

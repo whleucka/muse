@@ -57,8 +57,6 @@ class PlaylistController extends Controller
 	#[Get("/clear", "playlist.clear")]
 	public function clear(): string
 	{
-		$playlist = session()->delete("playlist_tracks");
-
 		$content = template("muse/playlist/index.php", [
 			"playlist" => []
 		]);
@@ -73,7 +71,7 @@ class PlaylistController extends Controller
 		$playlist_index = session()->get("playlist_index");
 		if ($playlist) {
 			$playlist_count = count($playlist);
-			$next_index = ($playlist_index + 1) % $playlist_count;
+			$next_index = (intval($playlist_index) + 1) % $playlist_count;
 			if (isset($playlist[$next_index])) {
 				session()->set("playlist_index", $next_index);
 				$track = $playlist[$next_index] ?? null;
@@ -90,7 +88,7 @@ class PlaylistController extends Controller
 		$playlist_index = session()->get("playlist_index");
 		if ($playlist) {
 			$playlist_count = count($playlist);
-			$prev_index = ($playlist_index - 1 + $playlist_count)  % $playlist_count;
+			$prev_index = (intval($playlist_index) - 1 + $playlist_count)  % $playlist_count;
 			if (isset($playlist[$prev_index])) {
 				session()->set("playlist_index", $prev_index);
 				$track = $playlist[$prev_index] ?? null;

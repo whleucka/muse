@@ -1,5 +1,6 @@
-<div class="track-row d-flex align-items-center w-100 px-1 truncate mt-2"
-	data-uuid="<?=$track->uuid?>"
+<div id="<?=$track->uuid?>"
+	tabindex="-1"
+	class="track-row d-flex align-items-center w-100 px-1 truncate mt-2"
 	<?php if ($index): ?>data-playlist_index="<?=$index?>"<?php endif ?>
 	onClick="trackRowPlay(event);">
 	<img class="cover me-2"
