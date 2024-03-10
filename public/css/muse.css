@@ -47,12 +47,13 @@ main {
 .track-row {
 	user-select: none;
 	cursor: pointer;
+	font-size: 0.9rem;
 }
 
 .track-row .cover {
 	border-radius: 4px;
-	height: 32px;
-	width: 32px;
+	height: 28px;
+	width: 28px;
 }
 
 #player {
