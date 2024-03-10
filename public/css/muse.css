@@ -70,16 +70,13 @@ main {
 	fill: #444;
 }
 
-#player .progress {
+#top-progress .progress {
 	border: 1px solid #ddd;
     background-color: #eee;
-    position: absolute;
-    top: 54px;
-    left: 0;
     height: 7px;
 }
 
-#player #preload-progress {
+#top-progress #preload-progress {
 	background: #ddd;
 }
 
