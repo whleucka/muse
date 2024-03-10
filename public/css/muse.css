@@ -7,12 +7,6 @@ main {
 	min-width: 375px;
 }
 
-*:focus {
-	border:0;
-	outline:none;
-	box-shadow:none;
-}
-
 #main {
 	overflow: auto;
 }
@@ -20,6 +14,8 @@ main {
 #main > section {
 	padding: 10px;
 }
+
+button:focus { outline: none !important; box-shadow: none !important; }
 
 #main h1,
 #main h2,

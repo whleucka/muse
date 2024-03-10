@@ -12,7 +12,7 @@
 <?php endif ?>
 
 <?php foreach ($tracks as $i => $track) : ?>
-	<?=template("muse/tracks/row.php", ["track" => $track, "index" => $i])?>
+	<?=template("muse/tracks/row.php", ["track" => $track, "index" => $i, "current_index" => $current_index])?>
 <?php endforeach ?>
 
 <?php if (!$tracks): ?>

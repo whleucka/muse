@@ -1,6 +1,6 @@
 <div id="<?=$track->uuid?>"
 	tabindex="-1"
-	class="track-row d-flex align-items-center w-100 px-1 truncate mt-2"
+	class="track-row d-flex align-items-center w-100 px-1 truncate mt-2 <?=(isset($current_index) && $current_index == $index ? "active" : '')?>"
 	<?php if ($index): ?>data-playlist_index="<?=$index?>"<?php endif ?>
 	onClick="trackRowPlay(event);">
 	<img class="cover me-2"

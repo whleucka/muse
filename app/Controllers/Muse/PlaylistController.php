@@ -27,6 +27,9 @@ class PlaylistController extends Controller
 			if ($tracks) {
 				// This might have a size limitation
 				session()->set("playlist_tracks", $tracks);
+				// Alwyays start on index 0,
+				// the first track in the playlist
+				session()->set("playlist_index", 0);
 				// Forget the search term
 				session()->delete("term");
 			}
@@ -48,11 +51,9 @@ class PlaylistController extends Controller
 	public function load(): string
 	{
 		$playlist = session()->get("playlist_tracks");
-		// Alwyays start on index 0,
-		// the first track in the playlist
-		session()->set("playlist_index", 0);
+		$playlist_index = session()->get("playlist_index");
 
-		return template("muse/playlist/playlist.php", ["tracks" => $playlist ?? []]);
+		return template("muse/playlist/playlist.php", ["tracks" => $playlist ?? [], "current_index" => $playlist_index]);
 	}
 
 
