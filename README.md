@@ -4,7 +4,7 @@ Muse is a web application inspired by Spotify, built with htmx and PHP for a sea
 
 Please note: this project is a work in progress 👷
 
-![image](https://github.com/whleucka/muse/assets/71740767/10d774e7-caf7-4973-a4f0-3d5c79053c29)
+![image](https://github.com/whleucka/muse/assets/71740767/5385a873-170d-4629-a679-84b8fda13ec5)
 
 ### Features
 - Scan and Manage Your Music: Use the included muse cli to scan your personal music collection, adding it to your centralized library.
