@@ -7,6 +7,12 @@ main {
 	min-width: 375px;
 }
 
+*:focus {
+	border:0;
+	outline:none;
+	box-shadow:none;
+}
+
 #main {
 	overflow: auto;
 }
@@ -29,7 +35,13 @@ main {
 }
 
 #navbar {
+	margin: 0;
+	padding: 5px;
 	border-bottom: 1px solid #ddd;
+}
+
+#navbar #top-nav {
+	font-size: 0.9rem;
 }
 
 #navbar .navbar-brand {
@@ -78,7 +90,7 @@ main {
 #top-progress .progress {
 	border-bottom: 1px solid #ddd;
     background-color: #eee;
-    height: 7px;
+    height: 5px;
 }
 
 #top-progress #player-progress {

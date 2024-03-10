@@ -128,8 +128,8 @@ const nextTrack = async () => {
 	uuid = await response.json();
 	if (uuid && uuid !== 'end') {
 		await playTrack(uuid);
-		nextTrackButton.disabled = false;
 	}
+	nextTrackButton.disabled = false;
 }
 
 const prevTrack = async () => {
@@ -139,8 +139,8 @@ const prevTrack = async () => {
 	uuid = await response.json();
 	if (uuid && uuid !== 'end') {
 		await playTrack(uuid);
-		prevTrackButton.disabled = false;
 	}
+	prevTrackButton.disabled = false;
 }
 
 const shuffle = () => {

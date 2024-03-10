@@ -59,7 +59,7 @@ class PlaylistController extends Controller
 	#[Get("/clear", "playlist.clear")]
 	public function clear(): string
 	{
-		session()->delete("playlist");
+		session()->delete("playlist_tracks");
 		$content = template("muse/playlist/index.php");
 
 		return $this->render("layout/base.php", ["main" => $content]);
