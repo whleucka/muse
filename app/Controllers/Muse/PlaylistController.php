@@ -48,6 +48,8 @@ class PlaylistController extends Controller
 	public function load(): string
 	{
 		$playlist = session()->get("playlist_tracks");
+		// Alwyays start on index 0,
+		// the first track in the playlist
 		session()->set("playlist_index", 0);
 
 		return template("muse/playlist/playlist.php", ["tracks" => $playlist ?? []]);
@@ -57,11 +59,22 @@ class PlaylistController extends Controller
 	#[Get("/clear", "playlist.clear")]
 	public function clear(): string
 	{
-		$content = template("muse/playlist/index.php", [
-			"playlist" => []
-		]);
+		session()->delete("playlist");
+		$content = template("muse/playlist/index.php");
 
 		return $this->render("layout/base.php", ["main" => $content]);
+	}
+
+	private function nextIndex(array $playlist, int $current_index): int
+	{
+		$playlist_count = count($playlist);
+		return (intval($current_index) + 1) % $playlist_count;
+	}
+
+	private function prevIndex(array $playlist, int $current_index): int
+	{
+		$playlist_count = count($playlist);
+		return intval($current_index - 1 + $playlist_count) % $playlist_count;
 	}
 
 	#[Get("/next-track", "playlist.next-track")]
@@ -70,8 +83,7 @@ class PlaylistController extends Controller
 		$playlist = session()->get("playlist_tracks");
 		$playlist_index = session()->get("playlist_index");
 		if ($playlist && count($playlist) > 0) {
-			$playlist_count = count($playlist);
-			$next_index = (intval($playlist_index) + 1) % $playlist_count;
+			$next_index = $this->nextIndex($playlist, $playlist_index);
 			if (isset($playlist[$next_index])) {
 				session()->set("playlist_index", $next_index);
 				$track = $playlist[$next_index] ?? null;
@@ -87,8 +99,7 @@ class PlaylistController extends Controller
 		$playlist = session()->get("playlist_tracks");
 		$playlist_index = session()->get("playlist_index");
 		if ($playlist && count($playlist) > 0) {
-			$playlist_count = count($playlist);
-			$prev_index = (intval($playlist_index) - 1 + $playlist_count)  % $playlist_count;
+			$prev_index = $this->prevIndex($playlist, $playlist_index);
 			if (isset($playlist[$prev_index])) {
 				session()->set("playlist_index", $prev_index);
 				$track = $playlist[$prev_index] ?? null;
