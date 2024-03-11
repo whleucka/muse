@@ -33,8 +33,10 @@ const playTrack = async (uuid) => {
 		playPause();
 	} else {
 		let track = await getTrack(uuid);
-		await setTrack(track);
-		playAudio();
+		if (track) {
+			await setTrack(track);
+			playAudio();
+		}
 	}
 }
 
@@ -71,6 +73,7 @@ const load = async () => {
 }
 
 const getTrack = async (uuid) => {
+	if (uuid === null) return false;
 	// Get track info from API
 	const response = await fetch(`/track/${uuid}`);
 	data = await response.json();
@@ -81,6 +84,7 @@ const getTrack = async (uuid) => {
 }
 
 const getPlaylistTrack = async (id) => {
+	if (id === null) false;
 	const response = await fetch(`/playlist/${id}`);
 	data = await response.json();
 	if (data.success) {
@@ -155,9 +159,12 @@ const nextTrack = async () => {
 	const nextTrackButton = document.querySelector(".btn.next");
 	nextTrackButton.disabled = true;
 	const response = await fetch("/player/next-track");
-	uuid = await response.json();
-	if (uuid && uuid !== 'end') {
-		await playTrack(uuid);
+	res = await response.json();
+	if (res.success) {
+		const uuid = res.data;
+		if (uuid && uuid !== 'end') {
+			await playTrack(uuid);
+		}
 	}
 	nextTrackButton.disabled = false;
 }
@@ -166,45 +173,57 @@ const prevTrack = async () => {
 	const prevTrackButton = document.querySelector(".btn.prev");
 	prevTrackButton.disabled = true;
 	const response = await fetch("/player/prev-track");
-	uuid = await response.json();
-	if (uuid && uuid !== 'end') {
-		await playTrack(uuid);
+	res = await response.json();
+	if (res.success) {
+		const uuid = res.data;
+		if (uuid && uuid !== 'end') {
+			await playTrack(uuid);
+		}
 	}
 	prevTrackButton.disabled = false;
+}
+
+const getShuffle = async () => {
+	const shuffleBtn = document.querySelector(".btn.shuffle");
+	const response = await fetch("/player/shuffle");
+	res = await response.json();
+	if (res.success) {
+		shuffleOn = res.data;
+		if (shuffleOn === 1) {
+			shuffleBtn.classList.add("active");
+		}  else {
+			shuffleBtn.classList.remove("active");
+		}
+	}
 }
 
 const shuffle = async () => {
 	const shuffleBtn = document.querySelector(".btn.shuffle");
 	shuffleBtn.disabled = true;
 	const response = await fetch("/player/shuffle/toggle");
-	shuffleOn = await response.json();
+	res = await response.json();
+	if (res.success) {
+		shuffleOn = res.data;
+		if (shuffleOn === 1) {
+			shuffleBtn.classList.add("active");
+		}  else {
+			shuffleBtn.classList.remove("active");
+		}
+	}
 	shuffleBtn.disabled = false;
-	if (shuffleOn === 1) {
-		shuffleBtn.classList.add("active");
-	}  else {
-		shuffleBtn.classList.remove("active");
-	}
-}
-
-const getShuffle = async () => {
-	const shuffleBtn = document.querySelector(".btn.shuffle");
-	const response = await fetch("/player/shuffle");
-	shuffleOn = await response.json();
-	if (shuffleOn === 1) {
-		shuffleBtn.classList.add("active");
-	}  else {
-		shuffleBtn.classList.remove("active");
-	}
 }
 
 const getRepeat = async () => {
 	const repeatBtn = document.querySelector(".btn.repeat");
 	const response = await fetch("/player/repeat");
-	repeatOn = await response.json();
-	if (repeatOn === 1) {
-		repeatBtn.classList.add("active");
-	}  else {
-		repeatBtn.classList.remove("active");
+	res = await response.json();
+	if (res.success) {
+		repeatOn = res.data;
+		if (repeatOn === 1) {
+			repeatBtn.classList.add("active");
+		}  else {
+			repeatBtn.classList.remove("active");
+		}
 	}
 }
 
@@ -212,13 +231,16 @@ const repeat = async () => {
 	const repeatBtn = document.querySelector(".btn.repeat");
 	repeatBtn.disabled = true;
 	const response = await fetch("/player/repeat/toggle");
-	repeatOn = await response.json();
-	repeatBtn.disabled = false;
-	if (repeatOn === 1) {
-		repeatBtn.classList.add("active");
-	}  else {
-		repeatBtn.classList.remove("active");
+	res = await response.json();
+	if (res.success) {
+		repeatOn = res.data;
+		if (repeatOn === 1) {
+			repeatBtn.classList.add("active");
+		}  else {
+			repeatBtn.classList.remove("active");
+		}
 	}
+	repeatBtn.disabled = false;
 }
 
 const updateTrackRow = () => {

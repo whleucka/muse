@@ -38,39 +38,39 @@ class PlayerController extends Controller
 		return intval($current_index - 1 + $playlist_count) % $playlist_count;
 	}
 
-	#[Get("/shuffle", "player.shuffle")]
+	#[Get("/shuffle", "player.shuffle", ["api"])]
 	public function shuffle(): int
 	{
-		$shuffle = session()->get("shuffle");
+		$shuffle = session()->get("shuffle") === true;
 		return $shuffle ? 1 : 0;
 	}
 
-	#[Get("/repeat", "player.repeat")]
+	#[Get("/repeat", "player.repeat", ["api"])]
 	public function repeat(): int
 	{
-		$repeat = session()->get("repeat");
+		$repeat = session()->get("repeat") === true;
 		return $repeat ? 1 : 0;
 	}
 
-	#[Get("/shuffle/toggle", "player.shuffle-toggle")]
+	#[Get("/shuffle/toggle", "player.shuffle-toggle", ["api"])]
 	public function shuffleToggle(): int
 	{
 		if (!session()->has("shuffle")) session()->set("shuffle", true);
-		$shuffle = session()->get("shuffle");
+		$shuffle = session()->get("shuffle") === true;
 		session()->set("shuffle", !$shuffle);
 		return !$shuffle ? 1 : 0;
 	}
 
-	#[Get("/repeat/toggle", "player.repeat-toggle")]
+	#[Get("/repeat/toggle", "player.repeat-toggle", ["api"])]
 	public function repeatToggle(): int
 	{
 		if (!session()->has("repeat")) session()->set("repeat", true);
-		$shuffle = session()->get("repeat");
+		$shuffle = session()->get("repeat") === true;
 		session()->set("repeat", !$shuffle);
 		return !$shuffle ? 1 : 0;
 	}
 
-	#[Get("/next-track", "player.next-track")]
+	#[Get("/next-track", "player.next-track", ["api"])]
 	public function nextTrack(): ?string
 	{
 		$playlist = session()->get("playlist_tracks");
@@ -80,13 +80,13 @@ class PlayerController extends Controller
 			if (isset($playlist[$next_index])) {
 				session()->set("playlist_index", $next_index);
 				$track = $playlist[$next_index] ?? null;
-				return @json($track->uuid);
+				return $track->uuid;
 			}
 		}
-		return json(false);
+		return null;
 	}
 
-	#[Get("/prev-track", "player.prev-track")]
+	#[Get("/prev-track", "player.prev-track", ["api"])]
 	public function previousTrack(): ?string
 	{
 		$playlist = session()->get("playlist_tracks");
@@ -96,9 +96,9 @@ class PlayerController extends Controller
 			if (isset($playlist[$prev_index])) {
 				session()->set("playlist_index", $prev_index);
 				$track = $playlist[$prev_index] ?? null;
-				return @json($track->uuid);
+				return $track->uuid;
 			}
 		}
-		return json(false);
+		return null;
 	}
 }
