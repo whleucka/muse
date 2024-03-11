@@ -41,14 +41,28 @@ class PlayerController extends Controller
 	#[Get("/shuffle", "player.shuffle")]
 	public function shuffle(): int
 	{
+		$shuffle = session()->get("shuffle");
+		return $shuffle ? 1 : 0;
+	}
+
+	#[Get("/repeat", "player.repeat")]
+	public function repeat(): int
+	{
+		$repeat = session()->get("repeat");
+		return $repeat ? 1 : 0;
+	}
+
+	#[Get("/shuffle/toggle", "player.shuffle-toggle")]
+	public function shuffleToggle(): int
+	{
 		if (!session()->has("shuffle")) session()->set("shuffle", true);
 		$shuffle = session()->get("shuffle");
 		session()->set("shuffle", !$shuffle);
 		return !$shuffle ? 1 : 0;
 	}
 
-	#[Get("/repeat", "player.repeat")]
-	public function repeat(): int
+	#[Get("/repeat/toggle", "player.repeat-toggle")]
+	public function repeatToggle(): int
 	{
 		if (!session()->has("repeat")) session()->set("repeat", true);
 		$shuffle = session()->get("repeat");

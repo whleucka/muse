@@ -53,7 +53,7 @@ const postData = async (endpoint, data) => {
 	return response.json();
 }
 
-const load = async () => {
+const playCurrentPlaylistTrack = async () => {
 	const response = await fetch("/playlist/uuid");
 	res = await response.json();
 	if (res.success) {
@@ -62,6 +62,12 @@ const load = async () => {
 			playTrack(uuid);
 		}
 	}
+}
+
+const load = async () => {
+	await playCurrentPlaylistTrack();
+	await getShuffle();
+	await getRepeat();
 }
 
 const getTrack = async (uuid) => {
@@ -169,6 +175,19 @@ const prevTrack = async () => {
 
 const shuffle = async () => {
 	const shuffleBtn = document.querySelector(".btn.shuffle");
+	shuffleBtn.disabled = true;
+	const response = await fetch("/player/shuffle/toggle");
+	shuffleOn = await response.json();
+	shuffleBtn.disabled = false;
+	if (shuffleOn === 1) {
+		shuffleBtn.classList.add("active");
+	}  else {
+		shuffleBtn.classList.remove("active");
+	}
+}
+
+const getShuffle = async () => {
+	const shuffleBtn = document.querySelector(".btn.shuffle");
 	const response = await fetch("/player/shuffle");
 	shuffleOn = await response.json();
 	if (shuffleOn === 1) {
@@ -178,10 +197,23 @@ const shuffle = async () => {
 	}
 }
 
-const repeat = async () => {
+const getRepeat = async () => {
 	const repeatBtn = document.querySelector(".btn.repeat");
 	const response = await fetch("/player/repeat");
 	repeatOn = await response.json();
+	if (repeatOn === 1) {
+		repeatBtn.classList.add("active");
+	}  else {
+		repeatBtn.classList.remove("active");
+	}
+}
+
+const repeat = async () => {
+	const repeatBtn = document.querySelector(".btn.repeat");
+	repeatBtn.disabled = true;
+	const response = await fetch("/player/repeat/toggle");
+	repeatOn = await response.json();
+	repeatBtn.disabled = false;
 	if (repeatOn === 1) {
 		repeatBtn.classList.add("active");
 	}  else {
