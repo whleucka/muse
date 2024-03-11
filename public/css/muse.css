@@ -85,6 +85,11 @@ button:focus { outline: none !important; box-shadow: none !important; }
 	fill: #444;
 }
 
+#player #controls .btn.active svg {
+	stroke: #00a30e;
+	fill: #00a30e;
+}
+
 #top-progress .progress {
 	border-bottom: 1px solid #ddd;
     background-color: #eee;

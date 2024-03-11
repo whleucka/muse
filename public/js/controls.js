@@ -7,6 +7,8 @@ const defaultSkipTime = 10;
 let playlist = [];
 let index = 0;
 let currentTrack = {};
+let shuffleOn = true;
+let repeatOn = true;
 
 const trackRowPlay = async (event) => {
 	const uuid = event.currentTarget.id;
@@ -146,7 +148,7 @@ const seekBackward = () => {
 const nextTrack = async () => {
 	const nextTrackButton = document.querySelector(".btn.next");
 	nextTrackButton.disabled = true;
-	const response = await fetch("/playlist/next-track");
+	const response = await fetch("/player/next-track");
 	uuid = await response.json();
 	if (uuid && uuid !== 'end') {
 		await playTrack(uuid);
@@ -157,7 +159,7 @@ const nextTrack = async () => {
 const prevTrack = async () => {
 	const prevTrackButton = document.querySelector(".btn.prev");
 	prevTrackButton.disabled = true;
-	const response = await fetch("/playlist/prev-track");
+	const response = await fetch("/player/prev-track");
 	uuid = await response.json();
 	if (uuid && uuid !== 'end') {
 		await playTrack(uuid);
@@ -165,12 +167,26 @@ const prevTrack = async () => {
 	prevTrackButton.disabled = false;
 }
 
-const shuffle = () => {
-	console.log("wip");
+const shuffle = async () => {
+	const shuffleBtn = document.querySelector(".btn.shuffle");
+	const response = await fetch("/player/shuffle");
+	shuffleOn = await response.json();
+	if (shuffleOn === 1) {
+		shuffleBtn.classList.add("active");
+	}  else {
+		shuffleBtn.classList.remove("active");
+	}
 }
 
-const repeat = () => {
-	console.log("wip");
+const repeat = async () => {
+	const repeatBtn = document.querySelector(".btn.repeat");
+	const response = await fetch("/player/repeat");
+	repeatOn = await response.json();
+	if (repeatOn === 1) {
+		repeatBtn.classList.add("active");
+	}  else {
+		repeatBtn.classList.remove("active");
+	}
 }
 
 const updateTrackRow = () => {
