@@ -1,7 +1,7 @@
 <?php if ($tracks): ?>
 <div class="table-responsive">
 	<div class="my-3 d-flex">
-		<button class="btn btn-sm btn-outline-success"
+		<button class="btn btn-sm btn-danger"
 			hx-get="/playlist/set"
 			hx-swap="none">Add to playlist</button>
 	</div>
