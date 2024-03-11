@@ -9,10 +9,15 @@
 			>Reset</button>
 	</div>
 </div>
+<script>
+(function() {
+	updateTrackRow();
+})();
+</script>
 <?php endif ?>
 
 <?php foreach ($tracks as $i => $track) : ?>
-	<?=template("muse/tracks/row.php", ["track" => $track, "index" => $i, "current_index" => $current_index])?>
+	<?=template("muse/tracks/row.php", ["track" => $track, "index" => $i])?>
 <?php endforeach ?>
 
 <?php if (!$tracks): ?>

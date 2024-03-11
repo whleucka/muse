@@ -51,9 +51,29 @@ const postData = async (endpoint, data) => {
 	return response.json();
 }
 
+const load = async () => {
+	const response = await fetch("/playlist/uuid");
+	res = await response.json();
+	if (res.success) {
+		const uuid = res.data;
+		if (uuid !== currentTrack?.uuid) {
+			playTrack(uuid);
+		}
+	}
+}
+
 const getTrack = async (uuid) => {
 	// Get track info from API
 	const response = await fetch(`/track/${uuid}`);
+	data = await response.json();
+	if (data.success) {
+		return data.data;
+	}
+	return false;
+}
+
+const getPlaylistTrack = async (id) => {
+	const response = await fetch(`/playlist/${id}`);
 	data = await response.json();
 	if (data.success) {
 		return data.data;
@@ -152,7 +172,7 @@ const repeat = () => {
 }
 
 const updateTrackRow = () => {
-	if (document.getElementById(currentTrack.uuid)) {
+	if (audio.src && document.getElementById(currentTrack.uuid)) {
 		const rows = document.querySelectorAll(".track-row");
 		rows.forEach((el) => {
 			el.classList.remove("active");
@@ -254,3 +274,5 @@ try {
 } catch (error) {
 	console.log('Warning! The "seekto" media session action is not supported.');
 }
+
+load();

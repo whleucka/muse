@@ -17,6 +17,7 @@ class PlaylistController extends Controller
 		return $this->render("layout/base.php", ["main" => $content]);
 	}
 
+	// We redirect to the playlist here
 	// NOTE: formatting is important for hx-location header
 	#[Get("/set", "playlist.set", ['HX-Location={"path": "/playlist", "target": "#main", "select": "#main", "swap": "outerHTML"}'])]
 	public function playlist(): void
@@ -47,13 +48,21 @@ class PlaylistController extends Controller
 		}
 	}
 
+	#[Get("/uuid", "playlist.uuid", ["api"])]
+	public function getUuid()
+	{
+		$playlist = session()->get("playlist_tracks");
+		$playlist_index = session()->get("playlist_index");
+		return $playlist[$playlist_index]->uuid;
+	}
+
 	#[Get("/load", "playlist.load")]
 	public function load(): string
 	{
 		$playlist = session()->get("playlist_tracks");
 		$playlist_index = session()->get("playlist_index");
 
-		return template("muse/playlist/playlist.php", ["tracks" => $playlist ?? [], "current_index" => $playlist_index]);
+		return template("muse/playlist/playlist.php", ["tracks" => $playlist ?? []]);
 	}
 
 
@@ -68,14 +77,28 @@ class PlaylistController extends Controller
 
 	private function nextIndex(array $playlist, int $current_index): int
 	{
+		$shuffle = session()->get("shuffle") === true;
+		$repeat = session()->get("repeat") === true; // wip
 		$playlist_count = count($playlist);
-		return (intval($current_index) + 1) % $playlist_count;
+
+		if ($shuffle) {
+			// wip
+		} else {
+			return (intval($current_index) + 1) % $playlist_count;
+		}
 	}
 
 	private function prevIndex(array $playlist, int $current_index): int
 	{
+		$shuffle = session()->get("shuffle") === true;
+		$repeat = session()->get("repeat") === true; // wip
 		$playlist_count = count($playlist);
-		return intval($current_index - 1 + $playlist_count) % $playlist_count;
+
+		if ($shuffle) {
+			// wip
+		} else {
+			return intval($current_index - 1 + $playlist_count) % $playlist_count;
+		}
 	}
 
 	#[Get("/next-track", "playlist.next-track")]
