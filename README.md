@@ -1,6 +1,6 @@
 ## Muse
 
-Muse is a web application inspired by Spotify, built with htmx and PHP for a seamless user experience.  The magic happens under the hood with Nebula, a custom framework designed specifically for crafting rich web applications using htmx.
+Muse is a web application inspired by Plex, built with htmx and PHP for a seamless user experience.  The magic happens under the hood with Nebula, a custom framework designed specifically for crafting rich web applications using htmx.
 
 Please note: this project is a work in progress 👷
 
