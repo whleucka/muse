@@ -51,6 +51,10 @@ class Controller
         $data["escape"] = fn(string $key) => $this->escapeRequest($key);
         $data["title"] = config("application.name");
 
+        // Muse specific
+        $data["shuffle"] = session()->has("shuffle") ? session()->get("shuffle") : true;
+        $data["repeat"] = session()->has("repeat") ? session()->get("repeat") : true;
+
         return template($path, $data, true);
     }
 

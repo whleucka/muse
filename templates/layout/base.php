@@ -20,7 +20,7 @@
 	<main class="d-flex flex-column w-100 vh-100">
 		<?=template("/layout/navbar.php")?>
 		<?=template("/muse/main/index.php", ["main" => $main])?>
-		<?=template("/muse/player/index.php")?>
+		<?=template("/muse/player/index.php", ["shuffle" => $shuffle, "repeat" => $repeat])?>
 	</main>
 	<script src="/js/htmx.min.js"></script>
 	<script src="/js/bootstrap.bundle.min.js"></script>

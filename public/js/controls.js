@@ -68,8 +68,6 @@ const playCurrentPlaylistTrack = async () => {
 
 const load = async () => {
 	await playCurrentPlaylistTrack();
-	await getShuffle();
-	await getRepeat();
 }
 
 const getTrack = async (uuid) => {
