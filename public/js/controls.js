@@ -82,11 +82,13 @@ const getPlaylistTrack = async (id) => {
 }
 
 const setTrack = async (track) => {
-	console.log("Now playing", track.uuid);
-	// Assign current track
-	currentTrack = track;
-	// Set the audio src
-	audio.src = track.src;
+	if (track?.uuid) {
+		console.log("Now playing", track.uuid);
+		// Assign current track
+		currentTrack = track;
+		// Set the audio src
+		audio.src = track.src;
+	}
 }
 
 const updatePlayPause = () => {

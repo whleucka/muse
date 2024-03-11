@@ -49,11 +49,11 @@ class PlaylistController extends Controller
 	}
 
 	#[Get("/uuid", "playlist.uuid", ["api"])]
-	public function getUuid()
+	public function getUuid(): ?string
 	{
 		$playlist = session()->get("playlist_tracks");
 		$playlist_index = session()->get("playlist_index");
-		return $playlist[$playlist_index]->uuid;
+		return isset($playlist[$playlist_index]) ? $playlist[$playlist_index]->uuid : null;
 	}
 
 	#[Get("/load", "playlist.load")]

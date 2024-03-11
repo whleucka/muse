@@ -23,6 +23,7 @@ class TrackController extends Controller
 				"cover" => "/img/no-album.png",
 			];
 		}
+		return null;
 	}
 
 	#[Get("/stream/{uuid}", "track.stream")]

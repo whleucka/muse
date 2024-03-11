@@ -17,7 +17,7 @@
 <?php endif ?>
 
 <?php foreach ($tracks as $i => $track) : ?>
-	<?=template("muse/tracks/row.php", ["track" => $track, "index" => $i])?>
+	<?=template("muse/playlist/row.php", ["track" => $track, "index" => $i])?>
 <?php endforeach ?>
 
 <?php if (!$tracks): ?>

@@ -9,7 +9,7 @@
 <?php endif ?>
 
 <?php foreach ($tracks as $i => $track) : ?>
-	<?=template("muse/tracks/row.php", ["track" => $track, "index" => false])?>
+	<?=template("muse/search/row.php", ["track" => $track])?>
 <?php endforeach ?>
 
 <?php if (!$tracks): ?>

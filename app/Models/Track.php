@@ -36,7 +36,7 @@ class Track extends Model
 
 	public static function search(string $term): ?array
 	{
-		return db()->fetchAll("SELECT tracks.uuid, track_meta.*, '/img/no-album.png' as cover
+		$result = db()->fetchAll("SELECT tracks.uuid, track_meta.*, '/img/no-album.png' as cover
 			FROM tracks
 			INNER JOIN track_meta ON track_meta.track_id = tracks.id
 			WHERE title LIKE ? OR
@@ -44,6 +44,7 @@ class Track extends Model
 			album LIKE ? OR
 			genre LIKE ?
 			ORDER BY artist,album,track_number", ...array_fill(0, 4, "%".htmlspecialchars($term)."%"));
+        return $result ?? [];
 	}
 
 }

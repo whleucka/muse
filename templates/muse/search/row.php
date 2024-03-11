@@ -1,7 +1,6 @@
 <div id="<?=$track->uuid?>"
 	tabindex="-1"
-	class="track-row d-flex align-items-center w-100 px-1 truncate mt-2 <?=(isset($current_index) && $current_index == $index ? "active" : '')?>"
-	<?php if ($index): ?>data-playlist_index="<?=$index?>"<?php endif ?>
+	class="track-row d-flex align-items-center w-100 px-1 truncate mt-2"
 	onClick="trackRowPlay(event);">
 	<img class="cover me-2"
 		src="<?=$track->cover?>"
@@ -13,4 +12,3 @@
 	<span class="truncate pe-2"><?=$track->title?></span>
 	<span class="flex-grow-1 text-end"><?=$track->playtime_string?></span>
 </div>
-
