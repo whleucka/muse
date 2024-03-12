@@ -11,7 +11,7 @@ Muse is a web application inspired by Plex, built with htmx and PHP for a seamle
 
 <strong>LNMPX</strong> Stack
 - OS: <ins>L</ins>inux
-- Webserver: <ins>N</ins>ginX
+- Web server: <ins>N</ins>ginX
 - DB: <ins>M</ins>ySQL
 - Backend: <ins>P</ins>HP (Nebula Framework)
 - Frontend: htm<ins>x</ins>
