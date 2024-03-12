@@ -71,7 +71,7 @@ class PlayerController extends Controller
 	}
 
 	#[Get("/next-track", "player.next-track", ["api"])]
-	public function nextTrack(): ?string
+	public function nextTrack(): ?array
 	{
 		$playlist = session()->get("playlist_tracks");
 		$playlist_index = session()->get("playlist_index");
@@ -80,14 +80,17 @@ class PlayerController extends Controller
 			if (isset($playlist[$next_index])) {
 				session()->set("playlist_index", $next_index);
 				$track = $playlist[$next_index] ?? null;
-				return $track->uuid;
+				return [
+					"track" => $track,
+					"index" => $playlist_index
+				];
 			}
 		}
 		return null;
 	}
 
 	#[Get("/prev-track", "player.prev-track", ["api"])]
-	public function previousTrack(): ?string
+	public function previousTrack(): ?array
 	{
 		$playlist = session()->get("playlist_tracks");
 		$playlist_index = session()->get("playlist_index");
@@ -96,7 +99,10 @@ class PlayerController extends Controller
 			if (isset($playlist[$prev_index])) {
 				session()->set("playlist_index", $prev_index);
 				$track = $playlist[$prev_index] ?? null;
-				return $track->uuid;
+				return [
+					"track" => $track,
+					"index" => $playlist_index
+				];
 			}
 		}
 		return null;

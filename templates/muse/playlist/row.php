@@ -1,8 +1,8 @@
 <div id="<?=$track->uuid?>"
 	tabindex="-1"
-	class="track-row d-flex align-items-center w-100 px-1 truncate mt-2"
+	class="track-row playlist-row d-flex align-items-center w-100 px-1 truncate mt-2"
 	data-playlist_index="<?=$index?>"
-	onClick="trackRowPlay(event);">
+	onClick="playlistRowPlay(event);">
 	<img class="cover me-2"
 		src="<?=$track->cover?>"
 		title="<?=$track->album?>"

@@ -10,36 +10,6 @@ let currentTrack = {};
 let shuffleOn = true;
 let repeatOn = true;
 
-const trackRowPlay = async (event) => {
-	const uuid = event.currentTarget.id;
-	const playlist_index = event.currentTarget.dataset.playlist_index;
-	if (playlist_index !== '') {
-		await setPlaylistIndex(playlist_index);
-	}
-
-	await playTrack(uuid);
-}
-
-const setPlaylistIndex = async (index) => {
-	const payload = {
-		"index": index
-	}
-	postData("/playlist/index", payload);
-}
-
-const playTrack = async (uuid) => {
-	// Play track
-	if (currentTrack && currentTrack.uuid === uuid) {
-		playPause();
-	} else {
-		let track = await getTrack(uuid);
-		if (track) {
-			await setTrack(track);
-			playAudio();
-		}
-	}
-}
-
 const postData = async (endpoint, data) => {
 	var formdata = new FormData();
 	if (data) {
@@ -55,11 +25,45 @@ const postData = async (endpoint, data) => {
 	return response.json();
 }
 
-const playCurrentPlaylistTrack = async () => {
-	const response = await fetch("/playlist/uuid");
+const trackRowPlay = async (event) => {
+	const uuid = event.currentTarget.id;
+	await playTrack(uuid);
+}
+
+const playlistRowPlay = async (event) => {
+	const uuid = event.currentTarget.id;
+	const playlist_index = event.currentTarget.dataset.playlist_index;
+	await setPlaylistIndex(playlist_index);
+	await playTrack(uuid);
+}
+
+const setPlaylistIndex = async (playlist_index) => {
+	const payload = {
+		"index": parseInt(playlist_index)
+	}
+	await postData("/playlist/index", payload);
+	index = parseInt(playlist_index)
+}
+
+const playTrack = async (uuid) => {
+	// Play track
+	if (currentTrack && currentTrack.uuid === uuid) {
+		playPause();
+	} else {
+		let track = await getTrack(uuid);
+		if (track) {
+			await setTrack(track);
+			playAudio();
+		}
+	}
+}
+
+const playlistTrack = async () => {
+	const response = await fetch("/playlist/track");
 	res = await response.json();
 	if (res.success) {
-		const uuid = res.data;
+		index = res.data.index;
+		const uuid = res.data.track.uuid;
 		if (uuid !== currentTrack?.uuid) {
 			playTrack(uuid);
 		}
@@ -67,7 +71,7 @@ const playCurrentPlaylistTrack = async () => {
 }
 
 const load = async () => {
-	await playCurrentPlaylistTrack();
+	await playlistTrack();
 }
 
 const getTrack = async (uuid) => {
@@ -159,10 +163,9 @@ const nextTrack = async () => {
 	const response = await fetch("/player/next-track");
 	res = await response.json();
 	if (res.success) {
-		const uuid = res.data;
-		if (uuid && uuid !== 'end') {
-			await playTrack(uuid);
-		}
+		index = res.data.index;
+		const uuid = res.data.track.uuid;
+		await playTrack(uuid);
 	}
 	nextTrackButton.disabled = false;
 }
@@ -173,10 +176,9 @@ const prevTrack = async () => {
 	const response = await fetch("/player/prev-track");
 	res = await response.json();
 	if (res.success) {
-		const uuid = res.data;
-		if (uuid && uuid !== 'end') {
-			await playTrack(uuid);
-		}
+		index = res.data.index;
+		const uuid = res.data.track.uuid;
+		await playTrack(uuid);
 	}
 	prevTrackButton.disabled = false;
 }
@@ -189,7 +191,7 @@ const getShuffle = async () => {
 		shuffleOn = res.data;
 		if (shuffleOn === 1) {
 			shuffleBtn.classList.add("active");
-		}  else {
+		} else {
 			shuffleBtn.classList.remove("active");
 		}
 	}
@@ -204,7 +206,7 @@ const shuffle = async () => {
 		shuffleOn = res.data;
 		if (shuffleOn === 1) {
 			shuffleBtn.classList.add("active");
-		}  else {
+		} else {
 			shuffleBtn.classList.remove("active");
 		}
 	}
@@ -219,7 +221,7 @@ const getRepeat = async () => {
 		repeatOn = res.data;
 		if (repeatOn === 1) {
 			repeatBtn.classList.add("active");
-		}  else {
+		} else {
 			repeatBtn.classList.remove("active");
 		}
 	}
@@ -234,7 +236,7 @@ const repeat = async () => {
 		repeatOn = res.data;
 		if (repeatOn === 1) {
 			repeatBtn.classList.add("active");
-		}  else {
+		} else {
 			repeatBtn.classList.remove("active");
 		}
 	}
@@ -242,7 +244,7 @@ const repeat = async () => {
 }
 
 const updateTrackRow = () => {
-	if (audio.src && document.getElementById(currentTrack.uuid)) {
+	if (audio.src && currentTrack && document.getElementById(currentTrack.uuid)) {
 		const rows = document.querySelectorAll(".track-row");
 		rows.forEach((el) => {
 			el.classList.remove("active");
