@@ -2,11 +2,19 @@
 
 Muse is a web application inspired by Plex, built with htmx and PHP for a seamless user experience.  The magic happens under the hood with Nebula, a custom framework designed specifically for crafting rich web applications using htmx.
 
-Please note: this project is a work in progress 👷
+<p align="center" width="100%">
+    <img src="https://github.com/whleucka/muse/assets/71740767/1db03803-3906-4bf0-8006-e65ed6fba00b" alt="screenshot" title="Muse"><br>
+    <em>Please note: this project is a work in progress 👷</em>
+</p>
 
 
-![image](https://github.com/whleucka/muse/assets/71740767/1db03803-3906-4bf0-8006-e65ed6fba00b)
 
+<strong>LNMPX</strong> Stack
+- OS: <ins>L</ins>inux
+- Webserver: <ins>N</ins>ginX
+- DB: <ins>M</ins>ySQL
+- Backend: <ins>P</ins>HP (Nebula Framework)
+- Frontend: htm<ins>x</ins>
 
 ### Features
 - Scan and Manage Your Music: Use the included muse cli to scan your personal music collection, adding it to your centralized library.
