@@ -46,8 +46,8 @@ const trackRowPlay = async (event) => {
 		loading = true;
 		const uuid = event.currentTarget.id;
 		await playUuid(uuid);
+		loading = false;
 	}
-	loading = false;
 }
 
 /**
@@ -61,8 +61,8 @@ const playlistRowPlay = async (event) => {
 		const playlist_index = event.currentTarget.dataset.playlist_index;
 		await setPlaylistIndex(playlist_index);
 		await playUuid(uuid);
+		loading = false;
 	}
-	loading = false;
 }
 
 const setPlaylistIndex = async (playlist_index) => {
