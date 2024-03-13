@@ -20,7 +20,7 @@ class PlayerController extends Controller
 
 		$playlist_count = count($playlist);
 
-		if ($shuffle) $current_index = rand(0, 1000);
+		if ($shuffle) $current_index = rand(0, $playlist_count);
 		$index = (intval($current_index) + 1) % $playlist_count;
 		return $index !== $current_index
 			? $index
