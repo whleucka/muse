@@ -20,6 +20,7 @@ let index = 0;
 let currentTrack = {};
 let shuffleOn = true;
 let repeatOn = true;
+let loading = false;
 
 const postData = async (endpoint, data) => {
 	var formdata = new FormData();
@@ -36,16 +37,32 @@ const postData = async (endpoint, data) => {
 	return response.json();
 }
 
+/**
+ * When a track row is clicked
+ * Used in search results
+ */
 const trackRowPlay = async (event) => {
-	const uuid = event.currentTarget.id;
-	await playUuid(uuid);
+	if (!loading) {
+		loading = true;
+		const uuid = event.currentTarget.id;
+		await playUuid(uuid);
+	}
+	loading = false;
 }
 
+/**
+ * When a playlist row is clicked
+ * Used in playlist results
+ */
 const playlistRowPlay = async (event) => {
-	const uuid = event.currentTarget.id;
-	const playlist_index = event.currentTarget.dataset.playlist_index;
-	await setPlaylistIndex(playlist_index);
-	await playUuid(uuid);
+	if (!loading) {
+		loading = true;
+		const uuid = event.currentTarget.id;
+		const playlist_index = event.currentTarget.dataset.playlist_index;
+		await setPlaylistIndex(playlist_index);
+		await playUuid(uuid);
+	}
+	loading = false;
 }
 
 const setPlaylistIndex = async (playlist_index) => {
