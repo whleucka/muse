@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Muse;
 
+use App\Models\Track;
 use Nebula\Framework\Controller\Controller;
 use StellarRouter\{Get, Group};
 
@@ -20,7 +21,10 @@ class PlayerController extends Controller
 		$playlist_count = count($playlist);
 
 		if ($shuffle) $current_index = rand(0, 1000);
-		return (intval($current_index) + 1) % $playlist_count;
+		$index = (intval($current_index) + 1) % $playlist_count;
+		return $index !== $current_index
+			? $index
+			: $this->nextIndex($playlist, $current_index);
 	}
 
 	private function prevIndex(array $playlist, int $current_index): int
@@ -34,8 +38,11 @@ class PlayerController extends Controller
 
 		$playlist_count = count($playlist);
 
-		if ($shuffle) $current_index = rand(0, 1000);
-		return intval($current_index - 1 + $playlist_count) % $playlist_count;
+		if ($shuffle) $current_index = rand(0, $playlist_count);
+		$index = intval($current_index - 1 + $playlist_count) % $playlist_count;
+		return $index !== $current_index
+			? $index
+			: $this->prevIndex($playlist, $current_index);
 	}
 
 	#[Get("/shuffle", "player.shuffle", ["api"])]
@@ -79,9 +86,17 @@ class PlayerController extends Controller
 			$next_index = $this->nextIndex($playlist, $playlist_index);
 			if (isset($playlist[$next_index])) {
 				session()->set("playlist_index", $next_index);
-				$track = $playlist[$next_index] ?? null;
+				$playlist_track = $playlist[$next_index] ?? null;
+				$track = Track::findByAttribute("uuid", $playlist_track->uuid);
 				return [
-					"track" => $track,
+					"track" => [
+						"uuid" => $track->uuid,
+						"src" => "/track/stream/$track->uuid",
+						"title" => html_entity_decode($track->meta()->title),
+						"artist" => html_entity_decode($track->meta()->artist),
+						"album" => html_entity_decode($track->meta()->album),
+						"cover" => "/img/no-album.png",
+					],
 					"index" => $playlist_index
 				];
 			}
@@ -98,9 +113,17 @@ class PlayerController extends Controller
 			$prev_index = $this->prevIndex($playlist, $playlist_index);
 			if (isset($playlist[$prev_index])) {
 				session()->set("playlist_index", $prev_index);
-				$track = $playlist[$prev_index] ?? null;
+				$playlist_track = $playlist[$prev_index] ?? null;
+				$track = Track::findByAttribute("uuid", $playlist_track->uuid);
 				return [
-					"track" => $track,
+					"track" => [
+						"uuid" => $track->uuid,
+						"src" => "/track/stream/$track->uuid",
+						"title" => html_entity_decode($track->meta()->title),
+						"artist" => html_entity_decode($track->meta()->artist),
+						"album" => html_entity_decode($track->meta()->album),
+						"cover" => "/img/no-album.png",
+					],
 					"index" => $playlist_index
 				];
 			}

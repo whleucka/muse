@@ -1,3 +1,14 @@
+const banner = `
+░▒▓██████████████▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓███████▓▒░▒▓████████▓▒░
+░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░
+░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░
+░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓██████▓▒░
+░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░
+░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░
+░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓███████▓▒░░▒▓████████▓▒░
+
+ `;
+console.log(banner);
 const playerProgress = document.querySelector("#player-progress");
 const preloadedBar = document.querySelector("#preload-progress");
 const audio = document.querySelector("#audio");
@@ -27,14 +38,14 @@ const postData = async (endpoint, data) => {
 
 const trackRowPlay = async (event) => {
 	const uuid = event.currentTarget.id;
-	await playTrack(uuid);
+	await playUuid(uuid);
 }
 
 const playlistRowPlay = async (event) => {
 	const uuid = event.currentTarget.id;
 	const playlist_index = event.currentTarget.dataset.playlist_index;
 	await setPlaylistIndex(playlist_index);
-	await playTrack(uuid);
+	await playUuid(uuid);
 }
 
 const setPlaylistIndex = async (playlist_index) => {
@@ -45,16 +56,24 @@ const setPlaylistIndex = async (playlist_index) => {
 	index = parseInt(playlist_index)
 }
 
-const playTrack = async (uuid) => {
-	// Play track
+const playUuid = async (uuid) => {
 	if (currentTrack && currentTrack.uuid === uuid) {
 		playPause();
 	} else {
 		let track = await getTrack(uuid);
 		if (track) {
-			await setTrack(track);
+			setTrack(track);
 			playAudio();
 		}
+	}
+}
+
+const playTrack = async (track) => {
+	if (currentTrack && currentTrack === track) {
+		playPause();
+	} else {
+		setTrack(track);
+		playAudio();
 	}
 }
 
@@ -65,13 +84,9 @@ const playlistTrack = async () => {
 		index = res.data.index;
 		const uuid = res.data.track.uuid;
 		if (uuid !== currentTrack?.uuid) {
-			playTrack(uuid);
+			playTrack(res.data.track);
 		}
 	}
-}
-
-const load = async () => {
-	await playlistTrack();
 }
 
 const getTrack = async (uuid) => {
@@ -141,17 +156,17 @@ const pauseAudio = () => {
 	updatePlayPause();
 }
 
-const seekForward = () => {
+const seekForward = (event) => {
 	// Seek playback foward
-	const skipTime = defaultSkipTime;
+	const skipTime = event.seekOffset || defaultSkipTime;;
 	const time = parseFloat(audio.currentTime) + parseFloat(skipTime);
 	audio.currentTime = Math.min(time, audio.duration);
 	updatePositionState();
 }
 
-const seekBackward = () => {
+const seekBackward = (event) => {
 	// Seek playback backward
-	const skipTime = defaultSkipTime;
+	const skipTime = event.seekOffset || defaultSkipTime;
 	const time = parseFloat(audio.currentTime) - parseFloat(skipTime);
 	audio.currentTime = Math.max(time, 0);
 	updatePositionState();
@@ -164,8 +179,7 @@ const nextTrack = async () => {
 	res = await response.json();
 	if (res.success) {
 		index = res.data.index;
-		const uuid = res.data.track.uuid;
-		await playTrack(uuid);
+		await playTrack(res.data.track);
 	}
 	nextTrackButton.disabled = false;
 }
@@ -177,8 +191,7 @@ const prevTrack = async () => {
 	res = await response.json();
 	if (res.success) {
 		index = res.data.index;
-		const uuid = res.data.track.uuid;
-		await playTrack(uuid);
+		await playTrack(res.data.track);
 	}
 	prevTrackButton.disabled = false;
 }
@@ -244,7 +257,7 @@ const repeat = async () => {
 }
 
 const updateTrackRow = () => {
-	if (audio.src && currentTrack && document.getElementById(currentTrack.uuid)) {
+	if (document.getElementById(currentTrack.uuid)) {
 		const rows = document.querySelectorAll(".track-row");
 		rows.forEach((el) => {
 			el.classList.remove("active");
@@ -311,11 +324,11 @@ navigator.mediaSession.setActionHandler('nexttrack', function() {
 });
 
 navigator.mediaSession.setActionHandler('seekbackward', function(event) {
-	seekBackward();
+	seekBackward(event);
 });
 
 navigator.mediaSession.setActionHandler('seekforward', function(event) {
-	seekForward();
+	seekForward(event);
 });
 
 navigator.mediaSession.setActionHandler('play', async function() {
@@ -346,5 +359,3 @@ try {
 } catch (error) {
 	console.log('Warning! The "seekto" media session action is not supported.');
 }
-
-load();
