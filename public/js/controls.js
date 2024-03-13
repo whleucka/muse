@@ -167,10 +167,12 @@ const playAudio = () => {
 }
 
 const pauseAudio = () => {
-	// Pause audio
-	playerProgress.classList.add("disabled");
-	audio.pause();
-	updatePlayPause();
+	if (!audio.paused) {
+		// Pause audio
+		playerProgress.classList.add("disabled");
+		audio.pause();
+		updatePlayPause();
+	}
 }
 
 const seekForward = (event) => {
