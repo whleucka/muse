@@ -21,6 +21,7 @@ let currentTrack = {};
 let shuffleOn = true;
 let repeatOn = true;
 let loading = false;
+let hls = new Hls();
 
 const postData = async (endpoint, data) => {
 	var formdata = new FormData();
@@ -100,7 +101,7 @@ const playRadio = async (uuid) => {
 		let station = await getRadioStation(uuid);
 		if (station) {
 			setRadioStation(station);
-			playAudio();
+			playStation();
 		}
 	}
 }
@@ -206,6 +207,16 @@ const playAudio = () => {
 			updateMetadata();
 		})
 		.catch(error => console.log(error));
+}
+
+const playStation = () => {
+	if (Hls.isSupported()) {
+		hls.attachMedia(audio);
+		hls.on(Hls.Events.MEDIA_ATTACHED, (event, data) => {
+			hls.loadSource(currentTrack.src);
+			playAudio();
+		});
+	}
 }
 
 const pauseAudio = () => {

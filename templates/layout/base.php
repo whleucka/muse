@@ -25,6 +25,7 @@
 	<script src="/js/htmx.min.js"></script>
 	<script src="/js/bootstrap.bundle.min.js"></script>
 	<script src="/js/feather.min.js"></script>
+	<script src="/js/hls.js"></script>
 	<script src="/js/main.js"></script>
 	<script src="/js/controls.js?<?=time()?>"></script>
 	<?= $scripts ?? '' ?>
