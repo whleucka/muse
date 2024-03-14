@@ -6,6 +6,11 @@
 			hx-swap="none">Add to playlist</button>
 	</div>
 </div>
+<script>
+(function() {
+	updateTrackRow();
+})();
+</script>
 <?php endif ?>
 
 <?php foreach ($tracks as $i => $track) : ?>

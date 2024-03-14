@@ -1,3 +1,11 @@
+<?php if ($radio_stations): ?>
+<script>
+(function() {
+	updateTrackRow();
+})();
+</script>
+<?php endif ?>
+
 <?php foreach ($radio_stations as $i => $radio) : ?>
 	<?=template("muse/radio/row.php", ["radio" => $radio])?>
 <?php endforeach ?>
