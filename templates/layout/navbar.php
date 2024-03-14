@@ -13,6 +13,9 @@
         <li class="nav-item">
           <a class="nav-link text-secondary" href="#" hx-get="/search" hx-target="#main" hx-select="#main" hx-swap="outerHTML">Search <span data-feather="search" class="ms-2" width="18px"></span></a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-secondary" href="#" hx-get="/radio" hx-target="#main" hx-select="#main" hx-swap="outerHTML">Radio <span data-feather="radio" class="ms-2" width="18px"></span></a>
+        </li>
       </ul>
     </div>
   </div>

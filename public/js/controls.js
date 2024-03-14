@@ -37,6 +37,15 @@ const postData = async (endpoint, data) => {
 	return response.json();
 }
 
+const radioPlay = async (event) => {
+	if (!loading) {
+		loading = true;
+		const uuid = event.currentTarget.id;
+		await playRadio(uuid);
+		loading = false;
+	}
+}
+
 /**
  * When a track row is clicked
  * Used in search results
@@ -71,6 +80,29 @@ const setPlaylistIndex = async (playlist_index) => {
 	}
 	await postData("/playlist/index", payload);
 	index = parseInt(playlist_index)
+}
+
+const getRadioStation = async (uuid) => {
+	if (uuid === null) return false;
+	// Get station info from API
+	const response = await fetch(`/radio/station/${uuid}`);
+	data = await response.json();
+	if (data.success) {
+		return data.data;
+	}
+	return false;
+}
+
+const playRadio = async (uuid) => {
+	if (currentTrack && currentTrack.uuid === uuid) {
+		playPause();
+	} else {
+		let station = await getRadioStation(uuid);
+		if (station) {
+			setRadioStation(station);
+			playAudio();
+		}
+	}
 }
 
 const playUuid = async (uuid) => {
@@ -134,6 +166,16 @@ const setTrack = async (track) => {
 		currentTrack = track;
 		// Set the audio src
 		audio.src = track.src;
+	}
+}
+
+const setRadioStation = async (station) => {
+	if (station?.uuid) {
+		console.log("Now playing", station.uuid);
+		// Assign current track
+		currentTrack = station;
+		// Set the audio src
+		audio.src = station.src_url;
 	}
 }
 

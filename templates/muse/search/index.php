@@ -13,6 +13,7 @@
 			<input id="input"
 				hx-post="/search"
 				hx-trigger="load, input changed delay:500ms, search"
+				hx-sync="closest form:abort"
 				hx-target="#results"
 				hx-indicator=".htmx-indicator"
 				class="form-control"
