@@ -75,7 +75,7 @@ class Controller
     private function escapeRequest(string $key): mixed
     {
         return htmlspecialchars(
-            $this->request($key),
+            $this->request($key) ?? '',
             ENT_QUOTES | ENT_HTML5,
             "UTF-8"
         );
