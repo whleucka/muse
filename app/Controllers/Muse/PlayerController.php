@@ -95,7 +95,7 @@ class PlayerController extends Controller
 						"title" => html_entity_decode($track->meta()->title),
 						"artist" => html_entity_decode($track->meta()->artist),
 						"album" => html_entity_decode($track->meta()->album),
-						"cover" => "/img/no-album.png",
+						"cover" => $track->meta()->cover,
 					],
 					"index" => $playlist_index
 				];
@@ -122,7 +122,7 @@ class PlayerController extends Controller
 						"title" => html_entity_decode($track->meta()->title),
 						"artist" => html_entity_decode($track->meta()->artist),
 						"album" => html_entity_decode($track->meta()->album),
-						"cover" => "/img/no-album.png",
+						"cover" => $track->meta()->cover,
 					],
 					"index" => $playlist_index
 				];

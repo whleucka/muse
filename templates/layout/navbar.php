@@ -8,13 +8,16 @@
     <div class="collapse navbar-collapse" id="top-nav">
       <ul class="navbar-nav me-auto mb-2 mb-sm-0">
         <li class="nav-item">
-          <a class="nav-link text-secondary" href="#" hx-get="/playlist" hx-target="#main" hx-select="#main" hx-swap="outerHTML">Playlist <span data-feather="music" class="ms-2" width="18px"></span></a>
+          <a class="nav-link text-secondary" href="#" hx-get="/playlist" hx-target="#main" hx-select="#main" hx-swap="outerHTML"><span data-feather="music" class="me-2" width="16px"></span> Playlist</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-secondary" href="#" hx-get="/search" hx-target="#main" hx-select="#main" hx-swap="outerHTML">Search <span data-feather="search" class="ms-2" width="18px"></span></a>
+          <a class="nav-link text-secondary" href="#" hx-get="/search" hx-target="#main" hx-select="#main" hx-swap="outerHTML"><span data-feather="search" class="me-2" width="16px"></span> Search</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-secondary" href="#" hx-get="/radio" hx-target="#main" hx-select="#main" hx-swap="outerHTML">Radio <span data-feather="radio" class="ms-2" width="18px"></span></a>
+          <a class="nav-link text-secondary" href="#" hx-get="/radio" hx-target="#main" hx-select="#main" hx-swap="outerHTML"><span data-feather="radio" class="me-2" width="16px"></span> Radio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-secondary disabled" href="#" hx-get="/podcast" hx-target="#main" hx-select="#main" hx-swap="outerHTML"><span data-feather="mic" class="me-2" width="16px"></span> Podcasts</a>
         </li>
       </ul>
     </div>

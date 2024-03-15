@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f65b32d0d7435a8fcf18950d0afc726d",
+    "content-hash": "d132650f7ee0e1c035627357ae2df893",
     "packages": [
         {
             "name": "brick/math",
@@ -468,6 +468,52 @@
                 "source": "https://github.com/libra-php/stellar-router/tree/main"
             },
             "time": "2024-01-15T19:46:34+00:00"
+        },
+        {
+            "name": "listennotes/podcast-api",
+            "version": "v1.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ListenNotes/podcast-api-php.git",
+                "reference": "ce4b77243a725c31fb168c9c0821eaa3c9e6f872"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ListenNotes/podcast-api-php/zipball/ce4b77243a725c31fb168c9c0821eaa3c9e6f872",
+                "reference": "ce4b77243a725c31fb168c9c0821eaa3c9e6f872",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": "^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.4",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ListenNotes\\PodcastApi\\": "listennotes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Listen Notes, Inc.",
+                    "email": "hello@listennotes.com"
+                }
+            ],
+            "description": "PHP bindings for the Listen Notes Podcast API",
+            "support": {
+                "issues": "https://github.com/ListenNotes/podcast-api-php/issues",
+                "source": "https://github.com/ListenNotes/podcast-api-php/tree/v1.1.6"
+            },
+            "time": "2023-09-08T16:42:19+00:00"
         },
         {
             "name": "php-ffmpeg/php-ffmpeg",

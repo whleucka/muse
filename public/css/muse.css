@@ -47,6 +47,10 @@ button:focus { outline: none !important; box-shadow: none !important; }
 	color: #444;
 }
 
+#navbar .nav-item {
+	margin-right: 10px;
+}
+
 #search .track-row:hover {
 	cursor: pointer;
 	background-color: rgba(0, 0, 0, 0.1);
@@ -76,8 +80,8 @@ button:focus { outline: none !important; box-shadow: none !important; }
 
 #player .cover {
 	border-radius: 4px;
-	height: 40px;
-	width: 40px;
+	height: 50px;
+	width: 50px;
 	margin: 5px;
 }
 

@@ -1,8 +1,8 @@
 <div id="<?=$radio->uuid?>"
 	tabindex="-1"
-	class="track-row radio-row d-flex align-items-center w-100 px-1 truncate mt-4"
+	class="track-row radio-row d-flex align-items-center w-100 px-1 truncate mt-3"
 	onClick="radioPlay(event);">
-	<img class="cover me-2"
+	<img class="cover me-4"
 		src="<?=$radio->cover?>"
 		title="<?=$radio->album?>"
 		alt="cover"

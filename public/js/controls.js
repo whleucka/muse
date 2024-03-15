@@ -196,6 +196,16 @@ const playPause = () => {
 		pauseAudio();
 	}
 	updatePlayPause();
+	animate(document.querySelector(".btn.play"));
+}
+
+const animate = (target) => {
+	if (!target.disabled) {
+		target.classList.add("active");
+		setTimeout(() => {
+			target.classList.remove("active");
+		}, 200);
+	}
 }
 
 const playAudio = () => {
@@ -230,18 +240,22 @@ const pauseAudio = () => {
 
 const seekForward = (event) => {
 	// Seek playback foward
+	const seekForwardButton = document.querySelector(".btn.seek-forward");
 	const skipTime = event.seekOffset || defaultSkipTime;;
 	const time = parseFloat(audio.currentTime) + parseFloat(skipTime);
 	audio.currentTime = Math.min(time, audio.duration);
 	updatePositionState();
+	animate(seekForwardButton);
 }
 
 const seekBackward = (event) => {
 	// Seek playback backward
+	const seekBackwardButton = document.querySelector(".btn.seek-backward");
 	const skipTime = event.seekOffset || defaultSkipTime;
 	const time = parseFloat(audio.currentTime) - parseFloat(skipTime);
 	audio.currentTime = Math.max(time, 0);
 	updatePositionState();
+	animate(seekBackwardButton);
 }
 
 const nextTrack = async () => {
@@ -254,6 +268,7 @@ const nextTrack = async () => {
 		await playTrack(res.data.track);
 	}
 	nextTrackButton.disabled = false;
+	animate(nextTrackButton);
 }
 
 const prevTrack = async () => {
@@ -266,6 +281,7 @@ const prevTrack = async () => {
 		await playTrack(res.data.track);
 	}
 	prevTrackButton.disabled = false;
+	animate(prevTrackButton);
 }
 
 const getShuffle = async () => {
@@ -358,9 +374,7 @@ const updateMetadata = () => {
 	});
 
 	updateTrackRow();
-
 	updatePlayerCover();
-
 	updatePositionState();
 }
 
