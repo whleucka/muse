@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+main {
+	font-family: "Roboto", sans-serif;
+	overflow: hidden;
+	color: #444;
+	min-width: 375px;
+}
+
+#main {
+	overflow: auto;
+}
+
+#main > section {
+	padding: 10px;
+}
+
+button:focus { outline: none !important; box-shadow: none !important; }
+
+#main h1,
+#main h2,
+#main h3,
+#main h4,
+#main h5 {
+	font-family: "Russo One", sans-serif;
+	color: #444;
+}
+
+.smooth {
+  transition: all 1s ease-in;
+}
+
+#navbar {
+	margin: 0;
+	padding: 5px;
+	border-bottom: 1px solid #ddd;
+}
+
+#navbar #top-nav {
+	font-size: 0.9rem;
+}
+
+#navbar .navbar-brand {
+	font-family: "Russo One", sans-serif;
+	font-size: 1.4rem;
+	cursor: pointer;
+	color: #444;
+}
+
+#navbar .nav-item {
+	margin-right: 10px;
+}
+
+#search .track-row:hover {
+	cursor: pointer;
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+.track-row {
+	outline: none !important;
+	box-shadow: none !important;
+	user-select: none;
+	cursor: pointer;
+	font-size: 0.9rem;
+}
+
+.track-row.active {
+	font-weight: bold;
+}
+
+.track-row .cover {
+	border-radius: 4px;
+	height: 28px;
+	width: 28px;
+}
+
+#player {
+	border-top: solid 1px #ddd;
+}
+
+#player .cover {
+	border-radius: 4px;
+	height: 50px;
+	width: 50px;
+	margin: 5px;
+}
+
+#player #controls .btn svg {
+	fill: #444;
+}
+
+#player #controls .btn.active svg {
+	stroke: #00a30e;
+	fill: #00a30e;
+}
+
+#top-progress .progress {
+	border-bottom: 1px solid #ddd;
+    background-color: #eee;
+    height: 5px;
+}
+
+#top-progress #player-progress {
+	background: orangered;
+}
+
+#top-progress #player-progress.disabled {
+	background: #aaa;
+}
+
+#top-progress #preload-progress {
+	background: #ddd;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.radio-row .cover {
+	border-radius: 5px;
+	height: 45px;
+	width: 45px;
+	margin-right: 5px;
+}
+
+.radio-row .station-name {
+	font-size: 1.05em;
+	color: #666;
+}
+.radio-row .location {
+	font-size: 0.85em;
+	color: #777;
+
+}

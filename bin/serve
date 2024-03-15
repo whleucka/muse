@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+HOST=$1
+PORT=$2
+
+php -S "${HOST:-127.0.0.1}:${PORT:-8000}" --docroot=public/

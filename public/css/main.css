@@ -1,0 +1,34 @@
+.request-error {
+	font-size: 0.9rem;
+}
+.request-error strong {
+	color: #ff0000;
+}
+.request-error strong small {
+	font-size: 0.8rem;
+}
+input.invalid {
+	background-color: #fff0f0;
+	border-radius: inherit;
+	border: 1px solid #ff0000 !important;
+}
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+  border-color: #ccc;
+  box-shadow: none !important;
+  outline: none;
+}
