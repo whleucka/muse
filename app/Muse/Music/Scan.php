@@ -6,6 +6,11 @@ class Scan
 {
 	private array $extensions = [
 		"mp3",
+		"flac",
+		"wav",
+		"aac",
+		"ogg",
+		"aiff",
 	];
 
 	public function find(string $path): array

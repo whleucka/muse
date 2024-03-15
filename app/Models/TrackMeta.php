@@ -12,6 +12,7 @@ class TrackMeta extends Model
     protected array $columns = [
         "id",
         "track_id",
+        "cover",
         "filesize",
         "bitrate",
         "mime_type",

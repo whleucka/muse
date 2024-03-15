@@ -208,6 +208,7 @@ class Adapter extends CLI
             $comments = $tags["comments_html"];
             TrackMeta::new([
                 "track_id" => $track->id,
+                "cover" => $track->cover(),
                 "filesize" => intval($tags["filesize"]),
                 "bitrate" => intval($tags["bitrate"]),
                 "mime_type" => $tags["mime_type"] ?? "unknown",

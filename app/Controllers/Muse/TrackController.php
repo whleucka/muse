@@ -20,7 +20,7 @@ class TrackController extends Controller
 				"title" => html_entity_decode($track->meta()->title),
 				"artist" => html_entity_decode($track->meta()->artist),
 				"album" => html_entity_decode($track->meta()->album),
-				"cover" => "/img/no-album.png",
+				"cover" => $track->meta()->cover,
 			];
 		}
 		return null;
@@ -32,11 +32,14 @@ class TrackController extends Controller
 		$track = Track::findByAttribute("uuid", $uuid);
 		if ($track && file_exists($track->name)) {
 			$meta = $track->meta();
-			header("Content-Type: {$meta->mime_type}");
-			header("Content-Length: " . filesize($track->name));
+			$file = $meta->mime_type !== 'audio/mpeg'
+				? $track->transcode()
+				: $track->name;
+			header("Content-Type: audio/mpeg");
+			header("Content-Length: " . filesize($file));
 			header("Accept-Ranges: bytes");
 			header("Content-Transfer-Encoding: binary");
-			readfile($track->name);
+			readfile($file);
 			exit;
 		}
 	}
@@ -47,5 +50,11 @@ class TrackController extends Controller
 		return template("muse/player/audio.php", [
 			"src" => "/track/stream/$uuid",
 		]);
+	}
+
+	#[Get("/cover/{uuid}", "track.cover")]
+	public function cover($uuid)
+	{
+
 	}
 }
