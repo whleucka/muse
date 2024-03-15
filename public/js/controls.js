@@ -339,6 +339,13 @@ const updateTrackRow = () => {
 	}
 }
 
+const updatePlayerCover = () => {
+	const cover = document.querySelector("#player img");
+	if (currentTrack) {
+		cover.src = currentTrack.cover;
+	}
+}
+
 const updateMetadata = () => {
 	// Set the mediaSession
 	navigator.mediaSession.metadata = new MediaMetadata({
@@ -351,6 +358,8 @@ const updateMetadata = () => {
 	});
 
 	updateTrackRow();
+
+	updatePlayerCover();
 
 	updatePositionState();
 }
