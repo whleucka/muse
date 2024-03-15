@@ -1,1 +1,1 @@
-DELETE FROM user_types;
+DELETE FROM user_types

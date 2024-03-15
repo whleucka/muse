@@ -11,4 +11,5 @@ return [
 	"migrations" => $root . "migrations",
 	"middleware" => $app . "Middleware",
 	"public" => $root . "public",
+	"storage" => $root . "storage",
 ];

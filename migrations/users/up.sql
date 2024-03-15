@@ -11,4 +11,4 @@ CREATE TABLE IF NOT EXISTS users (
 	UNIQUE (email),
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_type) REFERENCES user_types (id)
-);
+)
