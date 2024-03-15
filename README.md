@@ -32,41 +32,39 @@ Muse is a web application inspired by Plex, built with **htmx** and **PHP** for 
 - Clone the repository: git clone https://github.com/whleucka/muse.git
 - Follow the setup instructions in the README for dependencies and configuration *WIP*
     - Install composer dependencies
-    
+
         ```bash
         composer install
         ```
-        
+
     - Copy the example .env and update your database credentials
-    
+
         ```bash
         cp .env.example .env
         ```
-        
+
     - Generate a secure application key, add this to your .env under APP_KEY
-    
+
         ```bash
         ./bin/console generate-key
         ```
-        
+
     - Run the database migrations
-    
+
         ```bash
         ./bin/console migrate-fresh
         ```
-      
+
     - Run the muse cli to scan your music collection.
-      
+
         ```bash
         ./bin/console music-scan /path/to/music
         ```
-    
+
     - Access your music library & HD radio through the web interface!
 
 ### Contribute
 
 We welcome contributions to Muse! Feel free to fork the repository and submit pull requests.
-
-Let the music flow, anywhere!
 
 <small>✨ Created with <a href="https://github.com/libra-php/nebula" title="Nebula">Nebula Framework</a></small>

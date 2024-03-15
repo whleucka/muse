@@ -3,4 +3,4 @@ CREATE TABLE IF NOT EXISTS user_types (
 	name VARCHAR(255) NOT NULL,
 	permission_level TINYINT NOT NULL,
 	PRIMARY KEY (id)
-);
+)
