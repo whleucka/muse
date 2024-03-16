@@ -3,7 +3,9 @@
 	class="track-row search-row d-flex align-items-center w-100 px-1 truncate mt-2"
 	onClick="trackRowPlay(event);">
 	<img class="cover me-2"
-		src="<?=$track->cover?>"
+		src="/cover/<?=$track->uuid?>/28/28"
+		width="28"
+		height="28"
 		title="<?=$track->album?>"
 		alt="cover"
 		loading="lazy" />

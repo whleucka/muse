@@ -4,7 +4,9 @@
 	data-playlist_index="<?=$index?>"
 	onClick="playlistRowPlay(event);">
 	<img class="cover me-2"
-		src="<?=$track->cover?>"
+		src="/cover/<?=$track->uuid?>/28/28"
+		width="28"
+		height="28"
 		title="<?=$track->album?>"
 		alt="cover"
 		loading="lazy" />
