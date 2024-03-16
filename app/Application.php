@@ -8,6 +8,7 @@ use Lunar\Connection\SQLite;
 use Lunar\Interface\DB;
 use Nebula\Framework\Traits\Singleton;
 use Nebula\Framework\System\Interface\Kernel;
+use StellarRouter\Router;
 
 class Application
 {
@@ -24,6 +25,11 @@ class Application
     public function run(): void
     {
         $this->kernel->response();
+    }
+
+    public function router(): Router
+    {
+        return $this->kernel->router();
     }
 
     protected function initDatabase(): ?DB

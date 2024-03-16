@@ -2,6 +2,7 @@
 
 namespace Nebula\Framework\Controller;
 
+use StellarRouter\Router;
 use Symfony\Component\HttpFoundation\Request;
 
 class Controller
@@ -50,6 +51,11 @@ class Controller
         );
         $data["escape"] = fn(string $key) => $this->escapeRequest($key);
         $data["title"] = config("application.name");
+        $data["route"] = function($name) {
+            $router = app()->router();
+            $route = $router->findRouteByName($name);
+            return $route ? $route->getPath() : '';
+        };
 
         // Muse specific
         $data["shuffle"] = session()->has("shuffle") ? session()->get("shuffle") : true;
