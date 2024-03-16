@@ -31,8 +31,7 @@ class TrackController extends Controller
 	{
 		$track = Track::findByAttribute("uuid", $uuid);
 		if ($track && file_exists($track->name)) {
-			$meta = $track->meta();
-			$file = $meta->mime_type !== 'audio/mpeg'
+			$file = $track->meta()->mime_type !== "audio/mpeg"
 				? $track->transcode()
 				: $track->name;
 			header("Content-Type: audio/mpeg");
@@ -50,11 +49,5 @@ class TrackController extends Controller
 		return template("muse/player/audio.php", [
 			"src" => "/track/stream/$uuid",
 		]);
-	}
-
-	#[Get("/cover/{uuid}", "track.cover")]
-	public function cover($uuid)
-	{
-
 	}
 }
