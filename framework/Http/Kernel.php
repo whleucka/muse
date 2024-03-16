@@ -140,7 +140,7 @@ class Kernel implements NebulaKernel
     /**
      * Get framework router class and register controllers
      */
-    protected function router(): Router
+    public function router(): Router
     {
         $router = new Router();
         $controller_path = config("path.controllers");
