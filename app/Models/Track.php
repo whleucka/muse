@@ -74,7 +74,7 @@ class Track extends Model
             if (!file_exists($cover_directory)) {
                 if (!mkdir($cover_directory)) {
                     error_log(
-                        "Unable to create covers directory. Please check permissions."
+                        "unable to create covers directory. please check permissions."
                     );
                     exit;
                 }
@@ -90,6 +90,7 @@ class Track extends Model
 
     public static function search(string $term): ?array
     {
+        if (strlen($term) < 3) return [];
         $results = db()->fetchAll("SELECT tracks.uuid, track_meta.*
 			FROM tracks
 			INNER JOIN track_meta ON track_meta.track_id = tracks.id

@@ -263,7 +263,7 @@ const nextTrack = async () => {
 	nextTrackButton.disabled = true;
 	const response = await fetch("/player/next-track");
 	res = await response.json();
-	if (res.success) {
+	if (res.success && res.data) {
 		index = res.data.index;
 		await playTrack(res.data.track);
 	}
@@ -276,7 +276,7 @@ const prevTrack = async () => {
 	prevTrackButton.disabled = true;
 	const response = await fetch("/player/prev-track");
 	res = await response.json();
-	if (res.success) {
+	if (res.success && res.data) {
 		index = res.data.index;
 		await playTrack(res.data.track);
 	}
