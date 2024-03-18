@@ -20,8 +20,8 @@ class RadioController extends Controller
 	#[Get("/load", "radio.load")]
 	public function load(): string
 	{
-		$radio_stations = db()->fetchAll("SELECT uuid, src_url as src, location as title,
-			station_name as artist, 'Muse Radio' as album, cover_url as cover
+		$radio_stations = db()->fetchAll("SELECT uuid, src_url as src, location as artist,
+			station_name as title, 'Muse Radio' as album, cover_url as cover
 			FROM radio
 			ORDER BY location, station_name");
 
@@ -36,8 +36,8 @@ class RadioController extends Controller
 			return [
 				"uuid" => $station->uuid,
 				"src" => $station->src_url,
-				"title" => $station->location,
-				"artist" => $station->station_name,
+				"title" => $station->station_name,
+				"artist" => $station->location,
 				"album" => 'Muse Radio',
 				"cover" => $station->cover_url,
 			];

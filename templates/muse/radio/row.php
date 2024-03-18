@@ -8,8 +8,8 @@
 		alt="cover"
 		loading="lazy" />
 	<div class="flex-grow-1 d-flex flex-column">
-		<span class="station-name"><?=$radio->artist?></span>
-		<em class="location"><?=$radio->title?></em>
+		<span class="station-name"><?=$radio->title?></span>
+		<em class="location"><?=$radio->artist?></em>
 	</div>
 </div>
 
