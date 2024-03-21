@@ -46,7 +46,10 @@ class SearchController extends Controller
 		if (isset($data["term"])) {
 			$key = config("muse.podcast_key");
 			$client = new Client($key);
-			$res = $client->search(['q' => $data['term']]);
+			$res = $client->search([
+				'q' => $data['term'],
+				'sort_by_date' => 1,
+			]);
 			$results = json_decode($res);
 			if ($results) {
 				return template("muse/podcast/results.php", ["results" => $results]);
