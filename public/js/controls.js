@@ -38,6 +38,15 @@ const postData = async (endpoint, data) => {
 	return response.json();
 }
 
+const podcastPlay = async (event) => {
+	if (!loading) {
+		loading = true;
+		const id = event.currentTarget.id;
+		await playPodcast(id);
+		loading = false;
+	}
+}
+
 const radioPlay = async (event) => {
 	if (!loading) {
 		loading = true;
@@ -83,6 +92,17 @@ const setPlaylistIndex = async (playlist_index) => {
 	index = parseInt(playlist_index)
 }
 
+const getPodcast = async (id) => {
+	if (id === null) return false;
+	// Get podcast info from API
+	const response = await fetch(`/podcast/podcast/${id}`);
+	data = await response.json();
+	if (data.success) {
+		return data.data;
+	}
+	return false;
+}
+
 const getRadioStation = async (uuid) => {
 	if (uuid === null) return false;
 	// Get station info from API
@@ -92,6 +112,18 @@ const getRadioStation = async (uuid) => {
 		return data.data;
 	}
 	return false;
+}
+
+const playPodcast = async (id) => {
+	if (currentTrack && currentTrack.uuid === id) {
+		playPause();
+	} else {
+		let podcast = await getPodcast(id);
+		if (podcast) {
+			setPodcast(podcast);
+			playPodcast();
+		}
+	}
 }
 
 const playRadio = async (uuid) => {
@@ -170,13 +202,24 @@ const setTrack = async (track) => {
 	}
 }
 
+const setPodcast = async (podcast) => {
+	if (podcast?.id) {
+		console.log("Now playing", podcast.id);
+		// Assign current track
+		currentTrack = podcast;
+		// Set the audio src
+		audio.src = podcast.src;
+	}
+}
+
 const setRadioStation = async (station) => {
 	if (station?.uuid) {
 		console.log("Now playing", station.uuid);
 		// Assign current track
 		currentTrack = station;
 		// Set the audio src
-		audio.src = station.src_url;
+		console.log(station);
+		audio.src = station.src;
 	}
 }
 

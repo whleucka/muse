@@ -11,7 +11,7 @@
 		<form onkeydown="return event.key != 'Enter';">
 			<?=$csrf()?>
 			<input id="input"
-				hx-post="/search"
+				hx-post="/search/music"
 				hx-trigger="load, input changed delay:500ms, search"
 				hx-sync="closest form:abort"
 				hx-target="#results"

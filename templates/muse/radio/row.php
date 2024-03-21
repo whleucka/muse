@@ -12,5 +12,3 @@
 		<em class="location"><?=$radio->artist?></em>
 	</div>
 </div>
-
-

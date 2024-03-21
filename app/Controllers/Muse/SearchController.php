@@ -5,6 +5,7 @@ namespace App\Controllers\Muse;
 use App\Models\Track;
 use Nebula\Framework\Controller\Controller;
 use StellarRouter\{Get, Group, Post};
+use ListenNotes\PodcastApi\Client;
 
 #[Group(prefix: "/search")]
 class SearchController extends Controller
@@ -13,14 +14,14 @@ class SearchController extends Controller
 	public function index(): string
 	{
 		$content = template("muse/search/index.php", [
-			"term" => session()->get("term")
+			"term" => session()->get("search_term")
 		]);
 
         return $this->render("layout/base.php", ["main" => $content]);
 	}
 
-	#[Post("/", "search.post")]
-	public function post(): ?string
+	#[Post("/music", "search.music")]
+	public function music(): ?string
 	{
 		$data = $this->validateRequest([
 			"term" => ["required"],
@@ -28,13 +29,29 @@ class SearchController extends Controller
 		if (isset($data["term"])) {
 			$tracks = Track::search($data["term"]);
 			if ($tracks) {
-				// Set the search term
-				session()->set("term", $data["term"]);
+				session()->set("search_term", $data["term"]);
+				return template("muse/search/results.php", ["tracks" => $tracks]);
 			}
-			return template("muse/search/results.php", ["tracks" => $tracks]);
 		}
-		// Clear search term
-		session()->delete("term");
+		session()->delete("search_term");
+		return null;
+	}
+
+	#[Post("/podcast", "search.podcast")]
+	public function podcast(): ?string
+	{
+		$data = $this->validateRequest([
+			"term" => ["required"],
+		]);
+		if (isset($data["term"])) {
+			$key = config("muse.podcast_key");
+			$client = new Client($key);
+			$res = $client->search(['q' => $data['term']]);
+			$results = json_decode($res);
+			if ($results) {
+				return template("muse/podcast/results.php", ["results" => $results]);
+			}
+		}
 		return null;
 	}
 }
