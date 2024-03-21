@@ -28,6 +28,10 @@
 	<script src="/js/hls.js"></script>
 	<script src="/js/main.js"></script>
 	<script src="/js/controls.js?<?=time()?>"></script>
+	<script src="/js/podcast.js?<?=time()?>"></script>
+	<script src="/js/radio.js?<?=time()?>"></script>
+	<script src="/js/track.js?<?=time()?>"></script>
+	<script src="/js/playlist.js?<?=time()?>"></script>
 	<?= $scripts ?? '' ?>
 </body>
 
