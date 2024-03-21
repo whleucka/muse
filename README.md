@@ -7,7 +7,7 @@ Muse is a web application inspired by Plex, built with **htmx** and **PHP** for 
     <em>Please note: this project is a work in progress 👷</em>
 </p>
 
-<strong>LNMPX</strong> Stack
+Stack
 - OS: <ins>L</ins>inux
 - Web server: <ins>N</ins>ginX
 - DB: <ins>M</ins>ySQL
