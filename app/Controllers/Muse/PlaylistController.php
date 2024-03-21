@@ -30,7 +30,7 @@ class PlaylistController extends Controller
 	#[Get("/set", "playlist.set", ['HX-Location={"path": "/playlist", "target": "#main", "select": "#main", "swap": "outerHTML"}'])]
 	public function playlist(): void
 	{
-		$term = session()->get("term");
+		$term = session()->get("search_term");
 		if ($term) {
 			$tracks = Track::search($term);
 			if ($tracks) {
