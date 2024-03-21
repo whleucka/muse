@@ -125,6 +125,13 @@ button:focus { outline: none !important; box-shadow: none !important; }
 	margin-right: 5px;
 }
 
+.podcast-row .cover {
+	border-radius: 5px;
+	height: 45px;
+	width: 45px;
+	margin-right: 5px;
+}
+
 .radio-row .station-name {
 	font-size: 1.05em;
 	color: #666;
