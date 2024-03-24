@@ -40,7 +40,7 @@ class PlaylistController extends Controller
 				// the first track in the playlist
 				session()->set("playlist_index", 0);
 				// Forget the search term
-				session()->delete("term");
+				session()->delete("search_term");
 			}
 		}
 	}
