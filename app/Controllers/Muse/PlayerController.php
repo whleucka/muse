@@ -9,40 +9,32 @@ use StellarRouter\{Get, Group};
 #[Group(prefix: "/player")]
 class PlayerController extends Controller
 {
-	private function nextIndex(array $playlist, int $current_index): int
+    /**
+     * @param array<int,mixed> $playlist
+     */
+    private function nextIndex(array $playlist, int $current_index, bool $shuffle, bool $repeat): int
 	{
-		// Defaults
-		if (!session()->has("shuffle")) session()->set("shuffle", true);
-		if (!session()->has("repeat")) session()->set("repeat", true);
-
-		$shuffle = session()->get("shuffle") === true;
-		$repeat = session()->get("repeat") === true; // wip
-
 		$playlist_count = count($playlist);
 
 		if ($shuffle) $current_index = rand(0, $playlist_count);
 		$index = (intval($current_index) + 1) % $playlist_count;
 		return $index !== $current_index
 			? $index
-			: $this->nextIndex($playlist, $current_index);
+			: $this->nextIndex($playlist, $current_index, $shuffle, $repeat);
 	}
 
-	private function prevIndex(array $playlist, int $current_index): int
+    /**
+     * @param array<int,mixed> $playlist
+     */
+    private function prevIndex(array $playlist, int $current_index, bool $shuffle, bool $repeat): int
 	{
-		// Defaults
-		if (!session()->has("shuffle")) session()->set("shuffle", true);
-		if (!session()->has("repeat")) session()->set("repeat", true);
-
-		$shuffle = session()->get("shuffle") === true;
-		$repeat = session()->get("repeat") === true; // wip
-
 		$playlist_count = count($playlist);
 
 		if ($shuffle) $current_index = rand(0, $playlist_count);
 		$index = intval($current_index - 1 + $playlist_count) % $playlist_count;
 		return $index !== $current_index
 			? $index
-			: $this->prevIndex($playlist, $current_index);
+			: $this->prevIndex($playlist, $current_index, $shuffle, $repeat);
 	}
 
 	#[Get("/shuffle", "player.shuffle", ["api"])]
@@ -82,8 +74,10 @@ class PlayerController extends Controller
 	{
 		$playlist = session()->get("playlist_tracks");
 		$playlist_index = session()->get("playlist_index");
+		$shuffle = session()->get("shuffle") ?? true;
+		$repeat = session()->get("repeat") ?? true;
 		if ($playlist && count($playlist) > 0) {
-			$next_index = $this->nextIndex($playlist, $playlist_index);
+			$next_index = $this->nextIndex($playlist, $playlist_index, $shuffle, $repeat);
 			if (isset($playlist[$next_index])) {
 				session()->set("playlist_index", $next_index);
 				$playlist_track = $playlist[$next_index] ?? null;
@@ -109,8 +103,10 @@ class PlayerController extends Controller
 	{
 		$playlist = session()->get("playlist_tracks");
 		$playlist_index = session()->get("playlist_index");
+		$shuffle = session()->get("shuffle") ?? true;
+		$repeat = session()->get("repeat") ?? true;
 		if ($playlist && count($playlist) > 0) {
-			$prev_index = $this->prevIndex($playlist, $playlist_index);
+			$prev_index = $this->prevIndex($playlist, $playlist_index, $shuffle, $repeat);
 			if (isset($playlist[$prev_index])) {
 				session()->set("playlist_index", $prev_index);
 				$playlist_track = $playlist[$prev_index] ?? null;
