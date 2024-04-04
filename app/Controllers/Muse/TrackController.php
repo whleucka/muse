@@ -9,23 +9,6 @@ use StellarRouter\{Get, Group};
 #[Group(prefix: "/track")]
 class TrackController extends Controller
 {
-	#[Get("/{uuid}", "track.uuid", ["api"])]
-	public function track(string $uuid): ?array
-	{
-		$track = Track::findByAttribute("uuid", $uuid);
-		if ($track) {
-			return [
-				"uuid" => $track->uuid,
-				"src" => "/track/stream/$uuid",
-				"title" => html_entity_decode($track->meta()->title),
-				"artist" => html_entity_decode($track->meta()->artist),
-				"album" => html_entity_decode($track->meta()->album),
-				"cover" => $track->meta()->cover,
-			];
-		}
-		return null;
-	}
-
 	#[Get("/stream/{uuid}", "track.stream")]
 	public function stream(string $uuid): void
 	{

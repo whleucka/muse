@@ -2,7 +2,6 @@
 
 namespace App\Controllers\Muse;
 
-use App\Models\Radio;
 use Nebula\Framework\Controller\Controller;
 use StellarRouter\{Get, Group};
 
@@ -20,29 +19,11 @@ class RadioController extends Controller
 	#[Get("/load", "radio.load")]
 	public function load(): string
 	{
-		$radio_stations = db()->fetchAll("SELECT uuid, src_url as src, location as artist,
-			station_name as title, 'Muse Radio' as album, cover_url as cover
+		$radio_stations = db()->fetchAll("SELECT uuid, src_url, location, station_name,
+			cover_url
 			FROM radio
 			ORDER BY location, station_name");
 
 		return template("muse/radio/results.php", ["radio_stations" => $radio_stations ?? []]);
 	}
-
-	#[Get("/station/{uuid}", "radio.station", ["api"])]
-	function station(string $uuid): ?array
-	{
-		$station = Radio::findByAttribute("uuid", $uuid);
-		if ($station) {
-			return [
-				"uuid" => $station->uuid,
-				"src" => $station->src_url,
-				"title" => $station->station_name,
-				"artist" => $station->location,
-				"album" => 'Muse Radio',
-				"cover" => $station->cover_url,
-			];
-		}
-		return null;
-	}
 }
-

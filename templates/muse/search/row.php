@@ -1,7 +1,14 @@
 <div id="<?=$track->uuid?>"
 	tabindex="-1"
 	class="track-row search-row d-flex align-items-center w-100 px-1 truncate mt-2"
-	onClick="trackRowPlay(event);">
+	onClick="trackRowPlay(event);"
+	data-uuid="<?=$track->uuid?>"
+	data-title="<?=$track->title?>"
+	data-artist="<?=$track->artist?>"
+	data-album="<?=$track->album?>"
+	data-cover="<?=$track->cover?>"
+	data-src="<?='/track/stream/'.$track->uuid?>"
+>
 	<img class="cover me-2"
 		src="/cover/<?=$track->uuid?>/28/28"
 		width="28"
