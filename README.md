@@ -2,10 +2,12 @@
 
 Muse is a web application inspired by Plex, built with **htmx** and **PHP** for a seamless user experience. The magic happens under the hood with **Nebula**, a custom framework designed specifically for crafting rich web applications using **htmx**.
 
-<p align="center" width="100%">
-    <img src="https://github.com/whleucka/muse/assets/71740767/aebd0924-0153-467c-8d46-fcec6835847b" alt="screenshot" title="Muse"><br>
-    <em>Please note: this project is a work in progress 👷</em>
-</p>
+<div align="center">
+<img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/3fb96134-7c9b-408c-bd72-278f4ef331b9" width="320" />
+<img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/53900045-2810-4fda-9f5a-42e32dbafd8b" width="320" />
+<img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/eba98798-9b90-4f8d-8215-acf2ffd77814" width="320" /><br>
+<em>Please note: this project is a work in progress 👷</em>
+</div>
 
 Stack
 - OS: <ins>L</ins>inux
