@@ -21,10 +21,10 @@ Stack
 - HD Radio: Introducing HD radio streaming! Now you can listen to high-quality radio stations directly within Muse. Simply select your favorite station and enjoy crystal-clear sound.
 - Web-Based Music Player: Access and play your entire music library from anywhere in the world through a user-friendly web interface.
 - Built with htmx & PHP: Leverages the power of htmx for a responsive and dynamic user experience, with a robust PHP backend powered by your custom Nebula framework.
+- Podcasts with ListenNote: Explore a world of podcasts using the ListenNote integration. Discover new shows, subscribe, and listen seamlessly.
 
 ### Future Features
 - Custom User Playlists: Create and curate your own playlists. Organize your music by mood, genre, or any other criteria you like.
-- Podcasts with ListenNote: Explore a world of podcasts using the ListenNote integration. Discover new shows, subscribe, and listen seamlessly.
 
 ### Perfect for...
 - Music enthusiasts who want a personal, cloud-accessible music library.
