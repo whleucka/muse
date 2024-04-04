@@ -1,6 +1,6 @@
 <nav id="navbar" class="navbar navbar-expand-sm bg-light">
   <div class="container-fluid">
-    <span class="navbar-brand d-flex align-items-center"><img src="/img/logo.png" width="32" height="32" /></span>
+    <a class="navbar-brand d-flex align-items-center" hx-get="/playlist" hx-target="#main" hx-select="#main" hx-swap="outerHTML"><img src="/img/logo.png" width="32" height="32" /></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#top-nav"
       aria-controls="top-nav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"><span data-feather="menu"></span></span>
