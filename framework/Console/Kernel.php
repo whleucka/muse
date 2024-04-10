@@ -2,11 +2,11 @@
 
 namespace Nebula\Framework\Console;
 
-use Nebula\Framework\System\Interface\Kernel as NebulaKernel;
+use Nebula\Framework\System\Interface\Kernel as NebulaInterface;
 use Nebula\Framework\Traits\Singleton;
-use Dotenv\Dotenv;
+use Nebula\Framework\System\Kernel as SystemKernel;
 
-class Kernel implements NebulaKernel
+class Kernel extends SystemKernel implements NebulaInterface
 {
     use Singleton;
 
@@ -22,19 +22,5 @@ class Kernel implements NebulaKernel
     protected function bootstrap(): void
     {
         $this->environment();
-    }
-
-    /**
-     * Load environment variables
-     * @param string $path path to .env
-     */
-    protected function environment(): void
-    {
-        $path = config("path.root");
-        if (!file_exists($path)) {
-            error_log("warning: your .env path: '$path' doesn't exist");
-        }
-        $dotenv = Dotenv::createImmutable($path);
-        $dotenv->safeLoad();
     }
 }

@@ -51,6 +51,10 @@ button:focus { outline: none !important; box-shadow: none !important; }
 	margin-right: 10px;
 }
 
+#navbar .nav-item.active {
+	font-weight: 800;
+}
+
 #search .track-row:hover {
 	cursor: pointer;
 	background-color: rgba(0, 0, 0, 0.05);

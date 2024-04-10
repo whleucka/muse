@@ -7,16 +7,16 @@
     </button>
     <div class="collapse navbar-collapse" id="top-nav">
       <ul class="navbar-nav me-auto mb-2 mb-sm-0">
-        <li class="nav-item">
+        <li class="nav-item" data-link="playlist">
           <a class="nav-link text-secondary" href="#" hx-get="/playlist" hx-target="#main" hx-select="#main" hx-swap="outerHTML"><span data-feather="music" class="me-2" width="16px"></span> Playlist</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" data-link="search">
           <a class="nav-link text-secondary" href="#" hx-get="/search" hx-target="#main" hx-select="#main" hx-swap="outerHTML"><span data-feather="search" class="me-2" width="16px"></span> Search</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" data-link="radio">
           <a class="nav-link text-secondary" href="#" hx-get="/radio" hx-target="#main" hx-select="#main" hx-swap="outerHTML"><span data-feather="radio" class="me-2" width="16px"></span> Radio</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" data-link="podcast">
           <a class="nav-link text-secondary" href="#" hx-get="/podcast" hx-target="#main" hx-select="#main" hx-swap="outerHTML"><span data-feather="mic" class="me-2" width="16px"></span> Podcasts</a>
         </li>
       </ul>

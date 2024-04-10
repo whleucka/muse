@@ -2,12 +2,12 @@
 feather.replace();
 
 // Auto close navbar when link is clicked
-const navLinks = document.querySelectorAll('.nav-item')
-const menuToggle = document.getElementById('top-nav')
+const navItems = document.querySelectorAll("#navbar .nav-item")
+const menuToggle = document.getElementById("top-nav")
 const bsCollapse = bootstrap.Collapse.getOrCreateInstance(menuToggle, {toggle: false})
-navLinks.forEach((l) => {
-    l.addEventListener('click', () => {
-        if (!menuToggle.classList.contains('collapsed')) {
+navItems.forEach((l) => {
+    l.addEventListener("click", () => {
+        if (!menuToggle.classList.contains("collapsed")) {
             bsCollapse.hide()
         }
     })
@@ -30,9 +30,9 @@ const postData = async (endpoint, data) => {
 		}
 	}
 	const response = await fetch(endpoint, {
-		method: 'POST',
+		method: "POST",
 		body: formdata,
-		redirect: 'follow'
+		redirect: "follow"
 	});
 	return response.json();
 }
