@@ -1,0 +1,5 @@
+<?php if($show): ?>
+<div id="filter-search">
+	<input hx-get="?term" hx-swap="outerHTML" hx-target="#table-update" hx-select="#table-update" hx-trigger="input changed delay:500ms, search" name="term" value="<?=$term?>" type="search" class="form-control form-control-sm" placeholder="...">
+</div>
+<?php endif ?>

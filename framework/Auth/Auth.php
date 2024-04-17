@@ -25,9 +25,17 @@ class Auth
         exit();
     }
 
-    public static function redirectHome(): void
+    public static function redirectProfile(): void
     {
-        header("Location: /home");
+        $route = config("security.sign_in_route");
+        header("Location: $route");
+        exit();
+    }
+
+    public static function successfulSignIn(): void
+    {
+        $route = config("security.sign_in_route");
+        header("HX-Location: $route");
         exit();
     }
 
@@ -40,7 +48,7 @@ class Auth
         }
         $user->login_at = date("Y-m-d H:i:s");
         $user->save();
-        self::redirectHome();
+        self::successfulSignIn();
     }
 
     public static function signOut(): void

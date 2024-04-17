@@ -2,7 +2,6 @@
 
 namespace Nebula\Framework\Controller;
 
-use StellarRouter\Router;
 use Symfony\Component\HttpFoundation\Request;
 
 class Controller
@@ -42,16 +41,16 @@ class Controller
     protected function render(string $path, array $data = []): string
     {
         // Template functions
-        $data["request_errors"] = fn(
+        $data["request_errors"] = fn (
             string $field,
             string $title = ""
         ) => $this->getRequestErrors($field, $title);
-        $data["has_error"] = fn(string $field) => $this->hasRequestError(
+        $data["has_error"] = fn (string $field) => $this->hasRequestError(
             $field
         );
-        $data["escape"] = fn(string $key) => $this->escapeRequest($key);
+        $data["escape"] = fn (string $key) => $this->escapeRequest($key);
         $data["title"] = config("application.name");
-        $data["route"] = function($name) {
+        $data["route"] = function ($name) {
             $router = app()->router();
             $route = $router->findRouteByName($name);
             return $route ? $route->getPath() : '';
@@ -71,8 +70,7 @@ class Controller
             ? template("components/request_errors.php", [
                 "errors" => $this->request_errors[$field],
                 "title" => $title,
-            ])
-            : "";
+            ]) : "";
     }
 
     /**

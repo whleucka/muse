@@ -12,4 +12,5 @@ return [
 	"middleware" => $app . "Middleware",
 	"public" => $root . "public",
 	"storage" => $root . "storage",
+	"modules" => $app . "Modules",
 ];

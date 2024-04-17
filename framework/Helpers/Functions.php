@@ -8,7 +8,9 @@
 use App\Application;
 use App\Http\Kernel as HttpKernel;
 use App\Console\Kernel as ConsoleKernel;
+use App\Models\User;
 use Lunar\Interface\DB;
+use Nebula\Framework\Auth\Auth;
 use Nebula\Framework\Session\Session;
 use Nebula\Framework\Template\Engine;
 
@@ -16,6 +18,11 @@ function app(): Application
 {
     $kernel = HttpKernel::getInstance();
     return Application::getInstance($kernel);
+}
+
+function user(): ?User
+{
+    return Auth::user();
 }
 
 function json(mixed $data)

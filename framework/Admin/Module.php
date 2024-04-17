@@ -1,0 +1,352 @@
+<?php
+
+namespace Nebula\Framework\Admin;
+
+use Exception;
+
+class Module
+{
+	/** Module */
+	protected string $sql_table = ''; // SQL table
+	protected string $primary_key = ''; // Primary key of SQL table
+	protected string $title = ''; // Module title -- appears top of module
+	protected bool $edit = true; // Edit mode enabled
+	protected bool $create = true; // Create mode enabled
+	protected bool $delete = true; // Delete mode enabled
+
+	/** Table */
+	protected array $table_columns = []; // SQL columns
+	protected string $table_group_by = ''; // GROUP BY clause
+	protected string $table_order_by = ''; // ORDER BY clause
+	protected string $table_sort = "DESC"; // Sort order
+	private array $table_where = []; // WHERE clause conditions/params
+	private array $table_having = []; // HAVING clause conditions/params
+	private int $page = 1; // OFFSET clause
+	private int $total_pages = 1; // Total number of pages
+	private int $results_per_page = 10; // LIMIT clause
+	private int $total_results = 0; // Total row count
+
+	/** Filters */
+	protected array $filter_links = []; // Table filter links
+	protected array $search_columns = []; // Searchable columns
+
+	public function __construct(
+		private string $path,
+	) {
+	}
+
+	/**
+	 * Process a module request
+	 */
+	public function processRequest(array $request): void
+	{
+		if (isset($request["page"])) {
+			$this->setPage($request["page"]);
+		}
+		if (isset($request["term"])) {
+			$this->setSearch($request["term"]);
+		}
+		if (isset($request["filter_link"])) {
+			$this->setFilterLink($request["filter_link"]);
+		}
+	}
+
+	/**
+	 * Handle all the filters, which add where clauses to the main query
+	 */
+	private function filters(bool $filter_links = true): void
+	{
+		if ($filter_links) {
+			$this->handleFilterLinks();
+		}
+		$this->handleSearch();
+		$this->handlePage();
+	}
+
+	/**
+	 * Does this module have DELETE permission
+	 */
+	public function hasDeletePermission(): bool
+	{
+		return $this->delete;
+	}
+
+	/**
+	 * Does this module have EDIT permission
+	 */
+	public function hasEditPermission(): bool
+	{
+		return $this->edit;
+	}
+
+	/**
+	 * Does this module have CREATE permission
+	 */
+	public function hasCreatePermission(): bool
+	{
+		return $this->create;
+	}
+
+	/**
+	 * Get the module path
+	 * How the module route is resolved (ie, /admin/users)
+	 */
+	public function getPath(): string
+	{
+		return $this->path;
+	}
+
+	/**
+	 * Get the module title
+	 * The title at the top of a module
+	 */
+	public function getTitle(): string
+	{
+		return $this->title;
+	}
+
+	/**
+	 * Get the filter link row count
+	 */
+	public function getFilterLinkCount(int $idx): int
+	{
+		// Get 0-indexed array
+		$filters = array_values($this->filter_links);
+		// Set the filter according to the index
+		$filter = $filters[$idx];
+		// Add the filter where clause
+		$this->addWhere($filter);
+		// Update filters for proper counts
+		$this->filters(false);
+		// Get the rowCount
+		$this->getTableData();
+		return $this->total_results;
+	}
+
+	/**
+	 * Handle the current page
+	 */
+	private function handlePage(): void
+	{
+		$this->total_results = $this->getTotalCount();
+		$this->total_pages = ceil($this->total_results / $this->results_per_page);
+		$path = $this->path;
+		$page = session()->get($path . "_page");
+		if ($page > 0 && $page <= $this->total_pages) {
+			$this->page = $page;
+		} else {
+			$this->page = 1;
+		}
+	}
+
+	/**
+	 * Handle the search term, add where clause
+	 */
+	private function handleSearch(): void
+	{
+		$path = $this->path;
+		$search_term = session()->get($path . "_search_term");
+		if ($search_term) {
+			$conditions = array_map(fn ($column) => "($column LIKE ?)", $this->search_columns);
+			$this->addWhere(implode(" OR ", $conditions), ...array_fill(0, count($this->search_columns), "$search_term%"));
+		}
+	}
+
+	/**
+	 * Handle the filter links, add where clause
+	 */
+	private function handleFilterLinks(): void
+	{
+		if (count($this->filter_links) === 0) return;
+		$path = $this->path;
+		$idx = session()->get($path . "_filter_link");
+		// The first filter link is the default
+		if (is_null($idx)) {
+			$idx = 0;
+			session()->set($path . "_filter_link", 0);
+		}
+		$filters = array_values($this->filter_links);
+		$filter = $filters[$idx];
+		$this->addWhere($filter);
+	}
+
+	/**
+	 * Set the session page
+	 */
+	private function setPage(int $page): void
+	{
+		$path = $this->path;
+		session()->set($path . "_page", $page);
+		$this->page = $page;
+	}
+
+	/**
+	 * Set the session search term
+	 */
+	private function setSearch(string $term): void
+	{
+		$path = $this->path;
+		if (trim($term) !== '') {
+			session()->set($path . "_search_term", $term);
+		} else {
+			session()->delete($path . "_search_term");
+		}
+	}
+
+	/**
+	 * Set the session search term
+	 */
+	private function setFilterLink(int $idx): void
+	{
+		$path = $this->path;
+		session()->set($path . "_filter_link", $idx);
+	}
+
+	/**
+	 * Render the view module.index
+	 */
+	public function viewIndex(): string
+	{
+		$this->filters();
+		$path = $this->path;
+		return template("module/index/index.php", [
+			"filters" => [
+				"search" => template("module/index/search.php", [
+					"show" => !empty($this->search_columns),
+					"term" => session()->get($path . "_search_term"),
+				]),
+				"link" => template("module/index/filter_links.php", [
+					"action" => "/admin/$path/link-count",
+					"show" => !empty($this->filter_links),
+					"current" => session()->get($path . "_filter_link"),
+					"links" => array_keys($this->filter_links),
+				]),
+			],
+			"table" => template("module/index/table.php", [
+				"headers" => $this->getTableHeaders(),
+				"data" => $this->getTableData(),
+			]),
+			"pagination" => template("module/index/pagination.php", [
+				"show" => $this->total_pages > 1,
+				"current_page" => $this->page,
+				"total_results" => $this->total_results,
+				"total_pages" => $this->total_pages,
+			])
+		]);
+	}
+
+	/**
+	 * Format the table query condtions as 'AND' delimited
+	 */
+	protected function formatConditions(array $conditions): string
+	{
+		$out = [];
+		foreach ($conditions as $item) {
+			[$clause, $params] = $item;
+			// Add parens to clause for order of ops
+			$out[] = '(' . $clause . ')';
+		}
+		return sprintf("%s", implode(" AND ", $out));
+	}
+
+	/**
+	 * Get the table columns headers
+	 */
+	private function getTableHeaders(): array
+	{
+		return array_keys($this->table_columns);
+	}
+
+	/**
+	 * Get extract query params
+	 * These are replacement values for the '?' in the query
+	 */
+	private function getParams(array $target): array
+	{
+		if (!$target) return [];
+		$params = [];
+		foreach ($target as $item) {
+			[$clause, $param_array] = $item;
+			$params = [...$params, ...$param_array];
+		}
+		return $param_array;
+	}
+
+	/**
+	 * Get the table query
+	 * This is the query for module.index
+	 */
+	private function getTableQuery($limit_query = true): string
+	{
+		$columns = $this->table_columns ? implode(", ", $this->table_columns) : '*';
+		$where = $this->table_where ? "WHERE " . $this->formatConditions($this->table_where) : '';
+		$group_by = $this->table_group_by ? "GROUP BY " . $this->table_group_by : '';
+		$having = $this->table_having ? "HAVING " . $this->formatConditions($this->table_having) : '';
+		$order_by = $this->table_order_by ? "ORDER BY " . $this->table_order_by : '';
+		$limit = $limit_query ? "LIMIT " . ($this->page - 1) * $this->results_per_page . ", " . $this->results_per_page : '';
+		return sprintf("SELECT %s FROM %s %s %s %s %s %s", ...[
+			$columns,
+			$this->sql_table,
+			$where,
+			$group_by,
+			$having,
+			$order_by,
+			$limit,
+		]);
+	}
+
+	/**
+	 * Add a table where clause
+	 */
+	protected function addWhere(string $clause, int|string ...$replacements)
+	{
+		$this->table_where[] = [$clause, [...$replacements]];
+	}
+
+	/**
+	 * Add a table having clause
+	 */
+	protected function addHaving(string $clause, int|string ...$replacements)
+	{
+		$this->table_having[] = [$clause, [...$replacements]];
+	}
+
+	/**
+ * Get the total results count, without a limit or offset
+ */
+	private function getTotalCount(): int
+	{
+		if (!$this->sql_table) return [];
+		$sql = $this->getTableQuery(false);
+		$where_params = $this->getParams($this->table_where);
+		$having_params = $this->getParams($this->table_having);
+		$params = [...$where_params, ...$having_params];
+		try {
+			$stmt = db()->run($sql, $params);
+			return $stmt->rowCount();
+		} catch (Exception $ex) {
+			error_log($ex->getMessage());
+			throw new Exception("total count query error");
+		}
+	}
+
+	/**
+	 * Run the table query and return the dataset
+	 * This dataset is for module.index
+	 */
+	protected function getTableData(): array
+	{
+		if (!$this->sql_table) return [];
+		$sql = $this->getTableQuery();
+		$where_params = $this->getParams($this->table_where);
+		$having_params = $this->getParams($this->table_having);
+		$params = [...$where_params, ...$having_params];
+		try {
+			$stmt = db()->run($sql, $params);
+			return $stmt->fetchAll();
+		} catch (Exception $ex) {
+			error_log($ex->getMessage());
+			throw new Exception("table data query error");
+		}
+	}
+}

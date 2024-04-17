@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Auth;
+namespace App\Controllers\Admin\Auth;
 
 use Nebula\Framework\Auth\Auth;
 use Nebula\Framework\Controller\Controller;

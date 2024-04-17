@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Auth;
+namespace App\Controllers\Admin\Auth;
 
 use Nebula\Framework\Auth\Auth;
 use Nebula\Framework\Controller\Controller;
@@ -10,8 +10,8 @@ class SignInController extends Controller
 {
     protected function bootstrap(): void
     {
-        if (Auth::user()) {
-            Auth::redirectHome();
+        if (user()) {
+            Auth::redirectProfile();
         }
     }
 
