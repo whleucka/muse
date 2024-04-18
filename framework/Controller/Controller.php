@@ -154,7 +154,7 @@ class Controller
         ?string $key = null,
         mixed $default = null
     ): mixed {
-        if (!$key) {
+        if (is_null($key)) {
             return $this->request;
         }
         return $this->request->get($key, $default);

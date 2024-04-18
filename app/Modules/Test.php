@@ -14,8 +14,17 @@ class Test extends Module
 		$this->table_columns = [
 			"ID" => "id",
 			"Name" => "name",
+			"Number" => "number",
 			"Updated At" => "updated_at",
 			"Created At" => "created_at",
+		];
+		$this->filter_links = [
+			"All" => "1=1",
+			"Number" => "number IS NOT NULL"
+		];
+		$this->search_columns = [
+			"name",
+			"number",
 		];
 		parent::__construct('test');
 	}

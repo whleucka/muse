@@ -62,6 +62,7 @@ class ModuleController extends Controller
 			"term" => [],
 			"filter_link" => [],
 		]);
+		// TODO find out why you cannot use rules here
 		if ($data) {
 			$this->module->processRequest($data);
 		}

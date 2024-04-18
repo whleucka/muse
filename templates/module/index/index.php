@@ -1,14 +1,12 @@
 <section id="filters">
 	<?=$filters['search']?>
 </section>
-<section id="table-update">
-	<section id="filter-links" class="my-2">
+<section id="table">
+	<div id="filter-links" class="my-2">
 		<?=$filters['link']?>
-	</section>
-	<section id="table">
-		<?=$table?>
-	</section>
-	<section id="pagination">
+	</div>
+	<?=$table?>
+	<div id="pagination">
 		<?=$pagination?>
-	</section>
+	</div>
 </section>

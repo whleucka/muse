@@ -50,4 +50,9 @@
 .page-item.active .page-link {
 	background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
 	border-color: #ccc;
+	color: azure;
+}
+
+.pagination-link .page-link {
+	color: #666;
 }

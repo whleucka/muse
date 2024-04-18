@@ -31,23 +31,25 @@ class Module
 	protected array $search_columns = []; // Searchable columns
 
 	public function __construct(
-		private string $path,
+		private string $path, // Module route path
 	) {
 	}
 
 	/**
 	 * Process a module request
+	 * Setting page number, search term, other filters, etc
 	 */
 	public function processRequest(array $request): void
 	{
 		if (isset($request["page"])) {
-			$this->setPage($request["page"]);
+			$this->setPage(intval($request["page"]));
 		}
 		if (isset($request["term"])) {
 			$this->setSearch($request["term"]);
 		}
 		if (isset($request["filter_link"])) {
-			$this->setFilterLink($request["filter_link"]);
+			$this->setPage(1);
+			$this->setFilterLink(intval($request["filter_link"]));
 		}
 	}
 
@@ -108,12 +110,12 @@ class Module
 	/**
 	 * Get the filter link row count
 	 */
-	public function getFilterLinkCount(int $idx): int
+	public function getFilterLinkCount(int $index): int
 	{
 		// Get 0-indexed array
 		$filters = array_values($this->filter_links);
 		// Set the filter according to the index
-		$filter = $filters[$idx];
+		$filter = $filters[$index];
 		// Add the filter where clause
 		$this->addWhere($filter);
 		// Update filters for proper counts
@@ -159,14 +161,14 @@ class Module
 	{
 		if (count($this->filter_links) === 0) return;
 		$path = $this->path;
-		$idx = session()->get($path . "_filter_link");
+		$index = session()->get($path . "_filter_link");
 		// The first filter link is the default
-		if (is_null($idx)) {
-			$idx = 0;
+		if (is_null($index)) {
+			$index = 0;
 			session()->set($path . "_filter_link", 0);
 		}
 		$filters = array_values($this->filter_links);
-		$filter = $filters[$idx];
+		$filter = $filters[$index];
 		$this->addWhere($filter);
 	}
 
@@ -196,10 +198,10 @@ class Module
 	/**
 	 * Set the session search term
 	 */
-	private function setFilterLink(int $idx): void
+	private function setFilterLink(int $index): void
 	{
 		$path = $this->path;
-		session()->set($path . "_filter_link", $idx);
+		session()->set($path . "_filter_link", $index);
 	}
 
 	/**
@@ -312,8 +314,8 @@ class Module
 	}
 
 	/**
- * Get the total results count, without a limit or offset
- */
+	 * Get the total results count, without a limit or offset
+	 */
 	private function getTotalCount(): int
 	{
 		if (!$this->sql_table) return [];
