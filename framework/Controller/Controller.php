@@ -97,6 +97,12 @@ class Controller
                 $rule = strtolower($rule);
                 $value = $this->request($field);
                 $result = match ($rule) {
+                    // > 0
+                    "greater_than_zero" => $value ? $value > 0 : true,
+                    // Cannot be empty string
+                    "non_empty_string" => $value ? trim($value) !== '' : true,
+                    // >= 0
+                    "zero_or_greater" => $value ? $value > 0 : true,
                     // value is an array
                     "array" => is_array($value),
                     // value is an email address

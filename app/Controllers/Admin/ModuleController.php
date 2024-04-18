@@ -58,11 +58,10 @@ class ModuleController extends Controller
 	public function index($path): string
 	{
 		$data = $this->validateRequest([
-			"page" => [],
-			"term" => [],
-			"filter_link" => [],
+			"page" => ["greater_than_zero"],
+			"term" => ["non_empty_string"],
+			"filter_link" => ["zero_or_greater"],
 		]);
-		// TODO find out why you cannot use rules here
 		if ($data) {
 			$this->module->processRequest($data);
 		}
