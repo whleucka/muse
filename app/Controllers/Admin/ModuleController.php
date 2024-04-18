@@ -58,9 +58,9 @@ class ModuleController extends Controller
 	public function index($path): string
 	{
 		$data = $this->validateRequest([
-			"page" => ["greater_than_zero"],
+			"page" => ["min|0"],
 			"term" => ["non_empty_string"],
-			"filter_link" => ["zero_or_greater"],
+			"filter_link" => ["min|0"],
 		]);
 		if ($data) {
 			$this->module->processRequest($data);

@@ -85,56 +85,57 @@ class Controller
         );
     }
 
-    protected function validateRequest(array $ruleset): array
+    public function validateRequest(array $ruleset): array
     {
         $data = [];
         foreach ($ruleset as $field => $rules) {
-            $data[$field] = $this->request($field);
+            $data[$field] = $value = $this->request($field);
+            $is_required = in_array("required", $rules);
             foreach ($rules as $rule) {
                 $raw = explode("|", $rule);
                 $rule = $raw[0];
                 $arg_1 = $raw[1] ?? null;
                 $rule = strtolower($rule);
-                $value = $this->request($field);
-                $result = match ($rule) {
-                    // > 0
-                    "greater_than_zero" => $value ? $value > 0 : true,
-                    // Cannot be empty string
-                    "non_empty_string" => $value ? trim($value) !== '' : true,
-                    // >= 0
-                    "zero_or_greater" => $value ? $value > 0 : true,
-                    // value is an array
-                    "array" => is_array($value),
-                    // value is an email address
-                    "email" => filter_var($value, FILTER_VALIDATE_EMAIL),
-                    // value is a float
-                    "float" => is_float($value),
-                    // value is an integer
-                    "int" => is_int($value),
-                    // value must match other request item
-                    "match" => $value === $this->request($arg_1),
-                    // value must be less than or equal to max
-                    "max" => intval($value) <= intval($arg_1),
-                    // value must be larger than or equal to min
-                    "min" => intval($value) >= intval($arg_1),
-                    // length must be less than or equal to maxlength
-                    "maxlength" => strlen($value) <= intval($arg_1),
-                    // length must be larger than or equal to minlength
-                    "minlength" => strlen($value) >= intval($arg_1),
-                    // value is numeric
-                    "numeric" => is_numeric($value),
-                    // value is required
-                    "required" => $value && trim($value) !== "",
-                    // vlaue is a string
-                    "string" => is_string($value),
-                    // value is unique in db
-                    "unique" => !db()->fetch(
-                        "SELECT * FROM $arg_1 WHERE $field = ?",
-                        $value
-                    ),
-                    // value contains a symbol
-                    "symbol" => preg_match("/[^\w\s]/", $value),
-                };
+                if (is_null($value) && !$is_required) {
+                    $result = true;
+                } else {
+                    $result = match ($rule) {
+                        // Cannot be empty string
+                        "non_empty_string" => trim($value) !== '',
+                        // value is an array
+                        "array" => is_array($value),
+                        // value is an email address
+                        "email" => filter_var($value, FILTER_VALIDATE_EMAIL),
+                        // value is a float
+                        "float" => is_float($value),
+                        // value is an integer
+                        "int" => is_int($value),
+                        // value must match other request item
+                        "match" => $value === $this->request($arg_1),
+                        // value must be less than or equal to max
+                        "max" => intval($value) <= intval($arg_1),
+                        // value must be larger than or equal to min
+                        "min" => intval($value) >= intval($arg_1),
+                        // length must be less than or equal to maxlength
+                        "maxlength" => strlen($value) <= intval($arg_1),
+                        // length must be larger than or equal to minlength
+                        "minlength" => strlen($value) >= intval($arg_1),
+                        // value is numeric
+                        "numeric" => is_numeric($value),
+                        // value is required
+                        "required" => $value && trim($value) !== "",
+                        // vlaue is a string
+                        "string" => is_string($value),
+                        // value is unique in db
+                        "unique" => !db()->fetch(
+                            "SELECT * FROM $arg_1 WHERE $field = ?",
+                            $value
+                        ),
+                        // value contains a symbol
+                        "symbol" => preg_match("/[^\w\s]/", $value),
+                        default => false,
+                    };
+                }
                 if (!$result && isset($this->error_messages[$rule])) {
                     $this->addRequestError(
                         $field,
