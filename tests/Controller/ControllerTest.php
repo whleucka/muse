@@ -61,7 +61,7 @@ final class ControllerTest extends TestCase
 
 	public function testValidateRequestArray(): void
 	{
-		$payload = ["collection" => [1,2,3]];
+		$payload = ["collection" => [1, 2, 3]];
 		$controller = new Controller(new Request($payload));
 		$data = $controller->validateRequest([
 			"collection" => ["array"]
@@ -72,7 +72,6 @@ final class ControllerTest extends TestCase
 		$controller = new Controller(new Request($payload));
 		$data = $controller->validateRequest(["age" => ["array"]]);
 		$this->assertEmpty($data);
-
 	}
 
 	public function testValidateRequestEmail(): void
