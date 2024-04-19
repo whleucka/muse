@@ -143,11 +143,15 @@ class Module
 		$this->total_results = $this->getTotalCount();
 		$this->total_pages = ceil($this->total_results / $this->results_per_page);
 		$path = $this->path;
-		$page = session()->get($path . "_page");
+		$page = intval(session()->get($path . "_page"));
 		if ($page > 0 && $page <= $this->total_pages) {
 			$this->page = $page;
 		} else {
-			$this->page = 1;
+			if ($page < 1) {
+				$this->page = 1;
+			} else if ($page > $this->total_pages) {
+				$this->page = $this->total_pages;
+			}
 		}
 	}
 
