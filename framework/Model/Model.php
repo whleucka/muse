@@ -16,6 +16,9 @@ class Model
         private mixed $key = null
     ) {
         if (!is_null($key)) {
+            if (empty($this->columns)) {
+                throw new Exception("No columns have been set");
+            }
             if (!$this->load($key)) {
                 throw new Exception("model not found");
             }

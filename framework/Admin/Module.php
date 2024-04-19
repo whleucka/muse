@@ -2,6 +2,7 @@
 
 namespace Nebula\Framework\Admin;
 
+use App\Models\Session;
 use Exception;
 
 class Module
@@ -51,6 +52,15 @@ class Module
 			$this->setPage(1);
 			$this->setFilterLink(intval($request["filter_link"]));
 		}
+	}
+
+	private function recordSession()
+	{
+		Session::new([
+			"request_uri" => $_SERVER["REQUEST_URI"],
+			"ip" => ip2long(user_ip()),
+			"user_id" => user()->id
+		]);
 	}
 
 	/**
@@ -209,6 +219,7 @@ class Module
 	 */
 	public function viewIndex(): string
 	{
+		$this->recordSession();
 		$this->filters();
 		$path = $this->path;
 		return template("module/index/index.php", [
@@ -284,7 +295,7 @@ class Module
 		$where = $this->table_where ? "WHERE " . $this->formatConditions($this->table_where) : '';
 		$group_by = $this->table_group_by ? "GROUP BY " . $this->table_group_by : '';
 		$having = $this->table_having ? "HAVING " . $this->formatConditions($this->table_having) : '';
-		$order_by = $this->table_order_by ? "ORDER BY " . $this->table_order_by : '';
+		$order_by = $this->table_order_by ? "ORDER BY " . $this->table_order_by . ' ' . $this->table_sort : '';
 		$limit = $limit_query ? "LIMIT " . ($this->page - 1) * $this->results_per_page . ", " . $this->results_per_page : '';
 		return sprintf("SELECT %s FROM %s %s %s %s %s %s", ...[
 			$columns,
@@ -311,6 +322,13 @@ class Module
 	protected function addHaving(string $clause, int|string ...$replacements)
 	{
 		$this->table_having[] = [$clause, [...$replacements]];
+	}
+
+	/**
+	 * Override a table value
+	 */
+	protected function tableValueOverride(&$row): void
+	{
 	}
 
 	/**
@@ -345,7 +363,11 @@ class Module
 		$params = [...$where_params, ...$having_params];
 		try {
 			$stmt = db()->run($sql, $params);
-			return $stmt->fetchAll();
+			$results = $stmt->fetchAll();
+			foreach ($results as $data) {
+				$this->tableValueOverride($data);
+			}
+			return $results;
 		} catch (Exception $ex) {
 			error_log($ex->getMessage());
 			throw new Exception("table data query error");
