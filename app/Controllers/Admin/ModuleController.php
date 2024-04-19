@@ -59,6 +59,7 @@ class ModuleController extends Controller
 	{
 		$data = $this->validateRequest([
 			"page" => ["min|0"],
+			"per_page" => ["min|0"],
 			"term" => ["non_empty_string"],
 			"filter_link" => ["min|0"],
 		]);

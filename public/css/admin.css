@@ -47,8 +47,19 @@
 	background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
 	border-color: #ccc;
 	color: azure;
+	font-weight: bold;
 }
-
+.page-item.active a:hover {
+	color: azure !important;
+}
+#per-page select {
+	height: 37px;
+	background-color: #fff;
+}
+#per-page .page-link {
+	background-color: #fff !important;
+}
 .pagination-link .page-link {
 	color: #666;
 }
+

@@ -20,12 +20,12 @@ class Module
 	protected string $table_group_by = ''; // GROUP BY clause
 	protected string $table_order_by = ''; // ORDER BY clause
 	protected string $table_sort = "DESC"; // Sort order
-	protected int $side_links = 2; // Number of pagination side links
+	protected int $side_links = 1; // Number of pagination side links
 	private array $table_where = []; // WHERE clause conditions/params
 	private array $table_having = []; // HAVING clause conditions/params
 	private int $page = 1; // OFFSET clause
+	private int $per_page = 10; // LIMIT clause
 	private int $total_pages = 1; // Total number of pages
-	private int $results_per_page = 10; // LIMIT clause
 	private int $total_results = 0; // Total row count
 
 	/** Filters */
@@ -45,6 +45,9 @@ class Module
 	{
 		if (isset($request["page"])) {
 			$this->setPage(intval($request["page"]));
+		}
+		if (isset($request["per_page"])) {
+			$this->setPerPage(intval($request["per_page"]));
 		}
 		if (isset($request["term"])) {
 			$this->setSearch($request["term"]);
@@ -73,6 +76,7 @@ class Module
 			$this->handleFilterLinks();
 		}
 		$this->handleSearch();
+		$this->handlePerPage();
 		$this->handlePage();
 	}
 
@@ -142,17 +146,31 @@ class Module
 	private function handlePage(): void
 	{
 		$this->total_results = $this->getTotalCount();
-		$this->total_pages = ceil($this->total_results / $this->results_per_page);
+		$this->total_pages = ceil($this->total_results / $this->per_page);
 		$path = $this->path;
 		$page = intval(session()->get($path . "_page"));
 		if ($page > 0 && $page <= $this->total_pages) {
 			$this->page = $page;
 		} else {
 			if ($page < 1) {
+				session()->set($path . "_page", 1);
 				$this->page = 1;
 			} else if ($page > $this->total_pages) {
+				session()->set($path . "_page", $this->total_pages);
 				$this->page = $this->total_pages;
 			}
+		}
+	}
+
+	/**
+	 * Handle the results per page
+	 */
+	private function handlePerPage(): void
+	{
+		$path = $this->path;
+		$per_page = intval(session()->get($path . "_per_page"));
+		if ($per_page > 0) {
+			$this->per_page = $per_page;
 		}
 	}
 
@@ -195,6 +213,17 @@ class Module
 		$path = $this->path;
 		session()->set($path . "_page", $page);
 		$this->page = $page;
+	}
+
+	/**
+	 * Set the results per page
+	 */
+	private function setPerPage(int $per_page): void
+	{
+		$path = $this->path;
+		session()->set($path . "_per_page", $per_page);
+		session()->set($path . "_page", 1);
+		$this->per_page = $per_page;
 	}
 
 	/**
@@ -245,10 +274,24 @@ class Module
 				"data" => $this->getTableData(),
 			]),
 			"pagination" => template("module/index/pagination.php", [
-				"show" => $this->total_pages > 1,
+				"show" => $this->per_page > $this->total_results || $this->total_pages > 1,
 				"current_page" => $this->page,
 				"total_results" => $this->total_results,
 				"total_pages" => $this->total_pages,
+				"per_page" => $this->per_page,
+				"per_page_options" => [
+					5,
+					10,
+					25,
+					50,
+					100,
+					200,
+					500,
+					750,
+					1000,
+					2000,
+					5000
+				],
 				"side_links" => $this->side_links,
 			])
 		]);
@@ -302,7 +345,7 @@ class Module
 		$group_by = $this->table_group_by ? "GROUP BY " . $this->table_group_by : '';
 		$having = $this->table_having ? "HAVING " . $this->formatConditions($this->table_having) : '';
 		$order_by = $this->table_order_by ? "ORDER BY " . $this->table_order_by . ' ' . $this->table_sort : '';
-		$limit = $limit_query ? "LIMIT " . ($this->page - 1) * $this->results_per_page . ", " . $this->results_per_page : '';
+		$limit = $limit_query ? "LIMIT " . ($this->page - 1) * $this->per_page . ", " . $this->per_page : '';
 		return sprintf("SELECT %s FROM %s %s %s %s %s %s", ...[
 			$columns,
 			$this->sql_table,
