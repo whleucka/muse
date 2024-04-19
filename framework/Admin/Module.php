@@ -20,6 +20,7 @@ class Module
 	protected string $table_group_by = ''; // GROUP BY clause
 	protected string $table_order_by = ''; // ORDER BY clause
 	protected string $table_sort = "DESC"; // Sort order
+	protected int $side_links = 2; // Number of pagination side links
 	private array $table_where = []; // WHERE clause conditions/params
 	private array $table_having = []; // HAVING clause conditions/params
 	private int $page = 1; // OFFSET clause
@@ -248,6 +249,7 @@ class Module
 				"current_page" => $this->page,
 				"total_results" => $this->total_results,
 				"total_pages" => $this->total_pages,
+				"side_links" => $this->side_links,
 			])
 		]);
 	}

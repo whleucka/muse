@@ -2,6 +2,7 @@
 
 namespace App\Modules;
 
+use App\Models\User;
 use Nebula\Framework\Admin\Module;
 
 class Sessions extends Module
@@ -27,5 +28,7 @@ class Sessions extends Module
 	{
 		// Convert INT to IP
 		$row->ip = long2ip($row->ip);
+		// Lookup user
+		$row->user_id = User::find($row->user_id)->name;
 	}
 }
