@@ -58,7 +58,10 @@ class Module
 		}
 	}
 
-	private function recordSession()
+	/**
+	 * Record a user session
+	 */
+	private function recordSession(): void
 	{
 		Session::new([
 			"request_uri" => $_SERVER["REQUEST_URI"],
@@ -183,7 +186,7 @@ class Module
 		$search_term = session()->get($path . "_search_term");
 		if ($search_term) {
 			$conditions = array_map(fn ($column) => "($column LIKE ?)", $this->search_columns);
-			$this->addWhere(implode(" OR ", $conditions), ...array_fill(0, count($this->search_columns), "$search_term%"));
+			$this->addWhere(implode(" OR ", $conditions), ...array_fill(0, count($this->search_columns), "%$search_term%"));
 		}
 	}
 
@@ -345,7 +348,8 @@ class Module
 		$group_by = $this->table_group_by ? "GROUP BY " . $this->table_group_by : '';
 		$having = $this->table_having ? "HAVING " . $this->formatConditions($this->table_having) : '';
 		$order_by = $this->table_order_by ? "ORDER BY " . $this->table_order_by . ' ' . $this->table_sort : '';
-		$limit = $limit_query ? "LIMIT " . ($this->page - 1) * $this->per_page . ", " . $this->per_page : '';
+		$page = max(($this->page - 1) * $this->per_page, 0);
+		$limit = $limit_query ? "LIMIT " . $page . ", " . $this->per_page : '';
 		return sprintf("SELECT %s FROM %s %s %s %s %s %s", ...[
 			$columns,
 			$this->sql_table,

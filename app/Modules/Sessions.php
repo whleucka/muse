@@ -19,6 +19,9 @@ class Sessions extends Module
 			"User" => "user_id",
 			"Created" => "created_at",
 		];
+		$this->search_columns = [
+			"request_uri"
+		];
 		$this->table_order_by = "id";
 		$this->table_sort = "DESC";
 		parent::__construct('sessions');
