@@ -134,13 +134,20 @@ class Module
 		$filters = array_values($this->filter_links);
 		// Set the filter according to the index
 		$filter = $filters[$index];
-		// Add the filter where clause
-		$this->addWhere($filter);
+		// Add the filter having clause (aliases work)
+		$this->addHaving($filter);
 		// Update filters for proper counts
 		$this->filters(false);
 		// Get the rowCount
-		$this->getTableData();
-		return $this->total_results;
+		$this->page = 1;
+		$this->per_page = 1001;
+
+		$sql = $this->getTableQuery();
+		$where_params = $this->getParams($this->table_where);
+		$having_params = $this->getParams($this->table_having);
+		$params = [...$where_params, ...$having_params];
+		$stmt = db()->run($sql, $params);
+		return $stmt->rowCount();
 	}
 
 	/**
@@ -205,7 +212,8 @@ class Module
 		}
 		$filters = array_values($this->filter_links);
 		$filter = $filters[$index];
-		$this->addWhere($filter);
+		// Use having so that aliases work
+		$this->addHaving($filter);
 	}
 
 	/**

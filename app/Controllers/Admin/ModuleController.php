@@ -7,6 +7,7 @@ use Nebula\Framework\Admin\Module;
 use Nebula\Framework\Controller\Controller;
 use StellarRouter\{Delete, Get, Group, Patch, Post};
 use Symfony\Component\HttpFoundation\Response;
+use Exception;
 
 #[Group(prefix: "/admin", middleware: ["auth"])]
 class ModuleController extends Controller
@@ -80,7 +81,12 @@ class ModuleController extends Controller
 			"index" => [],
 		]);
 		if ($data) {
-			return $this->module->getFilterLinkCount($data["index"]);
+			try {
+				$count = $this->module->getFilterLinkCount($data["index"]);
+				return $count > 1000 ? "1000+" : $count;
+			} catch (Exception $ex) {
+				return "??";
+			}
 		}
 		return 0;
 	}

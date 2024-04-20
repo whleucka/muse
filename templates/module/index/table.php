@@ -1,5 +1,5 @@
 <div class="table-responsive">
-	<table class="table table-sm">
+	<table class="table">
 		<thead class="gradient-dark">
 			<tr>
 				<?php foreach ($headers as $header) : ?>

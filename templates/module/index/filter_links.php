@@ -4,7 +4,7 @@
 		hx-get="?filter_link=<?=$idx?>" hx-swap="outerHTML" hx-target="#table" hx-select="#table" hx-trigger="click">
 		<?= $link ?> [<span class="count_<?=$idx?>">...</span>]
 	</span>
-<span hx-trigger="load" hx-get="<?=$action?>?index=<?= $idx ?>" hx-target=".count_<?=$idx?>">
+	<span hx-trigger="load" hx-get="<?=$action?>?index=<?= $idx ?>" hx-target=".count_<?=$idx?>">
 	</span>
 	<?php endforeach ?>
 <?php endif ?>

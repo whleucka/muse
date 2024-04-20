@@ -2,14 +2,18 @@
 	background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
 }
 
-.filter-link {
+#table .table-responsive {
+	border-radius: 6px;
+}
+
+#table .filter-link {
 	cursor: pointer;
 	opacity: 0.8;
 	color: rgba(50, 50, 50, 0.8);
 	border: 1px solid #ccc;
 }
 
-.filter-link.active {
+#table .filter-link.active {
 	color: white;
 	background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
 	font-weight: bold;
@@ -33,33 +37,33 @@
 #table .table thead th,
 #table .table tbody td {
 	font-size: 0.9rem;
-	padding: 3px;
+	padding: 4px;
 }
 
-#filter-search input[type='search'] {
+#table #filter-search input[type='search'] {
 	background-image: url("/img/search_icon.webp");
 	background-repeat: no-repeat;
 	background-position: left center;
 	padding-left: 40px;
 }
 
-.page-item.active .page-link {
+#table #pagination .page-item.active .page-link {
 	background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
 	border-color: #ccc;
 	color: azure;
 	font-weight: bold;
 }
-.page-item.active a:hover {
+#table #pagination .page-item.active a:hover {
 	color: azure !important;
 }
-#per-page select {
+#table #pagination #per-page select {
 	height: 37px;
 	background-color: #fff;
 }
-#per-page .page-link {
+#table #pagination #per-page .page-link {
 	background-color: #fff !important;
 }
-.pagination-link .page-link {
+#table #pagination .pagination-link .page-link {
 	color: #666;
 }
 
