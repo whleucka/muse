@@ -57,7 +57,9 @@
 	color: azure !important;
 }
 #table #pagination #per-page select {
-	height: 37px;
+	height: 31px;
+	font-size: 0.9rem;
+	border-radius: 4px;
 	background-color: #fff;
 }
 #table #pagination #per-page .page-link {
