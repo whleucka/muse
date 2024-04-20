@@ -290,7 +290,7 @@ class Module
 				"total_results" => $this->total_results,
 				"total_pages" => $this->total_pages,
 				"per_page" => $this->per_page,
-				"per_page_options" => [
+				"per_page_options" => array_filter([
 					5,
 					10,
 					25,
@@ -302,7 +302,7 @@ class Module
 					1000,
 					2000,
 					5000
-				],
+				],fn($value) => $value <= $this->total_results),
 				"side_links" => $this->side_links,
 			])
 		]);

@@ -13,8 +13,10 @@
 						<?php endif ?>
 					<?php endfor ?>
 
+					<?php if ($total_pages > 5): ?>
 					<li class="page-item pagination-link disabled" aria-current="page"><a class="page-link" href="#">...</a></li>
 					<li class="page-item pagination-link" aria-current="page"><a class="page-link" href="?page=<?=$total_pages?>"><?=$total_pages?></a></li>
+					<?php endif ?>
 
 				<?php elseif ($total_pages > 5 && $current_page > 5 && $current_page < $total_pages - 4): ?>
 
