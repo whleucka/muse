@@ -42,6 +42,7 @@ class Module
 	/**
 	 * Process a module request
 	 * Setting page number, search term, other filters, etc
+	 * @param array $request the validated request
 	 */
 	public function processRequest(array $request): void
 	{
@@ -269,8 +270,8 @@ class Module
 		$this->recordSession();
 		$this->filters();
 		$path = $this->path;
-		$format = function(string $column, mixed $value) {
-			 return $this->format($column, $value);
+		$format = function (string $column, mixed $value) {
+			return $this->format($column, $value);
 		};
 		return template("module/index/index.php", [
 			"filters" => [
@@ -308,7 +309,7 @@ class Module
 					1000,
 					2000,
 					5000
-				],fn($value) => $value <= $this->total_results),
+				], fn ($value) => $value <= $this->total_results),
 				"side_links" => $this->side_links,
 			])
 		]);
@@ -316,6 +317,7 @@ class Module
 
 	/**
 	 * Format the table query condtions as 'AND' delimited
+	 * @param array $conditions where or having clause
 	 */
 	protected function formatConditions(array $conditions): string
 	{
@@ -330,6 +332,7 @@ class Module
 
 	/**
 	 * Get the table columns headers
+	 * @return int[]|string[]
 	 */
 	private function getTableHeaders(): array
 	{
@@ -339,6 +342,8 @@ class Module
 	/**
 	 * Get extract query params
 	 * These are replacement values for the '?' in the query
+	 * @param array $target condition array (for where and having)
+	 * @return array|<missing>
 	 */
 	private function getParams(array $target): array
 	{
@@ -354,8 +359,9 @@ class Module
 	/**
 	 * Get the table query
 	 * This is the query for module.index
+	 * @param bool $limit_query there exists a limit, offset clause
 	 */
-	private function getTableQuery($limit_query = true): string
+	private function getTableQuery(bool $limit_query = true): string
 	{
 		$columns = $this->table_columns ? implode(", ", $this->table_columns) : '*';
 		$where = $this->table_where ? "WHERE " . $this->formatConditions($this->table_where) : '';
@@ -378,7 +384,7 @@ class Module
 	/**
 	 * Add a table where clause
 	 */
-	protected function addWhere(string $clause, int|string ...$replacements)
+	protected function addWhere(string $clause, int|string ...$replacements): void
 	{
 		$this->table_where[] = [$clause, [...$replacements]];
 	}
@@ -386,15 +392,18 @@ class Module
 	/**
 	 * Add a table having clause
 	 */
-	protected function addHaving(string $clause, int|string ...$replacements)
+	protected function addHaving(string $clause, int|string ...$replacements): void
 	{
 		$this->table_having[] = [$clause, [...$replacements]];
 	}
 
 	/**
 	 * Override a table value
+	 * The data table row may be modifed before output.
+	 * Do not style the value here, that is the job of a format method
+	 * @param &$row current data table row.
 	 */
-	protected function tableValueOverride(&$row): void
+	protected function tableValueOverride(object &$row): void
 	{
 	}
 
@@ -421,7 +430,7 @@ class Module
 	 * Run the table query and return the dataset
 	 * This dataset is for module.index
 	 */
-	protected function getTableData(): array
+	protected function getTableData(): array|bool
 	{
 		if (!$this->sql_table) return [];
 		$sql = $this->getTableQuery();
@@ -441,8 +450,12 @@ class Module
 		}
 	}
 
-	protected function format($column, $value)
+	/**
+	 * Template formatting function
+	 */
+	protected function format(string $column, mixed $value): mixed
 	{
+		if (is_null($value)) return '';
 		// Deal with table formatting
 		if (isset($this->table_format[$column])) {
 			$format = $this->table_format[$column];
@@ -459,13 +472,25 @@ class Module
 		return $value;
 	}
 
-	protected function formatIP($column, $value)
+	/**
+	 * Format IP value
+	 */
+	protected function formatIP(string $column, mixed $value): string
 	{
-		return long2ip($value);
+		return template("format/span.php", [
+			"column" => $column,
+			"value" => long2ip($value)
+		]);
 	}
 
-	protected function formatAgo($column, $value)
+	/**
+	 * Format human readable timestamp as ago diff
+	 */
+	protected function formatAgo(string $column, mixed $value): string
 	{
-		return sprintf("<span title='$value'>%s</span>", Carbon::parse($value)->diffForHumans());
+		return template("format/span.php", [
+			"column" => $column,
+			"value" => Carbon::parse($value)->diffForHumans()
+		]);
 	}
 }
