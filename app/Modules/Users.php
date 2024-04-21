@@ -17,7 +17,10 @@ class Users extends Module
 			"UUID" => "uuid",
 			"Name" => "name",
 			"Email" => "email",
-			"Created At" => "created_at",
+			"Created" => "created_at",
+		];
+		$this->table_format = [
+			"created_at" => "ago",
 		];
 		$this->search_columns = [
 			"uuid",

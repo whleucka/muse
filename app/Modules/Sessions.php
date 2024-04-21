@@ -16,8 +16,14 @@ class Sessions extends Module
 			"ID" => "id",
 			"Request URI" => "request_uri",
 			"IP" => "ip",
-			"User" => "(SELECT name FROM users WHERE users.id = sessions.user_id) as session_user",
+			"User" => "(SELECT name
+				FROM users
+				WHERE users.id = sessions.user_id) as session_user",
 			"Created" => "created_at",
+		];
+		$this->table_format = [
+			"ip" => "ip",
+			"created_at" => "ago"
 		];
 		$this->search_columns = [
 			"request_uri"
@@ -30,11 +36,5 @@ class Sessions extends Module
 		$this->table_order_by = "id";
 		$this->table_sort = "DESC";
 		parent::__construct('sessions');
-	}
-
-	protected function tableValueOverride(&$row): void
-	{
-		// Convert INT to IP
-		$row->ip = long2ip($row->ip);
 	}
 }

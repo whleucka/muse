@@ -15,8 +15,12 @@ class Test extends Module
 			"ID" => "id",
 			"Name" => "name",
 			"Number" => "number",
-			"Updated At" => "updated_at",
-			"Created At" => "created_at",
+			"Updated" => "updated_at",
+			"Created" => "created_at",
+		];
+		$this->table_format = [
+			"updated_at" => "ago",
+			"created_at" => "ago",
 		];
 		$this->filter_links = [
 			"All" => "1=1",

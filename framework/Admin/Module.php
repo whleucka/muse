@@ -4,6 +4,7 @@ namespace Nebula\Framework\Admin;
 
 use App\Models\Session;
 use Exception;
+use Carbon\Carbon;
 
 class Module
 {
@@ -20,6 +21,7 @@ class Module
 	protected string $table_group_by = ''; // GROUP BY clause
 	protected string $table_order_by = ''; // ORDER BY clause
 	protected string $table_sort = "DESC"; // Sort order
+	protected array $table_format = []; // Table column format
 	protected int $side_links = 1; // Number of pagination side links
 	private array $table_where = []; // WHERE clause conditions/params
 	private array $table_having = []; // HAVING clause conditions/params
@@ -267,6 +269,9 @@ class Module
 		$this->recordSession();
 		$this->filters();
 		$path = $this->path;
+		$format = function(string $column, mixed $value) {
+			 return $this->format($column, $value);
+		};
 		return template("module/index/index.php", [
 			"filters" => [
 				"search" => template("module/index/search.php", [
@@ -283,6 +288,7 @@ class Module
 			"table" => template("module/index/table.php", [
 				"headers" => $this->getTableHeaders(),
 				"data" => $this->getTableData(),
+				"format" => $format,
 			]),
 			"pagination" => template("module/index/pagination.php", [
 				"show" => $this->per_page > $this->total_results || $this->total_pages > 1,
@@ -433,5 +439,33 @@ class Module
 			error_log($ex->getMessage());
 			throw new Exception("table data query error");
 		}
+	}
+
+	protected function format($column, $value)
+	{
+		// Deal with table formatting
+		if (isset($this->table_format[$column])) {
+			$format = $this->table_format[$column];
+			// Using a formatting callback
+			if (is_callable($format)) {
+				return $format($column, $value);
+			}
+			// Using a pre-defined format method
+			$method_name = "format$format";
+			if (method_exists($this, $method_name)) {
+				return $this->$method_name($column, $value);
+			}
+		}
+		return $value;
+	}
+
+	protected function formatIP($column, $value)
+	{
+		return long2ip($value);
+	}
+
+	protected function formatAgo($column, $value)
+	{
+		return sprintf("<span title='$value'>%s</span>", Carbon::parse($value)->diffForHumans());
 	}
 }

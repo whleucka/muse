@@ -13,9 +13,9 @@
 			<?php if ($data) : ?>
 				<?php foreach ($data as $row) : ?>
 					<tr>
-						<?php foreach ($row as $datum) : ?>
+						<?php foreach ($row as $column => $value) : ?>
 							<td>
-								<?= $datum ?>
+								<?= $format($column, $value) ?>
 							</td>
 						<?php endforeach ?>
 					</tr>
