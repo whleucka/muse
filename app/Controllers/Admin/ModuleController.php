@@ -8,6 +8,7 @@ use Nebula\Framework\Controller\Controller;
 use StellarRouter\{Delete, Get, Group, Patch, Post};
 use Symfony\Component\HttpFoundation\Response;
 use Exception;
+use Nebula\Framework\Auth\Auth;
 
 #[Group(prefix: "/admin", middleware: ["auth"])]
 class ModuleController extends Controller
@@ -26,6 +27,11 @@ class ModuleController extends Controller
 	private function init(): ?Module
 	{
 		$route = $this->request()->get("route");
+		// If the route is admin, redirect
+		if ($route->getPath() === "/admin/") {
+			$this->admin();
+		}
+
 		$parameters = $route->getParameters() ?? [];
 		if (key_exists("path", $parameters)) {
 			$module_path = $parameters["path"];
@@ -53,6 +59,12 @@ class ModuleController extends Controller
 		$response = new Response("Permission denied", 403);
 		$response->send();
 		die;
+	}
+
+	#[Get("/", "module.admin")]
+	public function admin(): void
+	{
+		Auth::redirectProfile();
 	}
 
 	#[Get("/{path}", "module.index")]
