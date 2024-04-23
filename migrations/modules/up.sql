@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS modules (
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	title VARCHAR(255) NOT NULL,
+	path VARCHAR(255),
+	max_permission_level TINYINT,
+	parent_module_id INT UNSIGNED,
+	updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	FOREIGN KEY (parent_module_id) REFERENCES modules (id)
+)

@@ -1,1 +1,1 @@
-<p>Hello! You are now signed in!</p>
+<p>Hello, <?=$name?>! You are signed in!</p>

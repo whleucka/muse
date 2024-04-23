@@ -15,6 +15,6 @@ class Profile extends Module
 
 	public function viewIndex(): string
 	{
-		return template("profile/index.php");
+		return template("profile/index.php", ["name" => user()->name]);
 	}
 }

@@ -9,6 +9,7 @@
 				<div class="collapse show" id="home-collapse">
 					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 						<li><a href="/admin/users" class="link-dark rounded">Users</a></li>
+						<li><a href="/admin/modules" class="link-dark rounded">Modules</a></li>
 						<li><a href="/admin/sessions" class="link-dark rounded">Sessions</a></li>
 					</ul>
 				</div>
