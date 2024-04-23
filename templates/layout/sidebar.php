@@ -1,4 +1,4 @@
-<nav id="sidebar" hx-boost="true" hx-target="main" hx-select="main" hx-swap="outerHTML">
+<nav id="sidebar" class="d-none d-sm-block" hx-boost="true" hx-target="main" hx-select="main" hx-swap="outerHTML">
 	<div class="flex-shrink-0 p-3">
 		<ul class="list-unstyled ps-0">
 			<li class="mb-1">
@@ -13,7 +13,6 @@
 					</ul>
 				</div>
 			</li>
-			<li class="border-top my-3"></li>
 			<li class="mb-1">
 				<button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
 					data-bs-target="#account-collapse" aria-expanded="true">
