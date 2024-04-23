@@ -65,6 +65,7 @@
 <script>
 	var current_page = parseInt(<?=$current_page?>);
 	var total_pages = parseInt(<?=$total_pages?>);
+
 	document.onkeypress = (e) => {
 		e = e || window.event;
 		console.log(e.keyCode);
@@ -76,12 +77,12 @@
 			nextPage();
 		}
 	}
-	const nextPage = () => {
+	var nextPage = () => {
 		if (current_page < total_pages) {
 			document.getElementById("page-next").click();
 		}
 	}
-	const prevPage = () => {
+	var prevPage = () => {
 		if (current_page > 1) {
 			document.getElementById("page-prev").click();
 		}
