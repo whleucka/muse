@@ -26,7 +26,7 @@ class Module
 	private array $table_where = []; // WHERE clause conditions/params
 	private array $table_having = []; // HAVING clause conditions/params
 	private int $page = 1; // OFFSET clause
-	private int $per_page = 25; // LIMIT clause
+	private int $per_page = 10; // LIMIT clause
 	private int $total_pages = 1; // Total number of pages
 	private int $total_results = 0; // Total row count
 
