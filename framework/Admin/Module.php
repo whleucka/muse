@@ -9,6 +9,8 @@ use Carbon\Carbon;
 class Module
 {
 	/** Module */
+	// Route path
+	protected string $path = '';
 	// SQL table
 	protected string $sql_table = '';
 	// Primary key of SQL table
@@ -59,7 +61,6 @@ class Module
 		1000,
 		2000,
 		5000
-
 	];
 
 	/** Filters */
@@ -69,8 +70,12 @@ class Module
 	protected array $search_columns = [];
 
 	public function __construct(
-		private string $path, // Module route path
+		object $config
 	) {
+		$this->title = $config->title;
+		$this->path = $config->path;
+		$this->sql_table = $config->sql_table;
+		$this->primary_key = $config->primary_key ?? "id";
 	}
 
 	/**
@@ -165,8 +170,9 @@ class Module
 	/**
 	 * Recursively build sidebar data struct
 	 */
-	private function buildSidebarLinks(?int $parent_module_id = null): array
+	private function buildLinks(?int $parent_module_id = null): array
 	{
+		$user = user();
 		if (is_null($parent_module_id)) {
 			$modules = db()->fetchAll("SELECT *
 				FROM modules
@@ -180,11 +186,12 @@ class Module
 		}
 		$sidebar_links = [];
 		foreach ($modules as $module) {
+			if (!is_null($module->max_permission_level) && $user->type()->permission_level > $module->max_permission_level) continue;
 			$link = [
 				"id" => $module->id,
 				"label" => $module->title,
 				"link" => "/admin/{$module->path}",
-				"children" => $this->buildSidebarLinks($module->id),
+				"children" => $this->buildLinks($module->id),
 			];
 			$sidebar_links[] = $link;
 		}
@@ -206,7 +213,7 @@ class Module
 	 */
 	public function getSidebar(): string
 	{
-		$sidebar_links = $this->buildSidebarLinks();
+		$sidebar_links = $this->buildLinks();
 		return template("layout/sidebar.php", ["links" => $sidebar_links]);
 	}
 
@@ -522,11 +529,25 @@ class Module
 	}
 
 	/**
+	 * Print a nice error to logs
+	 */
+	private function pdoException(string $sql, array $params, Exception $ex): void
+	{
+		$out = print_r([
+			"sql" => $sql,
+			"params" => $params,
+			"message" => $ex->getMessage(),
+			"file" => $ex->getFile() . ':' . $ex->getLine(),
+		], true);
+		error_log($out);
+	}
+
+	/**
 	 * Get the total results count, without a limit or offset
 	 */
 	private function getTotalCount(): int
 	{
-		if (!$this->sql_table) return [];
+		if (!$this->sql_table || !$this->table_columns) return 0;
 		$sql = $this->getTableQuery(false);
 		$where_params = $this->getParams($this->table_where);
 		$having_params = $this->getParams($this->table_having);
@@ -535,8 +556,8 @@ class Module
 			$stmt = db()->run($sql, $params);
 			return $stmt->rowCount();
 		} catch (Exception $ex) {
-			error_log($ex->getMessage());
-			throw new Exception("total count query error");
+			$this->pdoException($sql, $params, $ex);
+			return 0;
 		}
 	}
 
@@ -559,8 +580,8 @@ class Module
 			}
 			return $results;
 		} catch (Exception $ex) {
-			error_log($ex->getMessage());
-			throw new Exception("table data query error");
+			$this->pdoException($sql, $params, $ex);
+			return [];
 		}
 	}
 }

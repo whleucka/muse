@@ -2,7 +2,6 @@
 
 namespace App\Controllers\Admin;
 
-use Composer\ClassMapGenerator\ClassMapGenerator;
 use Nebula\Framework\Admin\Module;
 use Nebula\Framework\Controller\Controller;
 use StellarRouter\{Delete, Get, Group, Patch, Post};
@@ -17,14 +16,19 @@ class ModuleController extends Controller
 
 	protected function bootstrap(): void
 	{
+		$user = user();
 		$module = $this->init();
 		if (is_null($module)) {
 			$this->moduleNotFound();
 		}
-		$this->module = $module;
+		if (!is_null($module->max_permission_level) && $user->type()->permission_level > $module->max_permission_level) {
+			$this->permissionDenied();
+		}
+		$class = $module->class_name;
+		$this->module = new $class($module);
 	}
 
-	private function init(): ?Module
+	private function init(): ?object
 	{
 		$route = $this->request()->get("route");
 		// If the route is admin, redirect
@@ -35,13 +39,9 @@ class ModuleController extends Controller
 		$parameters = $route->getParameters() ?? [];
 		if (key_exists("path", $parameters)) {
 			$module_path = $parameters["path"];
-			$path = config("path.modules");
-			$modules = ClassMapGenerator::createMap($path);
-			foreach ($modules as $class => $filepath) {
-				$module = new $class;
-				if ($module->getPath() === $module_path) {
-					return $module;
-				}
+			$module = db()->fetch("SELECT * FROM modules WHERE path = ?", $module_path);
+			if ($module) {
+				return $module;
 			}
 		}
 		return null;

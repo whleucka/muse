@@ -4,14 +4,16 @@ namespace App\Modules;
 
 use Nebula\Framework\Admin\Module;
 
-class Test extends Module
+class UserTypes extends Module
 {
 	public function __construct(object $config)
 	{
+		$this->sql_table = "user_types";
+		$this->title = "User Types";
+
 		$this->table_columns = [
 			"ID" => "id",
 			"Name" => "name",
-			"Number" => "number",
 			"Updated" => "updated_at",
 			"Created" => "created_at",
 		];
@@ -19,14 +21,7 @@ class Test extends Module
 			"updated_at" => "ago",
 			"created_at" => "ago",
 		];
-		$this->filter_links = [
-			"All" => "1=1",
-			"Number" => "number IS NOT NULL"
-		];
-		$this->search_columns = [
-			"name",
-			"number",
-		];
 		parent::__construct($config);
 	}
 }
+

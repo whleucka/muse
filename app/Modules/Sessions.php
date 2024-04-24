@@ -6,12 +6,9 @@ use Nebula\Framework\Admin\Module;
 
 class Sessions extends Module
 {
-	public function __construct()
+	public function __construct(object $config)
 	{
 		$user = user();
-		$this->sql_table = "sessions";
-		$this->title = "Sessions";
-
 		$this->table_columns = [
 			"ID" => "id",
 			"Request URI" => "request_uri",
@@ -35,6 +32,6 @@ class Sessions extends Module
 		];
 		$this->table_order_by = "id";
 		$this->table_sort = "DESC";
-		parent::__construct('sessions');
+		parent::__construct($config);
 	}
 }

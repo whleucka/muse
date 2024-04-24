@@ -10,6 +10,8 @@ class UserType extends Model
 		"id",
 		"name",
 		"permission_level",
+        "updated_at",
+        "created_at",
     ];
 
     public function __construct(?string $key = null)
