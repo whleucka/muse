@@ -169,6 +169,7 @@ class Module
 
 	/**
 	 * Recursively build sidebar data struct
+	 * @return array<int,array<string,mixed>>
 	 */
 	private function buildLinks(?int $parent_module_id = null): array
 	{
@@ -530,6 +531,7 @@ class Module
 
 	/**
 	 * Print a nice error to logs
+	 * @param array<int,mixed> $params
 	 */
 	private function pdoException(string $sql, array $params, Exception $ex): void
 	{

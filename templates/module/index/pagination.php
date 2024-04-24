@@ -68,12 +68,11 @@
 
 	document.onkeypress = (e) => {
 		e = e || window.event;
-		console.log(e.keyCode);
 		if (e.keyCode === 91) {
-			// key: [
+			// key = [
 			prevPage();
 		} else if (e.keyCode === 93) {
-			// key: ]
+			// key = ]
 			nextPage();
 		}
 	}
