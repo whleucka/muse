@@ -76,6 +76,7 @@ class Module
 		$this->path = $config->path;
 		$this->sql_table = $config->sql_table;
 		$this->primary_key = $config->primary_key ?? "id";
+		$this->recordSession();
 	}
 
 	/**
@@ -357,7 +358,6 @@ class Module
 	 */
 	public function viewIndex(): string
 	{
-		$this->recordSession();
 		$this->filters();
 		$path = $this->path;
 		$format = function (string $column, mixed $value) {
