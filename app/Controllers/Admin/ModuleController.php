@@ -81,6 +81,7 @@ class ModuleController extends Controller
 		}
 		return $this->render("layout/admin.php", [
 			"module_title" => $this->module->getTitle(),
+			"sidebar" => $this->module->getSidebar(),
 			"content" => $this->module->viewIndex()
 		]);
 	}

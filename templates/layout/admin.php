@@ -16,7 +16,7 @@
 
 <body id="body">
 	<section class="d-flex">
-		<?php include "sidebar.php" ?>
+		<?= $sidebar ?>
 		<?php include "main_admin.php" ?>
 	</section>
 	<script src="/js/htmx.min.js"></script>

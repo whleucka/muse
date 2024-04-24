@@ -163,6 +163,54 @@ class Module
 	}
 
 	/**
+	 * Recursively build sidebar data struct
+	 */
+	private function buildSidebarLinks(?int $parent_module_id = null): array
+	{
+		if (is_null($parent_module_id)) {
+			$modules = db()->fetchAll("SELECT *
+				FROM modules
+				WHERE parent_module_id IS NULL
+				ORDER BY item_order");
+		} else {
+			$modules = db()->fetchAll("SELECT *
+				FROM modules
+				WHERE parent_module_id = ?
+				ORDER BY item_order", $parent_module_id);
+		}
+		$sidebar_links = [];
+		foreach ($modules as $module) {
+			$link = [
+				"id" => $module->id,
+				"label" => $module->title,
+				"link" => "/admin/{$module->path}",
+				"children" => $this->buildSidebarLinks($module->id),
+			];
+			$sidebar_links[] = $link;
+		}
+		// Add sign out link
+		if ($parent_module_id == 2) {
+			$link = [
+				"id" => null,
+				"label" => "Sign out",
+				"link" => "/admin/sign-out",
+				"children" => [],
+			];
+			$sidebar_links[] = $link;
+		}
+		return $sidebar_links;
+	}
+
+	/**
+	 * Get the sidebar template
+	 */
+	public function getSidebar(): string
+	{
+		$sidebar_links = $this->buildSidebarLinks();
+		return template("layout/sidebar.php", ["links" => $sidebar_links]);
+	}
+
+	/**
 	 * Get the filter link row count
 	 */
 	public function getFilterLinkCount(int $index): int
