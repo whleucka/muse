@@ -9,30 +9,64 @@ use Carbon\Carbon;
 class Module
 {
 	/** Module */
-	protected string $sql_table = ''; // SQL table
-	protected string $primary_key = ''; // Primary key of SQL table
-	protected string $title = ''; // Module title -- appears top of module
-	protected bool $edit = true; // Edit mode enabled
-	protected bool $create = true; // Create mode enabled
-	protected bool $delete = true; // Delete mode enabled
+	// SQL table
+	protected string $sql_table = '';
+	// Primary key of SQL table
+	protected string $primary_key = '';
+	// Module title
+	protected string $title = '';
+	// Edit mode enabled
+	protected bool $edit = true;
+	// Create mode enabled
+	protected bool $create = true;
+	// Delete mode enabled
+	protected bool $delete = true;
 
 	/** Table */
-	protected array $table_columns = []; // SQL columns
-	protected string $table_group_by = ''; // GROUP BY clause
-	protected string $table_order_by = ''; // ORDER BY clause
-	protected string $table_sort = "DESC"; // Sort order
-	protected array $table_format = []; // Table column format
-	protected int $side_links = 1; // Number of pagination side links
-	private array $table_where = []; // WHERE clause conditions/params
-	private array $table_having = []; // HAVING clause conditions/params
-	private int $page = 1; // OFFSET clause
-	private int $per_page = 10; // LIMIT clause
-	private int $total_pages = 1; // Total number of pages
-	private int $total_results = 0; // Total row count
+	// SQL columns
+	protected array $table_columns = [];
+	// GROUP BY clause
+	protected string $table_group_by = '';
+	// ORDER BY clause
+	protected string $table_order_by = '';
+	// Sort order
+	protected string $table_sort = "DESC";
+	// Table column format
+	protected array $table_format = [];
+	// Number of pagination side links
+	protected int $side_links = 1;
+	// WHERE clause conditions/params
+	private array $table_where = [];
+	// HAVING clause conditions/params
+	private array $table_having = [];
+	// OFFSET clause
+	private int $page = 1;
+	// LIMIT clause
+	private int $per_page = 20;
+	// Total number of pages
+	private int $total_pages = 1;
+	// Total row count
+	private int $total_results = 0;
+	// Per page option values
+	private array $per_page_options = [
+		10,
+		20,
+		50,
+		100,
+		200,
+		500,
+		750,
+		1000,
+		2000,
+		5000
+
+	];
 
 	/** Filters */
-	protected array $filter_links = []; // Table filter links
-	protected array $search_columns = []; // Searchable columns
+	// Table filter links
+	protected array $filter_links = [];
+	// Searchable columns
+	protected array $search_columns = [];
 
 	public function __construct(
 		private string $path, // Module route path
@@ -297,19 +331,7 @@ class Module
 				"total_results" => $this->total_results,
 				"total_pages" => $this->total_pages,
 				"per_page" => $this->per_page,
-				"per_page_options" => array_filter([
-					5,
-					10,
-					25,
-					50,
-					100,
-					200,
-					500,
-					750,
-					1000,
-					2000,
-					5000
-				], fn ($value) => $value <= $this->total_results),
+				"per_page_options" => array_filter($this->per_page_options, fn ($value) => $value <= $this->total_results),
 				"side_links" => $this->side_links,
 			])
 		]);
@@ -384,7 +406,7 @@ class Module
 	/**
 	 * Add a table where clause
 	 */
-	protected function addWhere(string $clause, int|string ...$replacements): void
+	private function addWhere(string $clause, int|string ...$replacements): void
 	{
 		$this->table_where[] = [$clause, [...$replacements]];
 	}
@@ -392,7 +414,7 @@ class Module
 	/**
 	 * Add a table having clause
 	 */
-	protected function addHaving(string $clause, int|string ...$replacements): void
+	private function addHaving(string $clause, int|string ...$replacements): void
 	{
 		$this->table_having[] = [$clause, [...$replacements]];
 	}
@@ -405,49 +427,6 @@ class Module
 	 */
 	protected function tableValueOverride(object &$row): void
 	{
-	}
-
-	/**
-	 * Get the total results count, without a limit or offset
-	 */
-	private function getTotalCount(): int
-	{
-		if (!$this->sql_table) return [];
-		$sql = $this->getTableQuery(false);
-		$where_params = $this->getParams($this->table_where);
-		$having_params = $this->getParams($this->table_having);
-		$params = [...$where_params, ...$having_params];
-		try {
-			$stmt = db()->run($sql, $params);
-			return $stmt->rowCount();
-		} catch (Exception $ex) {
-			error_log($ex->getMessage());
-			throw new Exception("total count query error");
-		}
-	}
-
-	/**
-	 * Run the table query and return the dataset
-	 * This dataset is for module.index
-	 */
-	protected function getTableData(): array|bool
-	{
-		if (!$this->sql_table) return [];
-		$sql = $this->getTableQuery();
-		$where_params = $this->getParams($this->table_where);
-		$having_params = $this->getParams($this->table_having);
-		$params = [...$where_params, ...$having_params];
-		try {
-			$stmt = db()->run($sql, $params);
-			$results = $stmt->fetchAll();
-			foreach ($results as $data) {
-				$this->tableValueOverride($data);
-			}
-			return $results;
-		} catch (Exception $ex) {
-			error_log($ex->getMessage());
-			throw new Exception("table data query error");
-		}
 	}
 
 	/**
@@ -492,5 +471,48 @@ class Module
 			"column" => $column,
 			"value" => Carbon::parse($value)->diffForHumans()
 		]);
+	}
+
+	/**
+	 * Get the total results count, without a limit or offset
+	 */
+	private function getTotalCount(): int
+	{
+		if (!$this->sql_table) return [];
+		$sql = $this->getTableQuery(false);
+		$where_params = $this->getParams($this->table_where);
+		$having_params = $this->getParams($this->table_having);
+		$params = [...$where_params, ...$having_params];
+		try {
+			$stmt = db()->run($sql, $params);
+			return $stmt->rowCount();
+		} catch (Exception $ex) {
+			error_log($ex->getMessage());
+			throw new Exception("total count query error");
+		}
+	}
+
+	/**
+	 * Run the table query and return the dataset
+	 * This dataset is for module.index
+	 */
+	protected function getTableData(): array|bool
+	{
+		if (!$this->sql_table) return [];
+		$sql = $this->getTableQuery();
+		$where_params = $this->getParams($this->table_where);
+		$having_params = $this->getParams($this->table_having);
+		$params = [...$where_params, ...$having_params];
+		try {
+			$stmt = db()->run($sql, $params);
+			$results = $stmt->fetchAll();
+			foreach ($results as $data) {
+				$this->tableValueOverride($data);
+			}
+			return $results;
+		} catch (Exception $ex) {
+			error_log($ex->getMessage());
+			throw new Exception("table data query error");
+		}
 	}
 }
