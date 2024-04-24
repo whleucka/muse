@@ -567,7 +567,7 @@ class Module
 	 */
 	protected function getTableData(): array|bool
 	{
-		if (!$this->sql_table) return [];
+		if (!$this->sql_table || !$this->table_columns) return [];
 		$sql = $this->getTableQuery();
 		$where_params = $this->getParams($this->table_where);
 		$having_params = $this->getParams($this->table_having);
