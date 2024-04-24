@@ -462,7 +462,7 @@ class Module
 	/**
 	 * Add a table where clause
 	 */
-	private function addWhere(string $clause, int|string ...$replacements): void
+	protected function addWhere(string $clause, int|string ...$replacements): void
 	{
 		$this->table_where[] = [$clause, [...$replacements]];
 	}
@@ -470,7 +470,7 @@ class Module
 	/**
 	 * Add a table having clause
 	 */
-	private function addHaving(string $clause, int|string ...$replacements): void
+	protected function addHaving(string $clause, int|string ...$replacements): void
 	{
 		$this->table_having[] = [$clause, [...$replacements]];
 	}

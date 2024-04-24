@@ -23,7 +23,8 @@ class Sessions extends Module
 			"created_at" => "ago"
 		];
 		$this->search_columns = [
-			"request_uri"
+			"request_uri",
+			"ip",
 		];
 		$this->filter_links = [
 			"All" => "1=1",

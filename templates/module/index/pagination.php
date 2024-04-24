@@ -52,7 +52,7 @@
 	<div class="flex-grow-1"></div>
 	<?php if ($per_page_options): ?>
 	<nav id="per-page">
-		<select class="page-link text-dark" name="per_page" hx-get="?per_page"  hx-target="#table" hx-select="#table" hx-swap="outerHTML">
+		<select class="page-link text-dark" name="per_page" hx-get=""  hx-target="#table" hx-select="#table" hx-swap="outerHTML">
 			<optgroup label="Results per page">
 			<?php foreach ($per_page_options as $option): ?>
 				<option <?=($per_page === $option ? 'selected' : '')?>><?=$option?></option>
