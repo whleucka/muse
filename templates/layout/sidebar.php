@@ -25,7 +25,7 @@ function renderLinks(array $links)
 	?>
 	<ul class="btn-toggle-nav fw-normal sidebar-links pb-1 small">
 	<?php foreach ($links as $child): ?>
-		<li class="sidebar-link"><a href="<?=$child['link']?>" class="link-dark rounded"><?=$child['label']?></a></li>
+	<li hx-boost="<?=(!is_null($child['id']) ? "true" : "false")?>" class="sidebar-link"><a href="<?=$child['link']?>" class="link-dark rounded"><?=$child['label']?></a></li>
 		<?php if (!empty($child['children'])) { renderLinks($child['children']); } ?>
 	<?php endforeach ?>
 	</ul>

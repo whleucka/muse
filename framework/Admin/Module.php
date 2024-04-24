@@ -201,7 +201,7 @@ class Module
 			$link = [
 				"id" => null,
 				"label" => "Sign out",
-				"link" => "/admin/sign-out",
+				"link" => "/sign-out",
 				"children" => [],
 			];
 			$sidebar_links[] = $link;
