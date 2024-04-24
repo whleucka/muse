@@ -20,8 +20,7 @@ class Modules extends Module
 			"created_at" => "ago",
 		];
 		$this->filter_links = [
-			"All" => "1=1",
-			"Parent" => "parent IS NULL",
+			"Root" => "parent IS NULL",
 			"Children" => "parent IS NOT NULL",
 		];
 		$this->table_order_by = "parent_module_id";

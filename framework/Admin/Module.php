@@ -485,12 +485,25 @@ class Module
 	{
 	}
 
+	private function getColumnTitle(string $column)
+	{
+		// This is annoying, but we must deal with aliases here
+		$column_arr = explode(" as ", $column);
+		$columns = [];
+		foreach ($this->table_columns as $title => $select) {
+			$col_arr = explode(" as ", $select);
+			$columns[$title] = end($col_arr);
+		}
+		return array_search(end($column_arr), $columns);
+	}
+
 	/**
 	 * Template formatting function
 	 */
 	protected function format(string $column, mixed $value): mixed
 	{
 		if (is_null($value)) return '';
+
 		// Deal with table formatting
 		if (isset($this->table_format[$column])) {
 			$format = $this->table_format[$column];
@@ -504,7 +517,11 @@ class Module
 				return $this->$method_name($column, $value);
 			}
 		}
-		return $value;
+		return template("format/span.php", [
+			"column" => $column,
+			"value" => $value,
+			"title" => $this->getColumnTitle($column),
+		]);
 	}
 
 	/**
@@ -512,9 +529,11 @@ class Module
 	 */
 	protected function formatIP(string $column, mixed $value): string
 	{
+		$value = long2ip($value);
 		return template("format/span.php", [
 			"column" => $column,
-			"value" => long2ip($value)
+			"value" => $value,
+			"title" => "IP",
 		]);
 	}
 
@@ -523,9 +542,11 @@ class Module
 	 */
 	protected function formatAgo(string $column, mixed $value): string
 	{
+		$carbon = Carbon::parse($value)->diffForHumans();
 		return template("format/span.php", [
 			"column" => $column,
-			"value" => Carbon::parse($value)->diffForHumans()
+			"value" => $carbon,
+			"title" => $value,
 		]);
 	}
 

@@ -1,1 +1,1 @@
-<span id="<?=$column?>"><?=$value?></span>
+<span title="<?= $title ?? '' ?>" id="<?=$column?>"><?=$value?></span>
