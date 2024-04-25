@@ -8,7 +8,6 @@ class Profile extends Module
 {
 	public function __construct(object $config)
 	{
-		$this->create = $this->delete = $this->edit = false;
 		parent::__construct($config);
 	}
 

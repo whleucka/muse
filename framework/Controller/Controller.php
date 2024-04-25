@@ -59,7 +59,7 @@ class Controller
         return template($path, $data, true);
     }
 
-    private function getRequestErrors(
+    protected function getRequestErrors(
         string $field,
         string $title = ""
     ): ?string {

@@ -18,11 +18,15 @@ class Module
 	// Module title
 	protected string $title = '';
 	// Edit mode enabled
-	protected bool $edit = true;
+	protected bool $edit = false;
 	// Create mode enabled
-	protected bool $create = true;
+	protected bool $create = false;
 	// Delete mode enabled
-	protected bool $delete = true;
+	protected bool $delete = false;
+	// Validation rules
+	protected array $validation_rules = [];
+	// Request errors
+	public array $request_errors = [];
 
 	/** Table */
 	// SQL columns
@@ -62,12 +66,16 @@ class Module
 		2000,
 		5000
 	];
+	protected bool $show_row_actions = true;
 
 	/** Filters */
 	// Table filter links
 	protected array $filter_links = [];
 	// Searchable columns
 	protected array $search_columns = [];
+
+	/** Form */
+	protected array $form_columns = [];
 
 	public function __construct(
 		object $config
@@ -101,6 +109,25 @@ class Module
 		}
 	}
 
+	protected function hasRequestError(string $field): bool
+	{
+		return isset($this->request_errors[$field]);
+	}
+
+	protected function getRequestErrors(
+		string $field,
+		string $title = ""
+	): ?string {
+		if (!$title) {
+			$title = ucfirst($field);
+		}
+		return isset($this->request_errors[$field])
+			? template("components/request_errors.php", [
+				"errors" => $this->request_errors[$field],
+				"title" => $title,
+			]) : "";
+	}
+
 	/**
 	 * Record a user session
 	 */
@@ -111,6 +138,47 @@ class Module
 			"ip" => ip2long(user_ip()),
 			"user_id" => user()->id
 		]);
+	}
+
+	/**
+	 * Format the table query condtions as 'AND' delimited
+	 * @param array $conditions where or having clause
+	 */
+	protected function formatAnd(array $conditions): string
+	{
+		$out = [];
+		foreach ($conditions as $item) {
+			[$clause, $params] = $item;
+			// Add parens to clause for order of ops
+			$out[] = '(' . $clause . ')';
+		}
+		return sprintf("%s", implode(" AND ", $out));
+	}
+
+	/**
+	 * Format the query condtions as ',' delimited
+	 * @param array $conditions
+	 */
+	protected function formatComma(array $conditions): string
+	{
+		return sprintf("%s", implode(", ", $conditions));
+	}
+
+	/**
+	 * Get extract query params
+	 * These are replacement values for the '?' in the query
+	 * @param array $target condition array (for where and having)
+	 * @return array|<missing>
+	 */
+	private function getParams(array $target): array
+	{
+		if (!$target) return [];
+		$params = [];
+		foreach ($target as $item) {
+			[$clause, $param_array] = $item;
+			$params = [...$params, ...$param_array];
+		}
+		return $param_array;
 	}
 
 	/**
@@ -168,6 +236,11 @@ class Module
 		return $this->title;
 	}
 
+	public function getValidationRules(): array
+	{
+		return $this->validation_rules;
+	}
+
 	/**
 	 * Recursively build sidebar data struct
 	 * @return array<int,array<string,mixed>>
@@ -188,7 +261,11 @@ class Module
 		}
 		$sidebar_links = [];
 		foreach ($modules as $module) {
-			if (!is_null($module->max_permission_level) && $user->type()->permission_level > $module->max_permission_level) continue;
+			// Skip the modules that the user doesn't have permission to
+			if (
+				!is_null($module->max_permission_level) &&
+				$user->type()->permission_level > $module->max_permission_level
+			) continue;
 			$link = [
 				"id" => $module->id,
 				"label" => $module->title,
@@ -354,6 +431,51 @@ class Module
 	}
 
 	/**
+	 * Update a record
+	 * @param string $id record ID
+	 * @param array $request validated request
+	 */
+	public function processUpdate(string $id, array $request): mixed
+	{
+		if (!$this->sql_table || !$this->form_columns) return [];
+		$sql = $this->getUpdateQuery($request);
+		$sql .= sprintf(" WHERE %s = ?", $this->primary_key);
+		$params = [...array_values($request), $id];
+		try {
+			$result = db()->query($sql, ...$params);
+			return $result;
+		} catch (Exception $ex) {
+			$this->pdoException($sql, $params, $ex);
+			return null;
+		}
+	}
+
+	/**
+	 * Render the view module.edit
+	 * @param string $id record ID
+	 */
+	public function viewEdit(string $id): string
+	{
+		$path = $this->path;
+		$request_errors = fn (
+			string $field,
+			string $title = ""
+		) => $this->getRequestErrors($field, $title);
+		$has_errors = fn (string $field) => $this->hasRequestError(
+			$field
+		);
+		return template("module/edit/index.php", [
+			"id" => $id,
+			"form" => template("module/edit/form.php", [
+				"data" => $this->getEditData($id),
+				"request_errors" => $request_errors,
+				"has_errors" => $has_errors,
+			]),
+		]);
+	}
+
+
+	/**
 	 * Render the view module.index
 	 */
 	public function viewIndex(): string
@@ -362,6 +484,12 @@ class Module
 		$path = $this->path;
 		$format = function (string $column, mixed $value) {
 			return $this->format($column, $value);
+		};
+		$has_row_edit = function (object $row) {
+			return $this->hasRowEdit($row);
+		};
+		$has_row_delete = function (object $row) {
+			return $this->hasRowDelete($row);
 		};
 		return template("module/index/index.php", [
 			"filters" => [
@@ -377,8 +505,13 @@ class Module
 				]),
 			],
 			"table" => template("module/index/table.php", [
-				"headers" => $this->getTableHeaders(),
+				"primary_key" => $this->primary_key,
+				"headers" => array_keys($this->table_columns),
 				"data" => $this->getTableData(),
+				"show_row_actions" => $this->show_row_actions,
+				"has_row_edit" => $has_row_edit,
+				"route" => "/admin/$path",
+				"has_row_delete" => $has_row_delete,
 				"format" => $format,
 			]),
 			"pagination" => template("module/index/pagination.php", [
@@ -394,47 +527,6 @@ class Module
 	}
 
 	/**
-	 * Format the table query condtions as 'AND' delimited
-	 * @param array $conditions where or having clause
-	 */
-	protected function formatConditions(array $conditions): string
-	{
-		$out = [];
-		foreach ($conditions as $item) {
-			[$clause, $params] = $item;
-			// Add parens to clause for order of ops
-			$out[] = '(' . $clause . ')';
-		}
-		return sprintf("%s", implode(" AND ", $out));
-	}
-
-	/**
-	 * Get the table columns headers
-	 * @return int[]|string[]
-	 */
-	private function getTableHeaders(): array
-	{
-		return array_keys($this->table_columns);
-	}
-
-	/**
-	 * Get extract query params
-	 * These are replacement values for the '?' in the query
-	 * @param array $target condition array (for where and having)
-	 * @return array|<missing>
-	 */
-	private function getParams(array $target): array
-	{
-		if (!$target) return [];
-		$params = [];
-		foreach ($target as $item) {
-			[$clause, $param_array] = $item;
-			$params = [...$params, ...$param_array];
-		}
-		return $param_array;
-	}
-
-	/**
 	 * Get the table query
 	 * This is the query for module.index
 	 * @param bool $limit_query there exists a limit, offset clause
@@ -442,9 +534,9 @@ class Module
 	private function getTableQuery(bool $limit_query = true): string
 	{
 		$columns = $this->table_columns ? implode(", ", $this->table_columns) : '*';
-		$where = $this->table_where ? "WHERE " . $this->formatConditions($this->table_where) : '';
+		$where = $this->table_where ? "WHERE " . $this->formatAnd($this->table_where) : '';
 		$group_by = $this->table_group_by ? "GROUP BY " . $this->table_group_by : '';
-		$having = $this->table_having ? "HAVING " . $this->formatConditions($this->table_having) : '';
+		$having = $this->table_having ? "HAVING " . $this->formatAnd($this->table_having) : '';
 		$order_by = $this->table_order_by ? "ORDER BY " . $this->table_order_by . ' ' . $this->table_sort : '';
 		$page = max(($this->page - 1) * $this->per_page, 0);
 		$limit = $limit_query ? "LIMIT " . $page . ", " . $this->per_page : '';
@@ -456,6 +548,35 @@ class Module
 			$having,
 			$order_by,
 			$limit,
+		]);
+	}
+
+	/**
+	 * Get the edit query
+	 * This is the query for module.edit
+	 */
+	private function getEditQuery(): string
+	{
+		$columns = $this->form_columns ? implode(", ", $this->form_columns) : '*';
+		$where = $this->table_where ? "WHERE " . $this->formatAnd($this->table_where) : '';
+		return sprintf("SELECT %s FROM %s %s", ...[
+			$columns,
+			$this->sql_table,
+			$where,
+		]);
+	}
+
+	/**
+	 * Get the update query
+	 * This is the query for module.update
+	 */
+	private function getUpdateQuery(array $request): string
+	{
+		$map = array_map(fn ($column) => "$column = ?", array_keys($request));
+		$set_stmt = "SET " . $this->formatComma($map);
+		return sprintf("UPDATE %s %s", ...[
+			$this->sql_table,
+			$set_stmt,
 		]);
 	}
 
@@ -487,12 +608,18 @@ class Module
 	{
 	}
 
+	protected function editValueOverride(object &$row): void
+	{
+	}
+
 	private function stripAlias(string $column): mixed
 	{
 		$arr = explode(" as ", $column);
 		return end($arr);
 	}
-
+	/**
+	 * @return array<<missing>,mixed>
+	 */
 	private function normalizeColumns(): array
 	{
 
@@ -508,6 +635,16 @@ class Module
 		// This is annoying, but we must deal with aliases here
 		$column = $this->stripAlias($column);
 		return array_search($column, $this->normalizeColumns());
+	}
+
+	protected function hasRowEdit(object $row): bool
+	{
+		return $this->edit;
+	}
+
+	protected function hasRowDelete(object $row): bool
+	{
+		return $this->delete;
 	}
 
 	/**
@@ -618,6 +755,31 @@ class Module
 		} catch (Exception $ex) {
 			$this->pdoException($sql, $params, $ex);
 			return [];
+		}
+	}
+
+	protected function getEditData(string $id): ?array
+	{
+		if (!$this->sql_table || !$this->form_columns) return [];
+		$this->addWhere("{$this->primary_key} = ?", $id);
+		$sql = $this->getEditQuery();
+		$params = $this->getParams($this->table_where);
+		try {
+			$stmt = db()->run($sql, $params);
+			$result = $stmt->fetch();
+			$map = array_map(function ($title, $column, $value) {
+				$row = (object)[
+					"title" => $title,
+					"column" => $column,
+					"value" => $value
+				];
+				$this->editValueOverride($row);
+				return $row;
+			}, array_keys($this->form_columns), array_values($this->form_columns), (array)$result);
+			return $map;
+		} catch (Exception $ex) {
+			$this->pdoException($sql, $params, $ex);
+			return null;
 		}
 	}
 }

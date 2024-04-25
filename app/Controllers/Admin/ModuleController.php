@@ -91,7 +91,7 @@ class ModuleController extends Controller
 	public function link_count($path): string
 	{
 		$data = $this->validateRequest([
-			"index" => [],
+			"index" => ["min|0"],
 		]);
 		if ($data) {
 			try {
@@ -101,7 +101,7 @@ class ModuleController extends Controller
 				return "??";
 			}
 		}
-		return 0;
+		return '??';
 	}
 
 	#[Get("/{path}/create", "module.create")]
@@ -111,17 +111,18 @@ class ModuleController extends Controller
 		dump("create");
 	}
 
-	#[Get("/{path}/{id}/edit", "module.edit")]
+	#[Get("/{path}/{id}", "module.edit")]
 	public function edit($path, $id)
 	{
-		if (!$this->module->hasEditPermission()) $this->permissionDenied();
-		dump("edit");
-	}
+		// Fix history
+		header("Hx-Push-Url: /admin/$path/$id");
 
-	#[Get("/{path}/{id}", "module.show")]
-	public function show($path, $id)
-	{
-		dump("show");
+		if (!$this->module->hasEditPermission()) $this->permissionDenied();
+		return $this->render("layout/admin.php", [
+			"module_title" => $this->module->getTitle(),
+			"sidebar" => $this->module->getSidebar(),
+			"content" => $this->module->viewEdit($id),
+		]);
 	}
 
 	#[Post("/{path}", "module.store")]
@@ -135,7 +136,13 @@ class ModuleController extends Controller
 	public function update($path, $id)
 	{
 		if (!$this->module->hasEditPermission()) $this->permissionDenied();
-		dump("update");
+		$data = $this->validateRequest($this->module->getValidationRules());
+		if ($data) {
+			$this->module->processUpdate($id, $data);
+		} else {
+			$this->module->request_errors = $this->request_errors;
+		}
+		return $this->edit($path, $id);
 	}
 
 	#[Delete("/{path}/{id}", "module.destroy")]

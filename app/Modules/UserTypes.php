@@ -8,7 +8,7 @@ class UserTypes extends Module
 {
 	public function __construct(object $config)
 	{
-		$this->create = $this->delete = $this->edit = false;
+		$this->create = $this->delete = $this->edit = true;
 		$this->table_columns = [
 			"ID" => "id",
 			"Name" => "name",
@@ -22,4 +22,3 @@ class UserTypes extends Module
 		parent::__construct($config);
 	}
 }
-

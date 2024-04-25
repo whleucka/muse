@@ -8,7 +8,6 @@ class Test extends Module
 {
 	public function __construct(object $config)
 	{
-		$this->create = $this->delete = $this->edit = false;
 		$this->table_columns = [
 			"ID" => "id",
 			"Name" => "name",
