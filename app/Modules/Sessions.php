@@ -12,14 +12,13 @@ class Sessions extends Module
 		$this->table_columns = [
 			"ID" => "id",
 			"Request URI" => "request_uri",
-			"IP" => "ip",
+			"IP" => "INET_NTOA(ip) as ip",
 			"User" => "(SELECT name
 				FROM users
 				WHERE users.id = sessions.user_id) as session_user",
 			"Created" => "created_at",
 		];
 		$this->table_format = [
-			"ip" => "ip",
 			"created_at" => "ago"
 		];
 		$this->search_columns = [

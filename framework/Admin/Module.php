@@ -287,7 +287,7 @@ class Module
 		$search_term = session()->get($path . "_search_term");
 		if ($search_term) {
 			$conditions = array_map(fn ($column) => "($column LIKE ?)", $this->search_columns);
-			$this->addWhere(implode(" OR ", $conditions), ...array_fill(0, count($this->search_columns), "%$search_term%"));
+			$this->addHaving(implode(" OR ", $conditions), ...array_fill(0, count($this->search_columns), "%$search_term%"));
 		}
 	}
 
@@ -461,6 +461,7 @@ class Module
 
 	/**
 	 * Add a table where clause
+	 * Aliases cannot be used here
 	 */
 	protected function addWhere(string $clause, int|string ...$replacements): void
 	{
@@ -469,6 +470,7 @@ class Module
 
 	/**
 	 * Add a table having clause
+	 * Aliases can be used here
 	 */
 	protected function addHaving(string $clause, int|string ...$replacements): void
 	{
