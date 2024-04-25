@@ -487,16 +487,27 @@ class Module
 	{
 	}
 
-	private function getColumnTitle(string $column)
+	private function stripAlias(string $column): mixed
+	{
+		$arr = explode(" as ", $column);
+		return end($arr);
+	}
+
+	private function normalizeColumns(): array
+	{
+
+		$columns = [];
+		foreach ($this->table_columns as $title => $column) {
+			$columns[$title] = $this->stripAlias($column);
+		}
+		return $columns;
+	}
+
+	private function getColumnTitle(string $column): int|string|bool
 	{
 		// This is annoying, but we must deal with aliases here
-		$column_arr = explode(" as ", $column);
-		$columns = [];
-		foreach ($this->table_columns as $title => $select) {
-			$col_arr = explode(" as ", $select);
-			$columns[$title] = end($col_arr);
-		}
-		return array_search(end($column_arr), $columns);
+		$column = $this->stripAlias($column);
+		return array_search($column, $this->normalizeColumns());
 	}
 
 	/**
