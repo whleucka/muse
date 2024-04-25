@@ -9,6 +9,7 @@ class Sessions extends Module
 	public function __construct(object $config)
 	{
 		$user = user();
+		$this->create = $this->delete = $this->edit = false;
 		$this->table_columns = [
 			"ID" => "id",
 			"Request URI" => "request_uri",
