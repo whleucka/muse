@@ -30,12 +30,43 @@ class Modules extends Module
 		$this->table_sort = "ASC";
 		$this->form_columns = [
 			"Title" => "title",
+			"Path" => "path",
+			"Class" => "class_name",
+			"SQL Table" => "sql_table",
+			"Primary Key" => "primary_key",
+			"Item Order" => "item_order",
+			"Max Permission Level" => "max_permission_level",
 			"Parent Module ID" => "parent_module_id",
+
 		];
 		$this->validation_rules = [
 			"title" => ["required", "non_empty_string"],
-			"parent_module_id" => ["required", "min|0"]
+			"path" => ["required", "non_empty_string"],
+			"class_name" => ["required", "non_empty_string"],
+			"sql_table" => ["required", "non_empty_string"],
+			"primary_key" => ["required", "non_empty_string"],
+			"item_order" => ["min|0"],
+			"max_permission_level" => ["min|0"],
+			"parent_module_id" => ["min|0"],
 		];
 		parent::__construct($config);
+	}
+
+	protected function hasRowDelete(object $row): bool
+	{
+		if ($row->title === "Modules") {
+			return false;
+		}
+
+		return parent::hasRowDelete($row);
+	}
+
+	protected function hasRowEdit(object $row): bool
+	{
+		if ($row->title === "Modules") {
+			return false;
+		}
+
+		return parent::hasRowEdit($row);
 	}
 }

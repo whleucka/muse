@@ -8,7 +8,6 @@ class UserTypes extends Module
 {
 	public function __construct(object $config)
 	{
-		$this->create = $this->delete = $this->edit = true;
 		$this->table_columns = [
 			"ID" => "id",
 			"Name" => "name",

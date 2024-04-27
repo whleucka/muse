@@ -2,6 +2,7 @@ main {
 	overflow: auto;
 }
 
+/** Utility */
 .gradient-dark {
 	background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
 }
@@ -46,12 +47,9 @@ main {
 	padding: 6px;
 }
 
-#filter-search input[type='search'] {
-	background-image: url("/img/search_icon.webp");
-	background-size: 2rem;
-	background-repeat: no-repeat;
-	background-position: left center;
-	padding-left: 40px;
+#table .row-action button {
+	padding: 2px 4px;
+	font-size: 0.845rem
 }
 
 #table #pagination .page-item.active .page-link {
@@ -79,6 +77,17 @@ main {
 #table #pagination .pagination-link .page-link {
 	color: #666;
 }
+
+
+/** Table Filters */
+#filters #filter-search input[type='search'] {
+	background-image: url("/img/search_icon.webp");
+	background-size: 2rem;
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 40px;
+}
+
 
 /** Sidebar */
 #sidebar {

@@ -278,7 +278,7 @@ class Module
 		if ($parent_module_id == 2) {
 			$link = [
 				"id" => null,
-				"label" => "Sign out",
+				"label" => "Sign Out",
 				"link" => "/sign-out",
 				"children" => [],
 			];
@@ -431,103 +431,6 @@ class Module
 	}
 
 	/**
-	 * Update a record
-	 * @param string $id record ID
-	 * @param array $request validated request
-	 */
-	public function processUpdate(string $id, array $request): mixed
-	{
-		if (!$this->sql_table || !$this->form_columns) return [];
-		$sql = $this->getUpdateQuery($request);
-		$sql .= sprintf(" WHERE %s = ?", $this->primary_key);
-		$params = [...array_values($request), $id];
-		try {
-			$result = db()->query($sql, ...$params);
-			return $result;
-		} catch (Exception $ex) {
-			$this->pdoException($sql, $params, $ex);
-			return null;
-		}
-	}
-
-	/**
-	 * Render the view module.edit
-	 * @param string $id record ID
-	 */
-	public function viewEdit(string $id): string
-	{
-		$path = $this->path;
-		$request_errors = fn (
-			string $field,
-			string $title = ""
-		) => $this->getRequestErrors($field, $title);
-		$has_errors = fn (string $field) => $this->hasRequestError(
-			$field
-		);
-		return template("module/edit/index.php", [
-			"id" => $id,
-			"form" => template("module/edit/form.php", [
-				"data" => $this->getEditData($id),
-				"module" => $path,
-				"request_errors" => $request_errors,
-				"has_errors" => $has_errors,
-			]),
-		]);
-	}
-
-
-	/**
-	 * Render the view module.index
-	 */
-	public function viewIndex(): string
-	{
-		$this->filters();
-		$path = $this->path;
-		$format = function (string $column, mixed $value) {
-			return $this->format($column, $value);
-		};
-		$has_row_edit = function (object $row) {
-			return $this->hasRowEdit($row);
-		};
-		$has_row_delete = function (object $row) {
-			return $this->hasRowDelete($row);
-		};
-		return template("module/index/index.php", [
-			"filters" => [
-				"search" => template("module/index/search.php", [
-					"show" => !empty($this->search_columns),
-					"term" => session()->get($path . "_search_term"),
-				]),
-				"link" => template("module/index/filter_links.php", [
-					"action" => "/admin/$path/link-count",
-					"show" => !empty($this->filter_links),
-					"current" => session()->get($path . "_filter_link"),
-					"links" => array_keys($this->filter_links),
-				]),
-			],
-			"table" => template("module/index/table.php", [
-				"module" => $path,
-				"primary_key" => $this->primary_key,
-				"headers" => array_keys($this->table_columns),
-				"data" => $this->getTableData(),
-				"show_row_actions" => $this->show_row_actions,
-				"has_row_edit" => $has_row_edit,
-				"has_row_delete" => $has_row_delete,
-				"format" => $format,
-			]),
-			"pagination" => template("module/index/pagination.php", [
-				"show" => $this->per_page > $this->total_results || $this->total_pages > 1,
-				"current_page" => $this->page,
-				"total_results" => $this->total_results,
-				"total_pages" => $this->total_pages,
-				"per_page" => $this->per_page,
-				"per_page_options" => array_filter($this->per_page_options, fn ($value) => $value <= $this->total_results),
-				"side_links" => $this->side_links,
-			])
-		]);
-	}
-
-	/**
 	 * Get the table query
 	 * This is the query for module.index
 	 * @param bool $limit_query there exists a limit, offset clause
@@ -575,7 +478,34 @@ class Module
 	{
 		$map = array_map(fn ($column) => "$column = ?", array_keys($request));
 		$set_stmt = "SET " . $this->formatComma($map);
-		return sprintf("UPDATE %s %s", ...[
+		return sprintf("UPDATE %s %s WHERE %s = ?", ...[
+			$this->sql_table,
+			$set_stmt,
+			$this->primary_key
+		]);
+	}
+
+	/**
+	 * Get the update query
+	 * This is the query for module.update
+	 */
+	private function getDeleteQuery(): string
+	{
+		return sprintf("DELETE FROM %s WHERE %s = ?", ...[
+			$this->sql_table,
+			$this->primary_key
+		]);
+	}
+
+	/**
+	 * Get the create query
+	 * This is the query for module.update
+	 */
+	private function getCreateQuery(array $request): string
+	{
+		$map = array_map(fn ($column) => "$column = ?", array_keys($request));
+		$set_stmt = "SET " . $this->formatComma($map);
+		return sprintf("INSERT INTO %s %s", ...[
 			$this->sql_table,
 			$set_stmt,
 		]);
@@ -736,10 +666,65 @@ class Module
 	}
 
 	/**
+	 * Update a record
+	 * @param string $id record ID
+	 * @param array $request validated request
+	 */
+	public function processUpdate(string $id, array $request): mixed
+	{
+		if (!$this->sql_table || !$this->form_columns) return [];
+		$sql = $this->getUpdateQuery($request);
+		$params = [...array_values($request), $id];
+		try {
+			$result = db()->query($sql, ...$params);
+			return $result;
+		} catch (Exception $ex) {
+			$this->pdoException($sql, $params, $ex);
+			return null;
+		}
+	}
+
+	/**
+	 * Create a new record
+	 * @param array $request validated request
+	 */
+	public function processCreate(array $request): mixed
+	{
+		if (!$this->sql_table || !$this->form_columns) return [];
+		$sql = $this->getCreateQuery($request);
+		$params = array_values($request);
+		try {
+			$result = db()->query($sql, ...$params);
+			return $result ? db()->lastInsertId() : null;
+		} catch (Exception $ex) {
+			$this->pdoException($sql, $params, $ex);
+			return null;
+		}
+	}
+
+	/**
+	 * Delete a new record
+	 * @param array $request validated request
+	 */
+	public function processDestroy(string $id): mixed
+	{
+		if (!$this->sql_table || !$this->form_columns) return [];
+		$sql = $this->getDeleteQuery();
+		$params = [$id];
+		try {
+			$result = db()->query($sql, ...$params);
+			return $result;
+		} catch (Exception $ex) {
+			$this->pdoException($sql, $params, $ex);
+			return null;
+		}
+	}
+
+	/**
 	 * Run the table query and return the dataset
 	 * This dataset is for module.index
 	 */
-	protected function getTableData(): array|bool
+	protected function getIndexData(): array|bool
 	{
 		if (!$this->sql_table || !$this->table_columns) return [];
 		$sql = $this->getTableQuery();
@@ -782,5 +767,132 @@ class Module
 			$this->pdoException($sql, $params, $ex);
 			return null;
 		}
+	}
+
+	protected function getCreateData(): ?array
+	{
+		if (!$this->sql_table || !$this->form_columns) return [];
+		$sql = $this->getEditQuery();
+		$params = $this->getParams($this->table_where);
+		try {
+			$stmt = db()->run($sql, $params);
+			$result = $stmt->fetch();
+			$map = array_map(function ($title, $column, $value) {
+				$row = (object)[
+					"title" => $title,
+					"column" => $column,
+					"value" => $value
+				];
+				$this->editValueOverride($row);
+				return $row;
+			}, array_keys($this->form_columns), array_values($this->form_columns), (array)$result);
+			return $map;
+		} catch (Exception $ex) {
+			$this->pdoException($sql, $params, $ex);
+			return null;
+		}
+	}
+
+	/**
+	 * Render the view module.index
+	 */
+	public function viewIndex(): string
+	{
+		$this->filters();
+		$path = $this->path;
+		$format = function (string $column, mixed $value) {
+			return $this->format($column, $value);
+		};
+		$has_row_edit = function (object $row) {
+			return $this->hasRowEdit($row);
+		};
+		$has_row_delete = function (object $row) {
+			return $this->hasRowDelete($row);
+		};
+		return template("module/index/index.php", [
+			"module" => $path,
+			"actions" => [
+				"show_create_action" => $this->create,
+			],
+			"filters" => [
+				"search" => template("module/index/search.php", [
+					"show" => !empty($this->search_columns),
+					"term" => session()->get($path . "_search_term"),
+				]),
+				"link" => template("module/index/filter_links.php", [
+					"action" => "/admin/$path/link-count",
+					"show" => !empty($this->filter_links),
+					"current" => session()->get($path . "_filter_link"),
+					"links" => array_keys($this->filter_links),
+				]),
+			],
+			"table" => template("module/index/table.php", [
+				"module" => $path,
+				"primary_key" => $this->primary_key,
+				"headers" => array_keys($this->table_columns),
+				"data" => $this->getIndexData(),
+				"show_row_actions" => $this->show_row_actions,
+				"has_row_edit" => $has_row_edit,
+				"has_row_delete" => $has_row_delete,
+				"format" => $format,
+			]),
+			"pagination" => template("module/index/pagination.php", [
+				"show" => $this->per_page > $this->total_results || $this->total_pages > 1,
+				"current_page" => $this->page,
+				"total_results" => $this->total_results,
+				"total_pages" => $this->total_pages,
+				"per_page" => $this->per_page,
+				"per_page_options" => array_filter($this->per_page_options, fn ($value) => $value <= $this->total_results),
+				"side_links" => $this->side_links,
+			])
+		]);
+	}
+
+	/**
+	 * Render the view module.edit
+	 * @param string $id record ID
+	 */
+	public function viewEdit(string $id): string
+	{
+		$path = $this->path;
+		$request_errors = fn (
+			string $field,
+			string $title = ""
+		) => $this->getRequestErrors($field, $title);
+		$has_errors = fn (string $field) => $this->hasRequestError(
+			$field
+		);
+		return template("module/edit/index.php", [
+			"id" => $id,
+			"form" => template("module/edit/form.php", [
+				"data" => $this->getEditData($id),
+				"module" => $path,
+				"request_errors" => $request_errors,
+				"has_errors" => $has_errors,
+			]),
+		]);
+	}
+
+	/**
+	 * Render the view module.create
+	 */
+	public function viewCreate(): string
+	{
+		$path = $this->path;
+		$request_errors = fn (
+			string $field,
+			string $title = ""
+		) => $this->getRequestErrors($field, $title);
+		$has_errors = fn (string $field) => $this->hasRequestError(
+			$field
+		);
+		return template("module/create/index.php", [
+			"form" => template("module/create/form.php", [
+				"data" => $this->getCreateData(),
+				"module" => $path,
+				"request_errors" => $request_errors,
+				"has_errors" => $has_errors,
+			]),
+		]);
 	}
 }

@@ -107,8 +107,15 @@ class ModuleController extends Controller
 	#[Get("/{path}/create", "module.create")]
 	public function create($path)
 	{
+		// Fix history
+		header("Hx-Push-Url: /admin/$path/create");
+
 		if (!$this->module->hasCreatePermission()) $this->permissionDenied();
-		dump("create");
+		return $this->render("layout/admin.php", [
+			"module_title" => $this->module->getTitle(),
+			"sidebar" => $this->module->getSidebar(),
+			"content" => $this->module->viewCreate(),
+		]);
 	}
 
 	#[Get("/{path}/{id}", "module.edit")]
@@ -125,11 +132,20 @@ class ModuleController extends Controller
 		]);
 	}
 
-	#[Post("/{path}", "module.store")]
+	#[Post("/{path}/create", "module.store")]
 	public function store($path)
 	{
 		if (!$this->module->hasCreatePermission()) $this->permissionDenied();
-		dump("store");
+		$data = $this->validateRequest($this->module->getValidationRules());
+		if ($data) {
+			$id = $this->module->processCreate($data);
+			if ($id) {
+				return $this->edit($path, $id);
+			}
+		} else {
+			$this->module->request_errors = $this->request_errors;
+		}
+		return $this->create($path);
 	}
 
 	#[Patch("/{path}/{id}", "module.update")]
@@ -149,6 +165,7 @@ class ModuleController extends Controller
 	public function destroy($path, $id)
 	{
 		if (!$this->module->hasDeletePermission()) $this->permissionDenied();
-		dump("destroy");
+		$this->module->processDestroy($id);
+		return $this->index($path);
 	}
 }

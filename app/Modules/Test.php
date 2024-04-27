@@ -8,6 +8,7 @@ class Test extends Module
 {
 	public function __construct(object $config)
 	{
+		$this->create = $this->delete = $this->edit = true;
 		$this->table_columns = [
 			"ID" => "id",
 			"Name" => "name",
@@ -26,6 +27,14 @@ class Test extends Module
 		$this->search_columns = [
 			"name",
 			"number",
+		];
+		$this->form_columns = [
+			"Name" => "name",
+			"Number" => "number",
+		];
+		$this->validation_rules = [
+			"name" => ["required", "non_empty_string"],
+			"number" => ["min|0"],
 		];
 		parent::__construct($config);
 	}
