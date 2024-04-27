@@ -9,5 +9,6 @@
 		<?php endforeach ?>
 		<div>
 			<button hx-patch="" hx-swap="outerHTML" hx-target="#content" hx-select="#content" id="edit-save" type="submit" class="btn btn-sm btn-success">Save</button>
+			<a hx-boost="true" href="/admin/<?=$module?>/" hx-swap="outerHTML" hx-target="#content" hx-select="#content" class="btn btn-sm btn-warning">Back</a>
 		</div>
 </form>

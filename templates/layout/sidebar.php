@@ -1,19 +1,25 @@
 <nav id="sidebar" class="d-none d-sm-block" hx-boost="true" hx-target="main" hx-select="main" hx-swap="outerHTML">
-	<div class="flex-shrink-0 p-3">
+	<div class="mb-3">
+		<input type="search" class="form-control" id="filter" placeholder="Filter">
+	</div>
+
+	<div class="flex-shrink-0">
 		<ul class="list-unstyled ps-0">
-		<?php foreach ($links as $key => $link): ?>
+			<?php foreach ($links as $key => $link): ?>
 			<?php if (!empty($link['children'])): ?>
 			<li class="mb-1">
-				<button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse"
-					data-bs-target="#link-<?=$key?>" aria-expanded="true">
-				  <?=$link['label']?>
+				<button class="btn btn-toggle align-items-center rounded parent-link"
+					data-bs-toggle="collapse"
+					data-bs-target="#link-<?=$key?>"
+					aria-expanded="false">
+					<?=$link['label']?>
 				</button>
-				<div class="collapse show" id="link-<?=$key?>">
+				<div class="collapse submenu" id="link-<?=$key?>">
 					<?php renderLinks($link['children']); ?>
 				</div>
 			</li>
 			<?php endif ?>
-		<?php endforeach ?>
+			<?php endforeach ?>
 		</ul>
 	</div>
 </nav>
@@ -23,11 +29,15 @@
 function renderLinks(array $links)
 {
 	?>
-	<ul class="btn-toggle-nav fw-normal sidebar-links pb-1 small">
+<ul class="btn-toggle-nav fw-normal sidebar-links pb-1 small">
 	<?php foreach ($links as $child): ?>
-		<li <?=(is_null($child['id']) ? 'hx-boost="false"' : '') ?> class="sidebar-link"><a href="<?=$child['link']?>" class="link-dark rounded"><?=$child['label']?></a></li>
-		<?php if (!empty($child['children'])) { renderLinks($child['children']); } ?>
+	<li <?=(is_null($child['id']) ? 'hx-boost="false"' : '' ) ?> class="sidebar-link"><a href="<?=$child['link']?>"
+			data-title="<?=$child['label']?>"
+			class="link-dark rounded">
+			<?=$child['label']?>
+		</a></li>
+	<?php if (!empty($child['children'])) { renderLinks($child['children']); } ?>
 	<?php endforeach ?>
-	</ul>
-	<?php
+</ul>
+<?php
 }

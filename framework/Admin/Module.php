@@ -468,6 +468,7 @@ class Module
 			"id" => $id,
 			"form" => template("module/edit/form.php", [
 				"data" => $this->getEditData($id),
+				"module" => $path,
 				"request_errors" => $request_errors,
 				"has_errors" => $has_errors,
 			]),
@@ -505,12 +506,12 @@ class Module
 				]),
 			],
 			"table" => template("module/index/table.php", [
+				"module" => $path,
 				"primary_key" => $this->primary_key,
 				"headers" => array_keys($this->table_columns),
 				"data" => $this->getTableData(),
 				"show_row_actions" => $this->show_row_actions,
 				"has_row_edit" => $has_row_edit,
-				"route" => "/admin/$path",
 				"has_row_delete" => $has_row_delete,
 				"format" => $format,
 			]),
