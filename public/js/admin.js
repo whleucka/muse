@@ -39,6 +39,8 @@
 				el.innerHTML = html;
 
 				toggleSubmenu(el, true);
+			} else {
+				el.style.display = "none";
 			}
 		});
 	};
@@ -46,6 +48,7 @@
 	const resetHighlight = () => {
 		const sidebarLinks = document.querySelectorAll('#sidebar .sidebar-link a');
 		sidebarLinks.forEach((el, i) => {
+			el.style.display = "block";
 			const title = el.dataset.title;
 			el.innerHTML = title;
 
