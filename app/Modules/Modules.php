@@ -6,7 +6,7 @@ use Nebula\Framework\Admin\Module;
 
 class Modules extends Module
 {
-	public function __construct(object $config)
+	public function definition(): void
 	{
 		$this->create = $this->delete = $this->edit = true;
 		$this->table_columns = [
@@ -49,7 +49,6 @@ class Modules extends Module
 			"max_permission_level" => ["min|0"],
 			"parent_module_id" => ["min|0"],
 		];
-		parent::__construct($config);
 	}
 
 	protected function hasRowDelete(object $row): bool

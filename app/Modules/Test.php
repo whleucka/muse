@@ -6,7 +6,7 @@ use Nebula\Framework\Admin\Module;
 
 class Test extends Module
 {
-	public function __construct(object $config)
+	public function definition(): void
 	{
 		$this->create = $this->delete = $this->edit = true;
 		$this->table_columns = [
@@ -34,8 +34,7 @@ class Test extends Module
 		];
 		$this->validation_rules = [
 			"name" => ["required", "non_empty_string"],
-			"number" => ["min|0"],
+			"number" => ["min|2"],
 		];
-		parent::__construct($config);
 	}
 }

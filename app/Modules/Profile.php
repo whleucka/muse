@@ -6,11 +6,6 @@ use Nebula\Framework\Admin\Module;
 
 class Profile extends Module
 {
-	public function __construct(object $config)
-	{
-		parent::__construct($config);
-	}
-
 	public function viewIndex(): string
 	{
 		return template("profile/index.php", ["name" => user()->name]);

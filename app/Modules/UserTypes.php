@@ -6,7 +6,7 @@ use Nebula\Framework\Admin\Module;
 
 class UserTypes extends Module
 {
-	public function __construct(object $config)
+	public function definition(): void
 	{
 		$this->table_columns = [
 			"ID" => "id",
@@ -18,6 +18,5 @@ class UserTypes extends Module
 			"updated_at" => "ago",
 			"created_at" => "ago",
 		];
-		parent::__construct($config);
 	}
 }

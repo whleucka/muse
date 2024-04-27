@@ -9,6 +9,6 @@
 	<?php endforeach ?>
 	<div>
 		<button hx-post="" hx-swap="outerHTML" hx-target="#content" hx-select="#content" id="create-new" type="submit" class="btn btn-success">Create</button>
-		<a hx-boost="true" href="/admin/<?= $module ?>/" hx-swap="outerHTML" hx-target="#content" hx-select="#content" class="btn btn-warning ms-1">Back</a>
+		<button hx-get="/admin/<?= $module ?>/" hx-swap="outerHTML" hx-target="#content" hx-select="#content" class="btn btn-secondary ms-1">Back</button>
 	</div>
 </form>

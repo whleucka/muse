@@ -6,7 +6,7 @@ use Nebula\Framework\Admin\Module;
 
 class Users extends Module
 {
-	public function __construct(object $config)
+	public function definition(): void
 	{
 		$user = user();
 		$this->table_columns = [
@@ -29,6 +29,5 @@ class Users extends Module
 			"Me" => "id = {$user->id}",
 			"Others" => "id != {$user->id}",
 		];
-		parent::__construct($config);
 	}
 }

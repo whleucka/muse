@@ -6,7 +6,6 @@ use Nebula\Framework\Admin\Module;
 use Nebula\Framework\Controller\Controller;
 use StellarRouter\{Delete, Get, Group, Patch, Post};
 use Symfony\Component\HttpFoundation\Response;
-use Exception;
 use Nebula\Framework\Auth\Auth;
 
 #[Group(prefix: "/admin", middleware: ["auth"])]
@@ -25,7 +24,7 @@ class ModuleController extends Controller
 			$this->permissionDenied();
 		}
 		$class = $module->class_name;
-		$this->module = new $class($module);
+		$this->module = new $class($module, $this);
 	}
 
 	private function init(): ?object
@@ -70,70 +69,45 @@ class ModuleController extends Controller
 	#[Get("/{path}", "module.index")]
 	public function index($path): string
 	{
+		header("Hx-Push-Url: /admin/$path");
+
 		$data = $this->validateRequest([
 			"page" => ["min|0"],
 			"per_page" => ["min|0"],
 			"term" => ["non_empty_string"],
 			"filter_link" => ["min|0"],
+			"filter_count" => ["min|0"],
 		]);
 		if ($data) {
-			$this->module->processRequest($data);
+			$response = $this->module->processRequest($data);
+			if ($response) return $response;
 		}
-		return $this->render("layout/admin.php", [
-			"module_title" => $this->module->getTitle(),
-			"sidebar" => $this->module->getSidebar(),
-			"content" => $this->module->viewIndex()
-		]);
-	}
 
-
-	#[Get("/{path}/link-count", "module.link-count")]
-	public function link_count($path): string
-	{
-		$data = $this->validateRequest([
-			"index" => ["min|0"],
-		]);
-		if ($data) {
-			try {
-				$count = $this->module->getFilterLinkCount($data["index"]);
-				return $count > 1000 ? "1000+" : $count;
-			} catch (Exception $ex) {
-				return "??";
-			}
-		}
-		return '??';
+		return $this->module->render('index');
 	}
 
 	#[Get("/{path}/create", "module.create")]
-	public function create($path)
+	public function create($path): string
 	{
-		// Fix history
 		header("Hx-Push-Url: /admin/$path/create");
 
 		if (!$this->module->hasCreatePermission()) $this->permissionDenied();
-		return $this->render("layout/admin.php", [
-			"module_title" => $this->module->getTitle(),
-			"sidebar" => $this->module->getSidebar(),
-			"content" => $this->module->viewCreate(),
-		]);
+
+		return $this->module->render('create');
 	}
 
 	#[Get("/{path}/{id}", "module.edit")]
-	public function edit($path, $id)
+	public function edit($path, $id): string
 	{
-		// Fix history
 		header("Hx-Push-Url: /admin/$path/$id");
 
 		if (!$this->module->hasEditPermission()) $this->permissionDenied();
-		return $this->render("layout/admin.php", [
-			"module_title" => $this->module->getTitle(),
-			"sidebar" => $this->module->getSidebar(),
-			"content" => $this->module->viewEdit($id),
-		]);
+
+		return $this->module->render('edit', $id);
 	}
 
 	#[Post("/{path}/create", "module.store")]
-	public function store($path)
+	public function store($path): string
 	{
 		if (!$this->module->hasCreatePermission()) $this->permissionDenied();
 		$data = $this->validateRequest($this->module->getValidationRules());
@@ -142,27 +116,23 @@ class ModuleController extends Controller
 			if ($id) {
 				return $this->edit($path, $id);
 			}
-		} else {
-			$this->module->request_errors = $this->request_errors;
 		}
 		return $this->create($path);
 	}
 
 	#[Patch("/{path}/{id}", "module.update")]
-	public function update($path, $id)
+	public function update($path, $id): string
 	{
 		if (!$this->module->hasEditPermission()) $this->permissionDenied();
 		$data = $this->validateRequest($this->module->getValidationRules());
 		if ($data) {
 			$this->module->processUpdate($id, $data);
-		} else {
-			$this->module->request_errors = $this->request_errors;
 		}
 		return $this->edit($path, $id);
 	}
 
 	#[Delete("/{path}/{id}", "module.destroy")]
-	public function destroy($path, $id)
+	public function destroy($path, $id): string
 	{
 		if (!$this->module->hasDeletePermission()) $this->permissionDenied();
 		$this->module->processDestroy($id);

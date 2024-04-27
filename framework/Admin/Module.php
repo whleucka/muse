@@ -5,6 +5,7 @@ namespace Nebula\Framework\Admin;
 use App\Models\Session;
 use Exception;
 use Carbon\Carbon;
+use Nebula\Framework\Controller\Controller;
 
 class Module
 {
@@ -25,8 +26,6 @@ class Module
 	protected bool $delete = false;
 	// Validation rules
 	protected array $validation_rules = [];
-	// Request errors
-	public array $request_errors = [];
 
 	/** Table */
 	// SQL columns
@@ -78,13 +77,36 @@ class Module
 	protected array $form_columns = [];
 
 	public function __construct(
-		object $config
+		private object $config,
+		private Controller $controller,
 	) {
 		$this->title = $config->title;
 		$this->path = $config->path;
 		$this->sql_table = $config->sql_table;
 		$this->primary_key = $config->primary_key ?? "id";
 		$this->recordSession();
+		$this->definition();
+	}
+
+	/**
+	 * Provide module definition here
+	*/
+	public function definition(): void
+	{
+	}
+
+	public function render(string $type, ?string $id = null): string
+	{
+		$content = match($type) {
+			"index" => $this->viewIndex(),
+			"create" => $this->viewCreate(),
+			"edit" => $this->viewEdit($id),
+		};
+		return $this->controller->render("layout/admin.php", [
+			"module_title" => $this->getTitle(),
+			"sidebar" => $this->getSidebar(),
+			"content" => $content
+		]);
 	}
 
 	/**
@@ -92,8 +114,12 @@ class Module
 	 * Setting page number, search term, other filters, etc
 	 * @param array $request the validated request
 	 */
-	public function processRequest(array $request): void
+	public function processRequest(array $request)
 	{
+		if (isset($request["filter_count"])) {
+			$count = $this->getFilterLinkCount(intval($request["filter_count"]));
+			return $count > 1000 ? "1000+" : $count;
+		}
 		if (isset($request["page"])) {
 			$this->setPage(intval($request["page"]));
 		}
@@ -107,25 +133,6 @@ class Module
 			$this->setPage(1);
 			$this->setFilterLink(intval($request["filter_link"]));
 		}
-	}
-
-	protected function hasRequestError(string $field): bool
-	{
-		return isset($this->request_errors[$field]);
-	}
-
-	protected function getRequestErrors(
-		string $field,
-		string $title = ""
-	): ?string {
-		if (!$title) {
-			$title = ucfirst($field);
-		}
-		return isset($this->request_errors[$field])
-			? template("components/request_errors.php", [
-				"errors" => $this->request_errors[$field],
-				"title" => $title,
-			]) : "";
 	}
 
 	/**
@@ -674,7 +681,9 @@ class Module
 	{
 		if (!$this->sql_table || !$this->form_columns) return [];
 		$sql = $this->getUpdateQuery($request);
-		$params = [...array_values($request), $id];
+		// Empty string is null
+		$mapped = array_map(fn($r) => trim($r) === '' ? null : $r, $request);
+		$params = [...array_values($mapped), $id];
 		try {
 			$result = db()->query($sql, ...$params);
 			return $result;
@@ -692,7 +701,9 @@ class Module
 	{
 		if (!$this->sql_table || !$this->form_columns) return [];
 		$sql = $this->getCreateQuery($request);
-		$params = array_values($request);
+		// Empty string is null
+		$mapped = array_map(fn($r) => trim($r) === '' ? null : $r, $request);
+		$params = array_values($mapped);
 		try {
 			$result = db()->query($sql, ...$params);
 			return $result ? db()->lastInsertId() : null;
@@ -858,8 +869,8 @@ class Module
 		$request_errors = fn (
 			string $field,
 			string $title = ""
-		) => $this->getRequestErrors($field, $title);
-		$has_errors = fn (string $field) => $this->hasRequestError(
+		) => $this->controller->getRequestError($field, $title);
+		$has_errors = fn (string $field) => $this->controller->hasRequestError(
 			$field
 		);
 		return template("module/edit/index.php", [
@@ -882,8 +893,8 @@ class Module
 		$request_errors = fn (
 			string $field,
 			string $title = ""
-		) => $this->getRequestErrors($field, $title);
-		$has_errors = fn (string $field) => $this->hasRequestError(
+		) => $this->controller->getRequestError($field, $title);
+		$has_errors = fn (string $field) => $this->controller->hasRequestError(
 			$field
 		);
 		return template("module/create/index.php", [

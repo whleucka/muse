@@ -12,10 +12,10 @@ class Controller
         "float" => "must be a float",
         "int" => "must be an integer",
         "match" => "must match",
-        "max" => "greater than max",
-        "min" => "less than min",
-        "maxlength" => "greater than max length",
-        "minlength" => "less than min length",
+        "max" => "greater than maximum allowed",
+        "min" => "less than minimum allowed",
+        "maxlength" => "greater than maximum length",
+        "minlength" => "less than minimum length",
         "numeric" => "must be numeric",
         "required" => "required field",
         "string" => "must be a string",
@@ -38,13 +38,13 @@ class Controller
      * @param string $path template path
      * @param array<string,mixed> $data template data
      */
-    protected function render(string $path, array $data = []): string
+    public function render(string $path, array $data = []): string
     {
         // Template functions
         $data["request_errors"] = fn (
             string $field,
             string $title = ""
-        ) => $this->getRequestErrors($field, $title);
+        ) => $this->getRequestError($field, $title);
         $data["has_error"] = fn (string $field) => $this->hasRequestError(
             $field
         );
@@ -59,7 +59,7 @@ class Controller
         return template($path, $data, true);
     }
 
-    protected function getRequestErrors(
+    public function getRequestError(
         string $field,
         string $title = ""
     ): ?string {
@@ -147,12 +147,12 @@ class Controller
         return count($this->request_errors) === 0 ? $data : [];
     }
 
-    protected function addRequestError(string $field, string $message): void
+    public function addRequestError(string $field, string $message): void
     {
         $this->request_errors[$field][] = $message;
     }
 
-    protected function hasRequestError(string $field): bool
+    public function hasRequestError(string $field): bool
     {
         return isset($this->request_errors[$field]);
     }
