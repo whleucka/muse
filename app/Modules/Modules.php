@@ -53,7 +53,7 @@ class Modules extends Module
 
 	protected function hasRowDelete(object $row): bool
 	{
-		if ($row->title === "Modules") {
+		if ($row->id < 10) {
 			return false;
 		}
 
