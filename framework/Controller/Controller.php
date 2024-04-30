@@ -41,28 +41,26 @@ class Controller
     public function render(string $path, array $data = []): string
     {
         // Template functions
-        $data["request_errors"] = fn (
+        $data["request_errors"] = fn(
             string $field,
             string $title = ""
         ) => $this->getRequestError($field, $title);
-        $data["has_error"] = fn (string $field) => $this->hasRequestError(
+        $data["has_error"] = fn(string $field) => $this->hasRequestError(
             $field
         );
-        $data["escape"] = fn (string $key) => $this->escapeRequest($key);
+        $data["escape"] = fn(string $key) => $this->escapeRequest($key);
         $data["title"] = config("application.name");
         $data["route"] = function ($name) {
             $router = app()->router();
             $route = $router->findRouteByName($name);
-            return $route ? $route->getPath() : '';
+            return $route ? $route->getPath() : "";
         };
 
         return template($path, $data, true);
     }
 
-    public function getRequestError(
-        string $field,
-        string $title = ""
-    ): ?string {
+    public function getRequestError(string $field, string $title = ""): ?string
+    {
         if (!$title) {
             $title = ucfirst($field);
         }
@@ -70,7 +68,8 @@ class Controller
             ? template("components/request_errors.php", [
                 "errors" => $this->request_errors[$field],
                 "title" => $title,
-            ]) : "";
+            ])
+            : "";
     }
 
     /**
@@ -79,7 +78,7 @@ class Controller
     private function escapeRequest(string $key): mixed
     {
         return htmlspecialchars(
-            $this->request($key) ?? '',
+            $this->request($key) ?? "",
             ENT_QUOTES | ENT_HTML5,
             "UTF-8"
         );
@@ -100,38 +99,23 @@ class Controller
                     $result = true;
                 } else {
                     $result = match ($rule) {
-                        // Cannot be empty string
-                        "non_empty_string" => trim($value) !== '',
-                        // value is an array
+                        "non_empty_string" => trim($value) !== "",
                         "array" => is_array($value),
-                        // value is an email address
                         "email" => filter_var($value, FILTER_VALIDATE_EMAIL),
-                        // value is a float
                         "float" => is_float($value),
-                        // value is an integer
                         "int" => is_int($value),
-                        // value must match other request item
                         "match" => $value === $this->request($arg_1),
-                        // value must be less than or equal to max
                         "max" => intval($value) <= intval($arg_1),
-                        // value must be larger than or equal to min
                         "min" => intval($value) >= intval($arg_1),
-                        // length must be less than or equal to maxlength
                         "maxlength" => strlen($value) <= intval($arg_1),
-                        // length must be larger than or equal to minlength
                         "minlength" => strlen($value) >= intval($arg_1),
-                        // value is numeric
                         "numeric" => is_numeric($value),
-                        // value is required
                         "required" => $value && trim($value) !== "",
-                        // vlaue is a string
                         "string" => is_string($value),
-                        // value is unique in db
                         "unique" => !db()->fetch(
                             "SELECT * FROM $arg_1 WHERE $field = ?",
                             $value
                         ),
-                        // value contains a symbol
                         "symbol" => preg_match("/[^\w\s]/", $value),
                         default => false,
                     };

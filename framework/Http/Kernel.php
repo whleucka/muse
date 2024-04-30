@@ -102,7 +102,6 @@ class Kernel extends SystemKernel implements NebulaInterface
         }
     }
 
-
     /**
      * Get framework middleware class
      */
