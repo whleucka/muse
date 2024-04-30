@@ -10,7 +10,7 @@ class BasicController extends Controller
     #[Get("/", "basic.index")]
     public function index(): string
     {
-        $content =  $this->render("basic/index.php", [
+        $content = $this->render("basic/index.php", [
             "message" => "Hello, world " . time(),
         ]);
 

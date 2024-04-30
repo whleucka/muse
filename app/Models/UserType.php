@@ -7,9 +7,9 @@ use Nebula\Framework\Model\Model;
 class UserType extends Model
 {
     protected array $columns = [
-		"id",
-		"name",
-		"permission_level",
+        "id",
+        "name",
+        "permission_level",
         "updated_at",
         "created_at",
     ];
@@ -19,4 +19,3 @@ class UserType extends Model
         parent::__construct("user_types", $key);
     }
 }
-

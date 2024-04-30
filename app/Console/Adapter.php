@@ -27,20 +27,14 @@ class Adapter extends CLI
         $options->registerCommand("serve", "Start development server");
         $options->registerCommand(
             "generate-key",
-            "Generate secure application key",
+            "Generate secure application key"
         );
         $options->registerCommand(
             "migrate-fresh",
-            "WARNING: Drops database and migrates fresh database",
+            "WARNING: Drops database and migrates fresh database"
         );
-        $options->registerCommand(
-            "migrate-up",
-            "Run migration UP method",
-        );
-        $options->registerCommand(
-            "migrate-down",
-            "Run migration DOWN method",
-        );
+        $options->registerCommand("migrate-up", "Run migration UP method");
+        $options->registerCommand("migrate-down", "Run migration DOWN method");
 
         $options->registerOption("version", "Print version", "v");
     }
@@ -101,7 +95,7 @@ class Adapter extends CLI
         sleep(1);
         $migration = array_filter(
             $this->migrations->mapMigrations(),
-            fn ($mig) => $mig["name"] === basename($migration_file[0])
+            fn($mig) => $mig["name"] === basename($migration_file[0])
         );
         if (!$migration) {
             $this->error(" Migration file doesn't exist");
@@ -125,7 +119,7 @@ class Adapter extends CLI
         sleep(1);
         $migrations = $this->migrations->mapMigrations();
         $this->migrations->dropDatabase();
-        uasort($migrations, fn ($a, $b) => $a["name"] <=> $b["name"]);
+        uasort($migrations, fn($a, $b) => $a["name"] <=> $b["name"]);
         $this->migrateUp($migrations);
         $this->notice(" Complete!");
         exit();
