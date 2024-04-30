@@ -27,32 +27,61 @@
 		toggle_button.ariaExpanded = show;
 	};
 
+	const hide = (el) => {
+		el.style.display = "none";
+	}
+
+	const show = (el, type = "block") => {
+		el.style.display = type;
+	}
+
+	const hideParentLinks = () => {
+		const parentLinks = document.querySelectorAll("#sidebar .parent-link");
+		parentLinks.forEach((el,i) => {
+			if (el.ariaExpanded == "true") {
+				show(el, "flex");
+			} else {
+				hide(el);
+			}
+		});
+	}
+
+	const showParentLinks = () => {
+		const parentLinks = document.querySelectorAll("#sidebar .parent-link");
+		parentLinks.forEach((el,i) => {
+			show(el, "flex");
+		});
+	}
+
 	const animateLinks = (text) => {
 		const sidebarLinks = document.querySelectorAll('#sidebar .sidebar-link a');
 		sidebarLinks.forEach((el, i) => {
 			const regex = new RegExp(text, "gi");
-			const found = el.dataset.title.match(regex);
+			const found_title = el.dataset.title.match(regex);
+			const found_parent = el.dataset.parent.match(regex);
 
-			if (found) {
+			if (found_title || found_parent) {
 				var html = el.innerHTML;
 				html = html.replace(regex, '<span class="highlight">$&</span>');
 				el.innerHTML = html;
 
 				toggleSubmenu(el, true);
 			} else {
-				el.style.display = "none";
+				hide(el);
 			}
 		});
+		hideParentLinks();
 	};
 
 	const resetHighlight = () => {
 		const sidebarLinks = document.querySelectorAll('#sidebar .sidebar-link a');
 		sidebarLinks.forEach((el, i) => {
-			el.style.display = "block";
+			show(el);
 			const title = el.dataset.title;
 			el.innerHTML = title;
 
 			toggleSubmenu(el, false);
 		});
+		showParentLinks();
 	};
 })();

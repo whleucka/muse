@@ -116,10 +116,6 @@ class Module
 	 */
 	public function processRequest(array $request)
 	{
-		if (isset($request["filter_count"])) {
-			$count = $this->getFilterLinkCount(intval($request["filter_count"]));
-			return $count > 1000 ? "1000+" : $count;
-		}
 		if (isset($request["page"])) {
 			$this->setPage(intval($request["page"]));
 		}
@@ -132,6 +128,10 @@ class Module
 		if (isset($request["filter_link"])) {
 			$this->setPage(1);
 			$this->setFilterLink(intval($request["filter_link"]));
+		}
+		if (isset($request["filter_count"])) {
+			$count = $this->getFilterLinkCount(intval($request["filter_count"]));
+			return $count > 1000 ? "1000+" : $count;
 		}
 	}
 

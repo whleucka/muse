@@ -147,7 +147,7 @@ main {
 }
 
 #sidebar .btn-toggle-nav a:hover {
-	background-color: #d2f4ea;
+	font-weight: bold;
 }
 
 #sidebar .sidebar-links {

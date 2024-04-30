@@ -80,7 +80,7 @@ class ModuleController extends Controller
 		]);
 		if ($data) {
 			$response = $this->module->processRequest($data);
-			if ($response) return $response;
+			if (!is_null($response)) return $response;
 		}
 
 		return $this->module->render('index');

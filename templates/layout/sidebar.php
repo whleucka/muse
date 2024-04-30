@@ -16,7 +16,7 @@
 				</button>
 				<div class="collapse submenu" id="link-<?=$key?>">
 					<ul class="btn-toggle-nav fw-normal sidebar-links pb-1 small">
-						<?php renderLinks($link['children']); ?>
+						<?php renderLinks($link['children'], $link['label']); ?>
 					</ul>
 				</div>
 			</li>
@@ -28,16 +28,17 @@
 
 <?php
 
-function renderLinks(array $links, int $depth = 0)
+function renderLinks(array $links, string $parent_link, int $depth = 0)
 {
 	foreach ($links as $child): ?>
 	<li <?=(is_null($child['id']) ? 'hx-boost="false"' : '' ) ?> class="sidebar-link"><a href="<?=$child['link']?>"
 			data-title="<?=$child['label']?>"
+			data-parent="<?=$parent_link?>"
 			class="link-dark rounded"
 			style="padding-left: <?=$depth?>px;"
 			>
 			<?=$child['label']?>
 		</a></li>
-	<?php if (!empty($child['children'])) { renderLinks($child['children'], $depth + 10); }
+	<?php if (!empty($child['children'])) { renderLinks($child['children'], $parent_link, $depth + 10); }
 	endforeach;
 }
