@@ -3,7 +3,7 @@
 	<?php foreach ($data as $datum) : ?>
 		<div class="mb-3">
 			<label for="<?= $datum->column ?>" class="form-label"><?= $datum->title ?></label>
-			<?= $control($datum->column, $datum->value, $datum->title) ?>
+			<?= $control($datum->column, null, $datum->title) ?>
 			<?= $request_errors($datum->column, $datum->title) ?>
 		</div>
 	<?php endforeach ?>

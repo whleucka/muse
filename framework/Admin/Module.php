@@ -621,10 +621,6 @@ class Module
 
     protected function control(string $column, mixed $value)
     {
-        if (is_null($value)) {
-            return "";
-        }
-
         // Deal with form control
         if (isset($this->form_control[$column])) {
             $control = $this->form_control[$column];

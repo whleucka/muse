@@ -38,6 +38,10 @@ class Modules extends Module
             "Max Permission Level" => "max_permission_level",
             "Parent Module ID" => "parent_module_id",
         ];
+        $this->form_control = [
+            "title" => "input",
+            "path" => "input",
+        ];
         $this->validation_rules = [
             "title" => ["required", "non_empty_string"],
             "path" => ["required", "non_empty_string"],
