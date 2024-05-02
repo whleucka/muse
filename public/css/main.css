@@ -23,16 +23,9 @@ a:active {
 }
 
 .request-error {
-	font-size: 0.9rem;
+	font-size: 0.95rem;
 	padding: 3px;
-}
-
-.request-error strong {
 	color: #ff0000;
-}
-
-.request-error strong small {
-	font-size: 0.8rem;
 }
 
 textarea:focus,

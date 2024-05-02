@@ -155,24 +155,31 @@ main {
 	list-style-type: none;
 }
 
-.alert svg {
+/**
+ * Flash
+ */
+.flash.alert svg {
 	width: 18px;
 	height: 18px;
 	margin-right: 8px;
 }
 
 .flash.alert-warning {
-	border-left: 4px solid #fbff47;
+	border-left: 4px solid #ff9305;
+	fill: #ff9305;
 }
 
 .flash.alert-danger {
 	border-left: 4px solid #ff4747;
+	fill: #ff0000;
 }
 
 .flash.alert-success {
-	border-left: 4px solid #6fff47;
+	border-left: 4px solid #25a140;
+	fill: #25a140;
 }
 
 .flash.alert-info {
 	border-left: 4px solid #4772ff;
+	fill: #4772ff;
 }
