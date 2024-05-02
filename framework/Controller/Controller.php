@@ -102,8 +102,6 @@ class Controller
                         "non_empty_string" => trim($value) !== "",
                         "array" => is_array($value),
                         "email" => filter_var($value, FILTER_VALIDATE_EMAIL),
-                        "float" => is_float($value),
-                        "int" => is_int($value),
                         "match" => $value === $this->request($arg_1),
                         "max" => intval($value) <= intval($arg_1),
                         "min" => intval($value) >= intval($arg_1),

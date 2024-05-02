@@ -34,19 +34,6 @@ final class ControllerTest extends TestCase
 		$this->assertEmpty($data);
 	}
 
-	public function testValidateRequestInt(): void
-	{
-		$payload = ["age" => 37];
-		$controller = new Controller(new Request($payload));
-		$data = $controller->validateRequest(["age" => ["int"]]);
-		$this->assertSame($payload, $data);
-
-		$payload = ["age" => 37.5];
-		$controller = new Controller(new Request($payload));
-		$data = $controller->validateRequest(["age" => ["int"]]);
-		$this->assertEmpty($data);
-	}
-
 	public function testValidateRequestRequired(): void
 	{
 		$controller = new Controller(new Request());
@@ -102,21 +89,6 @@ final class ControllerTest extends TestCase
 		$data = $controller->validateRequest([
 			"email" => ["required", "email"]
 		]);
-		$this->assertEmpty($data);
-	}
-
-	public function testValidateRequestFloat(): void
-	{
-		$payload = ["number" => 1.2345];
-		$controller = new Controller(new Request($payload));
-		$data = $controller->validateRequest([
-			"number" => ["float"]
-		]);
-		$this->assertSame($payload, $data);
-
-		$payload = ["number" => 37];
-		$controller = new Controller(new Request($payload));
-		$data = $controller->validateRequest(["number" => ["float"]]);
 		$this->assertEmpty($data);
 	}
 

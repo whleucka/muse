@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use Nebula\Framework\Admin\Module;
+use Nebula\Framework\Alerts\Flash;
 use Nebula\Framework\Controller\Controller;
 use StellarRouter\{Delete, Get, Group, Patch, Post};
 use Symfony\Component\HttpFoundation\Response;
@@ -89,6 +90,8 @@ class ModuleController extends Controller
             if (!is_null($response)) {
                 return $response;
             }
+        } else {
+            Flash::add("warning", "Validation failed");
         }
 
         return $this->module->render("index");
@@ -128,8 +131,13 @@ class ModuleController extends Controller
         if ($data) {
             $id = $this->module->processCreate($data);
             if ($id) {
+                Flash::add("success", "Record successfully created");
                 return $this->edit($path, $id);
+            } else {
+                Flash::add("warning", "Create failed");
             }
+        } else {
+            Flash::add("warning", "Validation failed");
         }
         return $this->create($path);
     }
@@ -142,7 +150,14 @@ class ModuleController extends Controller
         }
         $data = $this->validateRequest($this->module->getValidationRules());
         if ($data) {
-            $this->module->processUpdate($id, $data);
+            $result = $this->module->processUpdate($id, $data);
+            if ($result) {
+                Flash::add("success", "Record successfully updated");
+            } else {
+                Flash::add("warning", "Update failed");
+            }
+        } else {
+            Flash::add("warning", "Validation failed");
         }
         return $this->edit($path, $id);
     }
@@ -153,7 +168,12 @@ class ModuleController extends Controller
         if (!$this->module->hasDeletePermission()) {
             $this->permissionDenied();
         }
-        $this->module->processDestroy($id);
+        $result = $this->module->processDestroy($id);
+        if ($result) {
+            Flash::add("success", "Record successfully deleted");
+        } else {
+            Flash::add("warning", "Delete failed");
+        }
         return $this->index($path);
     }
 }

@@ -31,7 +31,7 @@ class Test extends Module
         ];
         $this->validation_rules = [
             "name" => ["required", "non_empty_string"],
-            "number" => ["min|2"],
+            "number" => ["min|1", "max|2147483647"],
         ];
     }
 }
