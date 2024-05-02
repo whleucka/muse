@@ -76,6 +76,7 @@ class Module
 
     /** Form */
     protected array $form_columns = [];
+    protected array $form_control = [];
 
     public function __construct(
         private object $config,
@@ -618,6 +619,32 @@ class Module
         return $this->delete;
     }
 
+    protected function control(string $column, mixed $value)
+    {
+        if (is_null($value)) {
+            return "";
+        }
+
+        // Deal with form control
+        if (isset($this->form_control[$column])) {
+            $control = $this->form_control[$column];
+            // Using a formatting callback
+            if (is_callable($control)) {
+                return $control($column, $value);
+            }
+        }
+        // Using a pre-defined control method (ie, controlName)
+        $method_name = "control$column";
+        if (method_exists($this, $method_name)) {
+            return $this->$method_name($column, $value);
+        }
+        return template("control/input.php", [
+            "column" => $column,
+            "value" => $value,
+            "title" => $this->getColumnTitle($column),
+        ]);
+    }
+
     /**
      * Template formatting function
      */
@@ -634,11 +661,11 @@ class Module
             if (is_callable($format)) {
                 return $format($column, $value);
             }
-            // Using a pre-defined format method
-            $method_name = "format$format";
-            if (method_exists($this, $method_name)) {
-                return $this->$method_name($column, $value);
-            }
+        }
+        // Using a pre-defined format method (ie, formatName)
+        $method_name = "format$column";
+        if (method_exists($this, $method_name)) {
+            return $this->$method_name($column, $value);
         }
         return template("format/span.php", [
             "column" => $column,
@@ -944,10 +971,14 @@ class Module
         $has_errors = fn (string $field) => $this->controller->hasRequestError(
             $field
         );
+        $control = function (string $column, mixed $value) {
+            return $this->control($column, $value);
+        };
         return template("module/edit/index.php", [
             "id" => $id,
             "messages" => template("components/flash.php", ["flash" => Flash::get()]),
             "form" => template("module/edit/form.php", [
+                "control" => $control,
                 "data" => $this->getEditData($id),
                 "module" => $path,
                 "request_errors" => $request_errors,
@@ -969,9 +1000,13 @@ class Module
         $has_errors = fn (string $field) => $this->controller->hasRequestError(
             $field
         );
+        $control = function (string $column, mixed $value) {
+            return $this->control($column, $value);
+        };
         return template("module/create/index.php", [
             "messages" => template("components/flash.php", ["flash" => Flash::get()]),
             "form" => template("module/create/form.php", [
+                "control" => $control,
                 "data" => $this->getCreateData(),
                 "module" => $path,
                 "request_errors" => $request_errors,
