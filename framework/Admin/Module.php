@@ -382,7 +382,7 @@ class Module
         $search_term = session()->get($path . "_search_term");
         if ($search_term) {
             $conditions = array_map(
-                fn ($column) => "($column LIKE ?)",
+                fn($column) => "($column LIKE ?)",
                 $this->search_columns
             );
             $this->addHaving(
@@ -518,7 +518,7 @@ class Module
      */
     private function getUpdateQuery(array $request): string
     {
-        $map = array_map(fn ($column) => "$column = ?", array_keys($request));
+        $map = array_map(fn($column) => "$column = ?", array_keys($request));
         $set_stmt = "SET " . $this->formatComma($map);
         return sprintf(
             "UPDATE %s %s WHERE %s = ?",
@@ -544,7 +544,7 @@ class Module
      */
     private function getCreateQuery(array $request): string
     {
-        $map = array_map(fn ($column) => "$column = ?", array_keys($request));
+        $map = array_map(fn($column) => "$column = ?", array_keys($request));
         $set_stmt = "SET " . $this->formatComma($map);
         return sprintf("INSERT INTO %s %s", ...[$this->sql_table, $set_stmt]);
     }
@@ -754,7 +754,7 @@ class Module
         }
         $sql = $this->getUpdateQuery($request);
         // Empty string is null
-        $mapped = array_map(fn ($r) => trim($r) === "" ? null : $r, $request);
+        $mapped = array_map(fn($r) => trim($r) === "" ? null : $r, $request);
         $params = [...array_values($mapped), $id];
         try {
             $result = db()->query($sql, ...$params);
@@ -776,7 +776,7 @@ class Module
         }
         $sql = $this->getCreateQuery($request);
         // Empty string is null
-        $mapped = array_map(fn ($r) => trim($r) === "" ? null : $r, $request);
+        $mapped = array_map(fn($r) => trim($r) === "" ? null : $r, $request);
         $params = array_values($mapped);
         try {
             $result = db()->query($sql, ...$params);
@@ -914,7 +914,9 @@ class Module
         };
         return template("module/index/index.php", [
             "module" => $path,
-            "messages" => template("components/flash.php", ["flash" => Flash::get()]),
+            "messages" => template("components/flash.php", [
+                "flash" => Flash::get(),
+            ]),
             "actions" => [
                 "show_create_action" => $this->create,
             ],
@@ -942,7 +944,7 @@ class Module
             ]),
             "pagination" => template("module/index/pagination.php", [
                 "show" =>
-                $this->per_page > $this->total_results ||
+                    $this->per_page > $this->total_results ||
                     $this->total_pages > 1,
                 "current_page" => $this->page,
                 "total_results" => $this->total_results,
@@ -950,7 +952,7 @@ class Module
                 "per_page" => $this->per_page,
                 "per_page_options" => array_filter(
                     $this->per_page_options,
-                    fn ($value) => $value <= $this->total_results
+                    fn($value) => $value <= $this->total_results
                 ),
                 "side_links" => $this->side_links,
             ]),
@@ -964,11 +966,11 @@ class Module
     public function viewEdit(string $id): string
     {
         $path = $this->path;
-        $request_errors = fn (
+        $request_errors = fn(
             string $field,
             string $title = ""
         ) => $this->controller->getRequestError($field, $title);
-        $has_errors = fn (string $field) => $this->controller->hasRequestError(
+        $has_errors = fn(string $field) => $this->controller->hasRequestError(
             $field
         );
         $control = function (string $column, mixed $value) {
@@ -976,7 +978,9 @@ class Module
         };
         return template("module/edit/index.php", [
             "id" => $id,
-            "messages" => template("components/flash.php", ["flash" => Flash::get()]),
+            "messages" => template("components/flash.php", [
+                "flash" => Flash::get(),
+            ]),
             "form" => template("module/edit/form.php", [
                 "control" => $control,
                 "data" => $this->getEditData($id),
@@ -993,18 +997,20 @@ class Module
     public function viewCreate(): string
     {
         $path = $this->path;
-        $request_errors = fn (
+        $request_errors = fn(
             string $field,
             string $title = ""
         ) => $this->controller->getRequestError($field, $title);
-        $has_errors = fn (string $field) => $this->controller->hasRequestError(
+        $has_errors = fn(string $field) => $this->controller->hasRequestError(
             $field
         );
         $control = function (string $column, mixed $value) {
             return $this->control($column, $value);
         };
         return template("module/create/index.php", [
-            "messages" => template("components/flash.php", ["flash" => Flash::get()]),
+            "messages" => template("components/flash.php", [
+                "flash" => Flash::get(),
+            ]),
             "form" => template("module/create/form.php", [
                 "control" => $control,
                 "data" => $this->getCreateData(),
