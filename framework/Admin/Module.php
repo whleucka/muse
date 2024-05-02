@@ -632,11 +632,11 @@ class Module
             if (is_callable($control)) {
                 return $control($column, $value);
             }
-        }
-        // Using a pre-defined control method (ie, controlName)
-        $method_name = "control$column";
-        if (method_exists($this, $method_name)) {
-            return $this->$method_name($column, $value);
+            // Using a pre-defined control method (ie, controlName)
+            $method_name = "control$control";
+            if (method_exists($this, $method_name)) {
+                return $this->$method_name($column, $value);
+            }
         }
         return template("control/input.php", [
             "column" => $column,
@@ -661,11 +661,11 @@ class Module
             if (is_callable($format)) {
                 return $format($column, $value);
             }
-        }
-        // Using a pre-defined format method (ie, formatName)
-        $method_name = "format$column";
-        if (method_exists($this, $method_name)) {
-            return $this->$method_name($column, $value);
+            // Using a pre-defined format method (ie, formatName)
+            $method_name = "format$format";
+            if (method_exists($this, $method_name)) {
+                return $this->$method_name($column, $value);
+            }
         }
         return template("format/span.php", [
             "column" => $column,
@@ -677,9 +677,9 @@ class Module
     /**
      * Format IP value
      */
-    protected function formatIP(string $column, mixed $value): string
+    protected function formatIP(string $column, mixed $value): mixed
     {
-        $value = long2ip($value);
+        $value = long2ip(intval($value));
         return template("format/span.php", [
             "column" => $column,
             "value" => $value,
