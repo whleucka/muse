@@ -41,9 +41,9 @@ class Controller
     public function render(string $path, array $data = []): string
     {
         // Template functions
-        $data["request_errors"] = fn(
-            string $field
-        ) => $this->getRequestError($field);
+        $data["request_errors"] = fn(string $field) => $this->getRequestError(
+            $field
+        );
         $data["has_error"] = fn(string $field) => $this->hasRequestError(
             $field
         );
@@ -60,10 +60,12 @@ class Controller
 
     public function getRequestError(string $field): ?string
     {
-        if (!isset($this->request_errors[$field])) return null;
+        if (!isset($this->request_errors[$field])) {
+            return null;
+        }
         return template("components/request_errors.php", [
-                "errors" => $this->request_errors[$field],
-            ]);
+            "errors" => $this->request_errors[$field],
+        ]);
     }
 
     /**
@@ -79,8 +81,8 @@ class Controller
     }
 
     /**
-    * Return request super global
-    */
+     * Return request super global
+     */
     public function getRequest(): array
     {
         $request = [];
@@ -94,10 +96,10 @@ class Controller
     }
 
     /**
-    * Returns a validated request array
-    * @param array $ruleset
-    * @return bool|array false if validation fails
-    */
+     * Returns a validated request array
+     * @param array $ruleset
+     * @return bool|array false if validation fails
+     */
     public function validateRequest(array $ruleset): bool|array
     {
         $valid = true;
@@ -108,7 +110,7 @@ class Controller
             foreach ($rules as $rule) {
                 $raw = explode("|", $rule);
                 $rule = $raw[0];
-                $arg = isset($raw[1]) ? $raw[1] : '';
+                $arg = isset($raw[1]) ? $raw[1] : "";
                 $rule = strtolower($rule);
                 if (is_null($value) && !$is_required) {
                     $valid &= true;
@@ -116,7 +118,8 @@ class Controller
                     $valid &= match ($rule) {
                         "non_empty_string" => trim($value) !== "",
                         "array" => is_array($value),
-                        "email" => filter_var($value, FILTER_VALIDATE_EMAIL) !== false,
+                        "email" => filter_var($value, FILTER_VALIDATE_EMAIL) !==
+                            false,
                         "match" => $value == $request[$arg],
                         "max" => intval($value) <= intval($arg),
                         "min" => intval($value) >= intval($arg),
@@ -135,11 +138,7 @@ class Controller
                 }
                 if (!$valid && isset($this->error_messages[$rule])) {
                     $message = $this->error_messages[$rule];
-                    $this->addRequestError(
-                        $field,
-                        $arg,
-                        $message
-                    );
+                    $this->addRequestError($field, $arg, $message);
                 }
             }
         }
@@ -156,8 +155,11 @@ class Controller
         return str_replace("{arg}", $arg, $message);
     }
 
-    public function addRequestError(string $field, string $arg, string $message): void
-    {
+    public function addRequestError(
+        string $field,
+        string $arg,
+        string $message
+    ): void {
         $message = $this->replaceErrorTitle($field, $message);
         $message = $this->replaceErrorArg($arg, $message);
         $this->request_errors[$field][] = $message;
