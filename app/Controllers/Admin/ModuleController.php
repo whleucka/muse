@@ -67,6 +67,12 @@ class ModuleController extends Controller
         die();
     }
 
+    protected function replaceErrorTitle(string $field, string $message): string
+    {
+        $columns = $this->module->getFormColumns();
+        return str_replace("{title}", array_search($field, $columns), $message);
+    }
+
     #[Get("/", "module.admin")]
     public function admin(): void
     {
@@ -77,21 +83,9 @@ class ModuleController extends Controller
     public function index($path): string
     {
         header("Hx-Push-Url: /admin/$path");
-
-        $data = $this->validateRequest([
-            "page" => ["min|0"],
-            "per_page" => ["min|0"],
-            "term" => ["non_empty_string"],
-            "filter_link" => ["min|0"],
-            "filter_count" => ["min|0"],
-        ]);
-        if ($data) {
-            $response = $this->module->processRequest($data);
-            if (!is_null($response)) {
-                return $response;
-            }
-        } else {
-            Flash::add("warning", "Validation failed");
+        $response = $this->module->processRequest($_REQUEST);
+        if (!is_null($response)) {
+            return $response;
         }
 
         return $this->module->render("index");
@@ -128,7 +122,7 @@ class ModuleController extends Controller
             $this->permissionDenied();
         }
         $data = $this->validateRequest($this->module->getValidationRules());
-        if ($data) {
+        if ($data !== false) {
             $id = $this->module->processCreate($data);
             if ($id) {
                 Flash::add("success", "Record successfully created");
@@ -149,7 +143,7 @@ class ModuleController extends Controller
             $this->permissionDenied();
         }
         $data = $this->validateRequest($this->module->getValidationRules());
-        if ($data) {
+        if ($data !== false) {
             $result = $this->module->processUpdate($id, $data);
             if ($result) {
                 Flash::add("success", "Record successfully updated");

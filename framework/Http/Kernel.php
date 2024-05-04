@@ -91,11 +91,21 @@ class Kernel extends SystemKernel implements NebulaInterface
                 }
                 return new Response($content, 200, $headers);
             } catch (Exception $ex) {
-                throw new Exception($ex);
-                //return new Response($ex->getMessage(), 500);
+                error_log(print_r([
+                    "type" => "Exception",
+                    "message" => $ex->getMessage(),
+                    "file" => $ex->getFile() . ":" . $ex->getLine(),
+                ], true));
+                //throw new Exception($ex);
+                return new Response("fatal exception", 500);
             } catch (Error $err) {
-                throw new Error($err);
-                //return new Response($err->getMessage(), 500);
+                error_log(print_r([
+                    "type" => "Error",
+                    "message" => $err->getMessage(),
+                    "file" => $err->getFile() . ":" . $err->getLine(),
+                ], true));
+                //throw new Error($err);
+                return new Response("fatal error", 500);
             }
         } else {
             return new Response("Page not found", 404);

@@ -35,14 +35,12 @@ class RegisterController extends Controller
     public function post(): string
     {
         // Override the default request error messages
-        $this->error_messages["unique"] = "address already in use";
-        $this->error_messages["minlength"] =
-            "must be at least 10 characters long";
+        $this->error_messages["unique"] = "Email already in use";
         $data = $this->validateRequest([
             "email" => ["required", "email", "unique|users"],
             "name" => ["required"],
             "password" => ["required", "minlength|8", "symbol"],
-            "password_match" => ["required", "match|password"],
+            "password_match" => ["match|password"],
         ]);
         if ($data) {
             unset($data["password_match"]);

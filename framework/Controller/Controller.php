@@ -7,20 +7,20 @@ use Symfony\Component\HttpFoundation\Request;
 class Controller
 {
     protected array $error_messages = [
-        "array" => "must be an array",
-        "email" => "must be a valid email address",
-        "float" => "must be a float",
-        "int" => "must be an integer",
-        "match" => "must match",
-        "max" => "greater than maximum allowed",
-        "min" => "less than minimum allowed",
-        "maxlength" => "greater than maximum length",
-        "minlength" => "less than minimum length",
-        "numeric" => "must be numeric",
-        "required" => "required field",
-        "string" => "must be a string",
-        "unique" => "must be unique",
-        "symbol" => "must contain a special character",
+        "array" => "{title} must be an array",
+        "email" => "Must be a valid email address",
+        "float" => "{title} must be a float",
+        "int" => "{title} must be an integer",
+        "match" => "Must match {arg}",
+        "max" => "Greater than maximum allowed: {arg}",
+        "min" => "Less than minimum allowed: {arg}",
+        "maxlength" => "Greater than maximum length: {arg}",
+        "minlength" => "Less than minimum length: {arg}",
+        "numeric" => "{title} must be numeric",
+        "required" => "{title} is required",
+        "string" => "{title} must be a string",
+        "unique" => "{title} must be unique",
+        "symbol" => "{title} must contain a special character",
     ];
     protected array $request_errors = [];
 
@@ -42,9 +42,8 @@ class Controller
     {
         // Template functions
         $data["request_errors"] = fn(
-            string $field,
-            string $title = ""
-        ) => $this->getRequestError($field, $title);
+            string $field
+        ) => $this->getRequestError($field);
         $data["has_error"] = fn(string $field) => $this->hasRequestError(
             $field
         );
@@ -59,17 +58,12 @@ class Controller
         return template($path, $data, true);
     }
 
-    public function getRequestError(string $field, string $title = ""): ?string
+    public function getRequestError(string $field): ?string
     {
-        if (!$title) {
-            $title = ucfirst($field);
-        }
-        return isset($this->request_errors[$field])
-            ? template("components/request_errors.php", [
+        if (!isset($this->request_errors[$field])) return null;
+        return template("components/request_errors.php", [
                 "errors" => $this->request_errors[$field],
-                "title" => $title,
-            ])
-            : "";
+            ]);
     }
 
     /**
@@ -84,53 +78,88 @@ class Controller
         );
     }
 
-    public function validateRequest(array $ruleset): array
+    /**
+    * Return request super global
+    */
+    public function getRequest(): array
     {
-        $data = [];
+        $request = [];
+        $exclude = ["PHPSESSID", "csrf_token"];
+        foreach ($this->request()->request as $key => $value) {
+            if (!in_array($key, $exclude)) {
+                $request[$key] = $value;
+            }
+        }
+        return $request;
+    }
+
+    /**
+    * Returns a validated request array
+    * @param array $ruleset
+    * @return bool|array false if validation fails
+    */
+    public function validateRequest(array $ruleset): bool|array
+    {
+        $valid = true;
+        $request = $this->getRequest();
         foreach ($ruleset as $field => $rules) {
-            $data[$field] = $value = $this->request($field);
+            $value = isset($request[$field]) ? $request[$field] : null;
             $is_required = in_array("required", $rules);
             foreach ($rules as $rule) {
                 $raw = explode("|", $rule);
                 $rule = $raw[0];
-                $arg_1 = $raw[1] ?? null;
+                $arg = isset($raw[1]) ? $raw[1] : '';
                 $rule = strtolower($rule);
                 if (is_null($value) && !$is_required) {
-                    $result = true;
+                    $valid &= true;
                 } else {
-                    $result = match ($rule) {
+                    $valid &= match ($rule) {
                         "non_empty_string" => trim($value) !== "",
                         "array" => is_array($value),
-                        "email" => filter_var($value, FILTER_VALIDATE_EMAIL),
-                        "match" => $value === $this->request($arg_1),
-                        "max" => intval($value) <= intval($arg_1),
-                        "min" => intval($value) >= intval($arg_1),
-                        "maxlength" => strlen($value) <= intval($arg_1),
-                        "minlength" => strlen($value) >= intval($arg_1),
+                        "email" => filter_var($value, FILTER_VALIDATE_EMAIL) !== false,
+                        "match" => $value == $request[$arg],
+                        "max" => intval($value) <= intval($arg),
+                        "min" => intval($value) >= intval($arg),
+                        "maxlength" => strlen($value) <= intval($arg),
+                        "minlength" => strlen($value) >= intval($arg),
                         "numeric" => is_numeric($value),
                         "required" => $value && trim($value) !== "",
                         "string" => is_string($value),
                         "unique" => !db()->fetch(
-                            "SELECT * FROM $arg_1 WHERE $field = ?",
+                            "SELECT * FROM $arg WHERE $field = ?",
                             $value
                         ),
                         "symbol" => preg_match("/[^\w\s]/", $value),
                         default => false,
                     };
                 }
-                if (!$result && isset($this->error_messages[$rule])) {
+                if (!$valid && isset($this->error_messages[$rule])) {
+                    $message = $this->error_messages[$rule];
                     $this->addRequestError(
                         $field,
-                        $this->error_messages[$rule]
+                        $arg,
+                        $message
                     );
                 }
             }
         }
-        return count($this->request_errors) === 0 ? $data : [];
+        return $valid ? $request : false;
     }
 
-    public function addRequestError(string $field, string $message): void
+    protected function replaceErrorTitle(string $field, string $message): string
     {
+        return str_replace("{title}", ucfirst($field), $message);
+    }
+
+    protected function replaceErrorArg(string $arg, string $message): string
+    {
+        return str_replace("{arg}", $arg, $message);
+    }
+
+    public function addRequestError(string $field, string $arg, string $message): void
+    {
+        $message = $this->replaceErrorTitle($field, $message);
+        $message = $this->replaceErrorArg($arg, $message);
         $this->request_errors[$field][] = $message;
     }
 

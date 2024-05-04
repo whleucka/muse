@@ -194,6 +194,11 @@ class Module
         return $param_array;
     }
 
+    public function getFormColumns()
+    {
+        return $this->form_columns;
+    }
+
     /**
      * Handle all the filters, which add where clauses to the main query
      */
@@ -748,6 +753,7 @@ class Module
         if (!$this->sql_table || !$this->form_columns) {
             return [];
         }
+        $request = array_filter($request, fn($key) => in_array($key, $this->form_columns), ARRAY_FILTER_USE_KEY);
         $sql = $this->getUpdateQuery($request);
         // Empty string is null
         $mapped = array_map(fn($r) => trim($r) === "" ? null : $r, $request);
@@ -770,6 +776,7 @@ class Module
         if (!$this->sql_table || !$this->form_columns) {
             return [];
         }
+        $request = array_filter($request, fn($key) => in_array($key, $this->form_columns), ARRAY_FILTER_USE_KEY);
         $sql = $this->getCreateQuery($request);
         // Empty string is null
         $mapped = array_map(fn($r) => trim($r) === "" ? null : $r, $request);
@@ -964,8 +971,7 @@ class Module
         $path = $this->path;
         $request_errors = fn(
             string $field,
-            string $title = ""
-        ) => $this->controller->getRequestError($field, $title);
+        ) => $this->controller->getRequestError($field);
         $has_errors = fn(string $field) => $this->controller->hasRequestError(
             $field
         );
@@ -995,8 +1001,7 @@ class Module
         $path = $this->path;
         $request_errors = fn(
             string $field,
-            string $title = ""
-        ) => $this->controller->getRequestError($field, $title);
+        ) => $this->controller->getRequestError($field);
         $has_errors = fn(string $field) => $this->controller->hasRequestError(
             $field
         );

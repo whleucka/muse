@@ -4,7 +4,7 @@
 		<div class="mb-3">
 			<label for="<?= $datum->column ?>" class="form-label"><?= $datum->title ?></label>
 			<?= $control($datum->column, null, $datum->title) ?>
-			<?= $request_errors($datum->column, $datum->title) ?>
+			<?= $request_errors($datum->column) ?>
 		</div>
 	<?php endforeach ?>
 	<div>
