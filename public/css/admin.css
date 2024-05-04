@@ -2,79 +2,67 @@ main {
 	overflow: auto;
 }
 
+
 /** Utility */
 .gradient-dark {
 	background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
 }
 
+
 /** Table */
-#table .table-responsive {
+#list #table .table-responsive {
 	border-radius: 6px;
 }
 
-#table .filter-link {
-	cursor: pointer;
-	opacity: 0.8;
-	color: rgba(50, 50, 50, 0.8);
+#list #table .table {
 	border: 1px solid #ccc;
 }
 
-#table .filter-link.active {
-	color: white;
-	background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
-	font-weight: bold;
-	opacity: 1;
-}
-
-#table .table {
-	border: 1px solid #ccc;
-}
-
-#table .table tbody tr:hover {
+#list #table .table tbody tr:hover {
 	background-color: #fff5eb;
 }
 
-#table .table thead th {
+#list #table .table thead th {
 	padding: 0;
 	border-bottom: 0;
 	color: #fff;
 	white-space: nowrap;
 }
 
-#table .table thead th,
-#table .table tbody td {
+#list #table .table thead th,
+#list #table .table tbody td {
 	font-size: 0.9rem;
 	padding: 6px;
 }
 
-#table .row-action button {
+#list #table .row-action button {
 	padding: 2px 4px;
 	font-size: 0.845rem
 }
 
-#table #pagination .page-item.active .page-link {
+#list #table #pagination .page-item.active .page-link {
 	background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
 	border-color: #ccc;
 	color: azure;
 	font-weight: bold;
 }
 
-#table #pagination .page-item.active a:hover {
+#list #table #pagination .page-item.active a:hover {
 	color: azure !important;
 }
 
-#table #pagination #per-page select {
+#list #table #pagination #per-page select {
 	height: 31px;
 	font-size: 0.9rem;
 	border-radius: 4px;
 	background-color: #fff;
 }
 
-#table #pagination #per-page .page-link {
+#list #table #pagination #per-page .page-link {
 	background-color: #fff !important;
 }
 
-#table #pagination .pagination-link .page-link {
+#list #table #pagination .pagination-link .page-link {
 	color: #666;
 }
 
@@ -88,6 +76,20 @@ main {
 	padding-left: 40px;
 }
 
+#list .filter-link {
+	cursor: pointer;
+	opacity: 0.8;
+	color: rgba(50, 50, 50, 0.8);
+	border: 1px solid #ccc;
+}
+
+#list .filter-link.active {
+	color: white;
+	background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+	font-weight: bold;
+	opacity: 1;
+}
+
 
 /** Sidebar */
 #sidebar {
@@ -99,6 +101,7 @@ main {
 	border-left: 0;
 	border-right: 0;
 }
+
 #sidebar .dropdown-toggle {
 	outline: 0;
 }
