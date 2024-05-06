@@ -131,12 +131,39 @@ class Module
             $this->setPage(1);
             $this->setFilterLink(intval($request["filter_link"]));
         }
+        if (isset($request["export_csv"])) {
+            $this->exportCsv();
+        }
         if (isset($request["filter_count"])) {
             $count = $this->getFilterLinkCount(
                 intval($request["filter_count"])
             );
             return $count > 1000 ? "1000+" : $count;
         }
+    }
+
+    protected function exportCsv(): void
+    {
+        header("Content-Type: text/csv");
+        header('Content-Disposition: attachment; filename="csv_export.csv"');
+        $fp = fopen("php://output", "wb");
+        $titles = array_keys($this->table_columns);
+        fputcsv($fp, $titles);
+        $this->per_page = 1000;
+        $this->page = 1;
+        $this->total_results = $this->getTotalCount();
+        $this->total_pages = ceil($this->total_results / $this->per_page);
+        while ($this->page <= $this->total_pages) {
+            $data = $this->getIndexData();
+            foreach ($data as $item) {
+                $this->tableValueOverride($item);
+                $values = array_values((array)$item);
+                fputcsv($fp, $values);
+            }
+            $this->page++;
+        }
+        fclose($fp);
+        exit();
     }
 
     /**

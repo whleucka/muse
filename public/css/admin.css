@@ -66,6 +66,10 @@ main {
 	color: #666;
 }
 
+#content #actions a:link, #content #actions a:hover {
+	color: #fff !important;
+}
+
 
 /** Table Filters */
 #filters #filter-search input[type='search'] {
