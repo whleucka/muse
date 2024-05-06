@@ -132,6 +132,7 @@ class Module
             $this->setFilterLink(intval($request["filter_link"]));
         }
         if (isset($request["export_csv"])) {
+            $this->filters();
             $this->exportCsv();
         }
         if (isset($request["filter_count"])) {
