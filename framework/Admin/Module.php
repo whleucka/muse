@@ -571,11 +571,10 @@ class Module
             : "";
 
         // We may want to limit or get the full result set
-        $order_by = "ORDER BY " . $this->table_order_by . " " . $this->table_sort;
+        $order_by =
+            "ORDER BY " . $this->table_order_by . " " . $this->table_sort;
         $page = max(($this->page - 1) * $this->per_page, 0);
-        $limit = $limit_query
-            ? "LIMIT " . $page . ", " . $this->per_page
-            : "";
+        $limit = $limit_query ? "LIMIT " . $page . ", " . $this->per_page : "";
         return sprintf(
             "SELECT %s FROM %s %s %s %s %s %s",
             ...[
