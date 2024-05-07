@@ -6,7 +6,7 @@ use Nebula\Framework\Admin\Module;
 
 class Users extends Module
 {
-    public function definition(): void
+    public function init(): void
     {
         $user = user();
         $this->table_columns = [

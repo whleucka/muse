@@ -88,14 +88,29 @@ class Module
         $this->sql_table = $config->sql_table;
         $this->primary_key = $config->primary_key ?? "id";
         $this->recordSession();
-        $this->definition();
+        $this->init();
     }
 
     /**
      * Provide module definition here
      */
-    public function definition(): void
+    public function init(): void
     {
+    }
+
+    public function setSession(string $key, mixed $value): void
+    {
+        session()->set($this->path . "_$key", $value);
+    }
+
+    public function getSession(string $key): mixed
+    {
+        return session()->get($this->path . "_$key");
+    }
+
+    public function deleteSession(string $key): void
+    {
+        session()->delete($this->path . "_$key");
     }
 
     public function render(string $type, ?string $id = null): string
@@ -380,18 +395,17 @@ class Module
     {
         $this->total_results = $this->getTotalCount();
         $this->total_pages = ceil($this->total_results / $this->per_page);
-        $path = $this->path;
-        $page = intval(session()->get($path . "_page"));
+        $page = intval($this->getSession("page"));
         if ($page > 0 && $page <= $this->total_pages) {
             $this->page = $page;
         } else {
+            // Set to valid page
             if ($page < 1) {
-                session()->set($path . "_page", 1);
                 $this->page = 1;
             } elseif ($page > $this->total_pages) {
-                session()->set($path . "_page", $this->total_pages);
                 $this->page = $this->total_pages;
             }
+            $this->setSession("page", $this->page);
         }
     }
 
@@ -400,8 +414,7 @@ class Module
      */
     private function handlePerPage(): void
     {
-        $path = $this->path;
-        $per_page = intval(session()->get($path . "_per_page"));
+        $per_page = intval($this->getSession("per_page"));
         if ($per_page > 0) {
             $this->per_page = $per_page;
         }
@@ -412,11 +425,10 @@ class Module
      */
     private function handleSearch(): void
     {
-        $path = $this->path;
-        $search_term = session()->get($path . "_search_term");
+        $search_term = $this->getSession("search_term");
         if ($search_term) {
             $conditions = array_map(
-                fn($column) => "($column LIKE ?)",
+                fn ($column) => "($column LIKE ?)",
                 $this->search_columns
             );
             $this->addHaving(
@@ -434,12 +446,11 @@ class Module
         if (count($this->filter_links) === 0) {
             return;
         }
-        $path = $this->path;
-        $index = session()->get($path . "_filter_link");
+        $index = $this->getSession("filter_link");
         // The first filter link is the default
         if (is_null($index)) {
             $index = 0;
-            session()->set($path . "_filter_link", 0);
+            $this->setSession("filter_link", 0);
         }
         $filters = array_values($this->filter_links);
         $filter = $filters[$index];
@@ -452,8 +463,7 @@ class Module
      */
     private function setPage(int $page): void
     {
-        $path = $this->path;
-        session()->set($path . "_page", $page);
+        $this->setSession("page", $page);
         $this->page = $page;
     }
 
@@ -462,10 +472,10 @@ class Module
      */
     private function setPerPage(int $per_page): void
     {
-        $path = $this->path;
-        session()->set($path . "_per_page", $per_page);
-        session()->set($path . "_page", 1);
+        $this->setSession("per_page", $per_page);
+        $this->setSession("page", 1);
         $this->per_page = $per_page;
+        $this->page = 1;
     }
 
     /**
@@ -473,11 +483,10 @@ class Module
      */
     private function setSearch(string $term): void
     {
-        $path = $this->path;
         if (trim($term) !== "") {
-            session()->set($path . "_search_term", $term);
+            $this->setSession("search_term", $term);
         } else {
-            session()->delete($path . "_search_term");
+            $this->deleteSession("search_term");
         }
     }
 
@@ -486,8 +495,7 @@ class Module
      */
     private function setFilterLink(int $index): void
     {
-        $path = $this->path;
-        session()->set($path . "_filter_link", $index);
+        $this->setSession("filter_link", $index);
     }
 
     /**
@@ -552,7 +560,7 @@ class Module
      */
     private function getUpdateQuery(array $request): string
     {
-        $map = array_map(fn($column) => "$column = ?", array_keys($request));
+        $map = array_map(fn ($column) => "$column = ?", array_keys($request));
         $set_stmt = "SET " . $this->formatComma($map);
         return sprintf(
             "UPDATE %s %s WHERE %s = ?",
@@ -578,7 +586,7 @@ class Module
      */
     private function getCreateQuery(array $request): string
     {
-        $map = array_map(fn($column) => "$column = ?", array_keys($request));
+        $map = array_map(fn ($column) => "$column = ?", array_keys($request));
         $set_stmt = "SET " . $this->formatComma($map);
         return sprintf("INSERT INTO %s %s", ...[$this->sql_table, $set_stmt]);
     }
@@ -784,12 +792,12 @@ class Module
         }
         $request = array_filter(
             $request,
-            fn($key) => in_array($key, $this->form_columns),
+            fn ($key) => in_array($key, $this->form_columns),
             ARRAY_FILTER_USE_KEY
         );
         $sql = $this->getUpdateQuery($request);
         // Empty string is null
-        $mapped = array_map(fn($r) => trim($r) === "" ? null : $r, $request);
+        $mapped = array_map(fn ($r) => trim($r) === "" ? null : $r, $request);
         $params = [...array_values($mapped), $id];
         try {
             $result = db()->query($sql, ...$params);
@@ -811,12 +819,12 @@ class Module
         }
         $request = array_filter(
             $request,
-            fn($key) => in_array($key, $this->form_columns),
+            fn ($key) => in_array($key, $this->form_columns),
             ARRAY_FILTER_USE_KEY
         );
         $sql = $this->getCreateQuery($request);
         // Empty string is null
-        $mapped = array_map(fn($r) => trim($r) === "" ? null : $r, $request);
+        $mapped = array_map(fn ($r) => trim($r) === "" ? null : $r, $request);
         $params = array_values($mapped);
         try {
             $result = db()->query($sql, ...$params);
@@ -952,6 +960,8 @@ class Module
         $has_row_delete = function (object $row) {
             return $this->hasRowDelete($row);
         };
+        $search_term = $this->getSession("search_term");
+        $filter_link = $this->getSession("filter_link");
         return template("module/index/index.php", [
             "module" => $path,
             "messages" => template("components/flash.php", [
@@ -964,12 +974,12 @@ class Module
             "filters" => [
                 "search" => template("module/index/search.php", [
                     "show" => !empty($this->search_columns),
-                    "term" => session()->get($path . "_search_term"),
+                    "term" => $search_term,
                 ]),
                 "link" => template("module/index/filter_links.php", [
                     "action" => "/admin/$path/link-count",
                     "show" => !empty($this->filter_links),
-                    "current" => session()->get($path . "_filter_link"),
+                    "current" => $filter_link,
                     "links" => array_keys($this->filter_links),
                 ]),
             ],
@@ -985,7 +995,7 @@ class Module
             ]),
             "pagination" => template("module/index/pagination.php", [
                 "show" =>
-                    $this->per_page > $this->total_results ||
+                $this->per_page > $this->total_results ||
                     $this->total_pages > 1,
                 "current_page" => $this->page,
                 "total_results" => $this->total_results,
@@ -993,7 +1003,7 @@ class Module
                 "per_page" => $this->per_page,
                 "per_page_options" => array_filter(
                     $this->per_page_options,
-                    fn($value) => $value <= $this->total_results
+                    fn ($value) => $value <= $this->total_results
                 ),
                 "side_links" => $this->side_links,
             ]),
@@ -1007,10 +1017,10 @@ class Module
     public function viewEdit(string $id): string
     {
         $path = $this->path;
-        $request_errors = fn(
+        $request_errors = fn (
             string $field
         ) => $this->controller->getRequestError($field);
-        $has_errors = fn(string $field) => $this->controller->hasRequestError(
+        $has_errors = fn (string $field) => $this->controller->hasRequestError(
             $field
         );
         $control = function (string $column, mixed $value) {
@@ -1037,10 +1047,10 @@ class Module
     public function viewCreate(): string
     {
         $path = $this->path;
-        $request_errors = fn(
+        $request_errors = fn (
             string $field
         ) => $this->controller->getRequestError($field);
-        $has_errors = fn(string $field) => $this->controller->hasRequestError(
+        $has_errors = fn (string $field) => $this->controller->hasRequestError(
             $field
         );
         $control = function (string $column, mixed $value) {

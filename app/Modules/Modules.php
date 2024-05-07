@@ -6,7 +6,7 @@ use Nebula\Framework\Admin\Module;
 
 class Modules extends Module
 {
-    public function definition(): void
+    public function init(): void
     {
         $this->create = $this->delete = $this->edit = true;
         $this->table_columns = [

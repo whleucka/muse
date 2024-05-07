@@ -6,7 +6,7 @@ use Nebula\Framework\Admin\Module;
 
 class UserTypes extends Module
 {
-    public function definition(): void
+    public function init(): void
     {
         $this->table_columns = [
             "ID" => "id",
