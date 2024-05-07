@@ -44,7 +44,7 @@
 					<?php endforeach ?>
 				<?php else : ?>
 					<tr>
-						<td align="center" colspan="<?= count($headers) ?>"><em>There are no records</em></td>
+						<td align="center" colspan="<?= count($columns) ?>"><em>There are no records</em></td>
 					</tr>
 				<?php endif ?>
 			</tbody>
