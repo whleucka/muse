@@ -9,7 +9,7 @@ class Sessions extends Module
     public function definition(): void
     {
         $user = user();
-        $this->show_row_actions = false;
+        $this->row_actions = false;
         $this->table_columns = [
             "ID" => "id",
             "Request URI" => "request_uri",

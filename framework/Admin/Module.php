@@ -66,7 +66,8 @@ class Module
         2000,
         5000,
     ];
-    protected bool $show_row_actions = true;
+    protected bool $row_actions = true;
+    protected bool $export_csv = true;
 
     /** Filters */
     // Table filter links
@@ -132,7 +133,6 @@ class Module
             $this->setFilterLink(intval($request["filter_link"]));
         }
         if (isset($request["export_csv"])) {
-            $this->filters();
             $this->exportCsv();
         }
         if (isset($request["filter_count"])) {
@@ -145,6 +145,7 @@ class Module
 
     protected function exportCsv(): void
     {
+        $this->filters();
         header("Content-Type: text/csv");
         header('Content-Disposition: attachment; filename="csv_export.csv"');
         $fp = fopen("php://output", "wb");
@@ -958,6 +959,7 @@ class Module
             ]),
             "actions" => [
                 "show_create_action" => $this->create,
+                "show_export_action" => $this->export_csv,
             ],
             "filters" => [
                 "search" => template("module/index/search.php", [
@@ -976,7 +978,7 @@ class Module
                 "primary_key" => $this->primary_key,
                 "headers" => array_keys($this->table_columns),
                 "data" => $this->getIndexData(),
-                "show_row_actions" => $this->show_row_actions,
+                "show_row_actions" => $this->row_actions,
                 "has_row_edit" => $has_row_edit,
                 "has_row_delete" => $has_row_delete,
                 "format" => $format,
