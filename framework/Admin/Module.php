@@ -146,6 +146,9 @@ class Module
      */
     public function processRequest(array $request)
     {
+        if (isset($request["order"]) && isset($request["sort"])) {
+            $this->setOrderSort($request["order"], $request["sort"]);
+        }
         if (isset($request["page"])) {
             $this->setPage(intval($request["page"]));
         }
@@ -272,6 +275,7 @@ class Module
         $this->handleSearch();
         $this->handlePerPage();
         $this->handlePage();
+        $this->handleOrderSort();
     }
 
     /**
@@ -404,7 +408,7 @@ class Module
         $this->page = 1;
         $this->per_page = 1001;
 
-        $sql = $this->getTableQuery();
+        $sql = $this->getIndexQuery();
         $where_params = $this->getParams($this->table_where);
         $having_params = $this->getParams($this->table_having);
         $params = [...$where_params, ...$having_params];
@@ -429,7 +433,20 @@ class Module
             } elseif ($page > $this->total_pages) {
                 $this->page = $this->total_pages;
             }
-            $this->setSession("page", $this->page);
+            $this->setPage($this->page);
+        }
+    }
+
+    private function handleOrderSort(): void
+    {
+        $order_by = $this->getSession("order_by");
+        $sort = $this->getSession("sort");
+        if ($order_by && $sort) {
+            $this->table_order_by = $order_by;
+            $this->table_sort = $sort;
+        } else {
+            $this->table_order_by = $this->primary_key;
+            $this->table_sort = "DESC";
         }
     }
 
@@ -474,7 +491,7 @@ class Module
         // The first filter link is the default
         if (is_null($index)) {
             $index = 0;
-            $this->setSession("filter_link", 0);
+            $this->setFilterLink($index);
         }
         $filters = array_values($this->filter_links);
         $filter = $filters[$index];
@@ -488,7 +505,15 @@ class Module
     private function setPage(int $page): void
     {
         $this->setSession("page", $page);
-        $this->page = $page;
+    }
+
+    private function setOrderSort(string $order_by, string $sort): void
+    {
+        $columns = $this->normalizeTableColumns();
+        if (in_array($order_by, $columns)) {
+            $this->setSession("order_by", $order_by);
+            $this->setSession("sort", $sort);
+        }
     }
 
     /**
@@ -527,11 +552,14 @@ class Module
      * This is the query for module.index
      * @param bool $limit_query there exists a limit, offset clause
      */
-    private function getTableQuery(bool $limit_query = true): string
+    private function getIndexQuery(bool $limit_query = true): string
     {
+        // Setup the index view columns
         $columns = $this->table_columns
             ? implode(", ", $this->table_columns)
             : "*";
+
+        // Setup where/group_by/having clauses
         $where = $this->table_where
             ? "WHERE " . $this->formatAnd($this->table_where)
             : "";
@@ -541,11 +569,13 @@ class Module
         $having = $this->table_having
             ? "HAVING " . $this->formatAnd($this->table_having)
             : "";
-        $order_by = $this->table_order_by
-            ? "ORDER BY " . $this->table_order_by . " " . $this->table_sort
-            : "";
+
+        // We may want to limit or get the full result set
+        $order_by = "ORDER BY " . $this->table_order_by . " " . $this->table_sort;
         $page = max(($this->page - 1) * $this->per_page, 0);
-        $limit = $limit_query ? "LIMIT " . $page . ", " . $this->per_page : "";
+        $limit = $limit_query
+            ? "LIMIT " . $page . ", " . $this->per_page
+            : "";
         return sprintf(
             "SELECT %s FROM %s %s %s %s %s %s",
             ...[
@@ -798,7 +828,7 @@ class Module
         if (!$this->sql_table || !$this->table_columns) {
             return 0;
         }
-        $sql = $this->getTableQuery(false);
+        $sql = $this->getIndexQuery(false);
         $where_params = $this->getParams($this->table_where);
         $having_params = $this->getParams($this->table_having);
         $params = [...$where_params, ...$having_params];
@@ -887,7 +917,7 @@ class Module
     }
 
     /**
-     * Run the table query and return the dataset
+     * Run the index query and return the dataset
      * This dataset is for module.index
      */
     protected function getIndexData(): array|bool
@@ -895,7 +925,7 @@ class Module
         if (!$this->sql_table || !$this->table_columns) {
             return [];
         }
-        $sql = $this->getTableQuery();
+        $sql = $this->getIndexQuery();
         $where_params = $this->getParams($this->table_where);
         $having_params = $this->getParams($this->table_having);
         $params = [...$where_params, ...$having_params];
@@ -1023,8 +1053,10 @@ class Module
             "table" => template("module/index/table.php", [
                 "module" => $path,
                 "primary_key" => $this->primary_key,
-                "headers" => array_keys($this->table_columns),
+                "columns" => $this->normalizeTableColumns(),
                 "data" => $this->getIndexData(),
+                "order_by" => $this->table_order_by,
+                "sort" => $this->table_sort,
                 "show_row_actions" => $this->row_actions,
                 "show_row_edit" => $has_row_edit,
                 "show_row_delete" => $has_row_delete,

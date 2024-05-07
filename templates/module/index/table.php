@@ -4,9 +4,14 @@
 		<table class="table">
 			<thead class="gradient-dark">
 				<tr>
-					<?php foreach ($headers as $header) : ?>
+					<?php foreach ($columns as $header => $column) : ?>
 						<th scope="col">
-							<?= $header ?>
+							<a href="?order=<?=$column?>&sort=<?php if ($column == $order_by): ?><?=($sort === 'ASC' ? 'DESC' : 'ASC')?><?php else: ?>DESC<?php endif ?>">
+								<?= $header ?>
+								<?php if ($column == $order_by): ?>
+									<?=($sort === "ASC" ? "▴" : "▾")?>
+								<?php endif ?>
+							</a>
 						</th>
 					<?php endforeach ?>
 					<?php if ($show_row_actions) : ?>
@@ -30,7 +35,9 @@
 											<button type="button" hx-get="/admin/<?= $module ?>/<?= $row->$primary_key ?>" hx-swap="outerHTML" hx-select="#content" hx-target="#content" class="btn btn-sm btn-primary ms-1">Edit</button>
 										<?php endif ?>
 										<?php if ($show_row_delete($row)) : ?>
-											<button type="button" hx-delete="/admin/<?= $module ?>/<?= $row->$primary_key ?>" hx-swap="outerHTML" hx-select="#content" hx-target="#content" class="btn btn-sm btn-danger ms-1">Delete</button <?php endif ?> </div>
+											<button type="button" hx-delete="/admin/<?= $module ?>/<?= $row->$primary_key ?>" hx-swap="outerHTML" hx-select="#content" hx-target="#content" class="btn btn-sm btn-danger ms-1">Delete</button>
+										<?php endif ?>
+									</div>
 								</td>
 							<?php endif ?>
 						</tr>
