@@ -14,13 +14,11 @@
 	<?= $head ?? '' ?>
 </head>
 
-<body id="body">
-	<section class="d-flex flex-column" id="view">
-		<?= $navbar ?>
-		<section class="d-flex h-100">
-			<?= $sidebar ?>
-			<?php include "main_admin.php" ?>
-		</section>
+<body id="body" class="d-flex flex-column">
+	<?= $navbar ?>
+	<section class="d-flex flex-grow-1">
+		<?= $sidebar ?>
+		<?php include "main_admin.php" ?>
 	</section>
 	<script src="/js/htmx.min.js"></script>
 	<script src="/js/bootstrap.bundle.min.js"></script>

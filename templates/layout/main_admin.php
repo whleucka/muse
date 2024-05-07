@@ -1,4 +1,4 @@
-<main class="d-flex flex-column w-100 h-100">
+<main class="d-flex flex-column flex-grow-1" id="view">
 	<section id="content" class="p-3">
 		<section id="module-title" class="mb-3">
 			<h3>
