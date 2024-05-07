@@ -133,6 +133,7 @@ class Module
             "edit" => $this->viewEdit($id),
         };
         return $this->controller->render("layout/admin.php", [
+            "navbar" => $this->getNavbar(),
             "module_title" => $this->getTitle(),
             "sidebar" => $this->getSidebar(),
             "content" => $content,
@@ -383,12 +384,21 @@ class Module
     }
 
     /**
+     * Get the navbar template
+     */
+    public function getNavbar(): string
+    {
+        $links = $this->buildLinks();
+        return template("layout/navbar.php", ["links" => $links]);
+    }
+
+    /**
      * Get the sidebar template
      */
     public function getSidebar(): string
     {
-        $sidebar_links = $this->buildLinks();
-        return template("layout/sidebar.php", ["links" => $sidebar_links]);
+        $links = $this->buildLinks();
+        return template("layout/sidebar.php", ["links" => $links]);
     }
 
     /**

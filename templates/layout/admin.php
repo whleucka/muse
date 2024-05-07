@@ -15,9 +15,12 @@
 </head>
 
 <body id="body">
-	<section class="d-flex">
-		<?= $sidebar ?>
-		<?php include "main_admin.php" ?>
+	<section class="d-flex flex-column" id="view">
+		<?= $navbar ?>
+		<section class="d-flex h-100">
+			<?= $sidebar ?>
+			<?php include "main_admin.php" ?>
+		</section>
 	</section>
 	<script src="/js/htmx.min.js"></script>
 	<script src="/js/bootstrap.bundle.min.js"></script>

@@ -2,7 +2,7 @@
 	<form>
 		<?= $csrf() ?>
 		<table class="table">
-			<thead class="gradient-dark">
+			<thead class="bg-dark">
 				<tr>
 					<?php foreach ($columns as $header => $column) : ?>
 						<th scope="col">

@@ -20,6 +20,7 @@ class Migrations
     {
         db()->query("CREATE TABLE migrations (
             hash CHAR(32) NOT NULL,
+            path MEDIUMTEXT NOT NULL,
             status ENUM('pending', 'complete', 'failure'),
             updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -61,7 +62,7 @@ class Migrations
                 $md5 = md5_file($pathname);
                 $exists = db()->fetch("SELECT * FROM migrations WHERE hash = ?", $md5);
                 if (!$exists) {
-                    db()->query("INSERT INTO migrations SET hash = ?, status = 'pending'", $md5);
+                    db()->query("INSERT INTO migrations SET path = ?, hash = ?, status = 'pending'", $pathname, $md5);
                 }
                 $files[] = $pathname;
             }
@@ -81,7 +82,7 @@ class Migrations
     {
         $migs = $this->getMigrations();
         return array_map(
-            fn($path) => ["name" => basename($path), "hash" => md5_file($path), "status" => $this->getMigrationStatus(md5_file($path)),  "class" => require $path],
+            fn($path) => ["path" => $path, "name" => basename($path), "hash" => md5_file($path), "status" => $this->getMigrationStatus(md5_file($path)),  "class" => require $path],
             $migs
         );
     }
