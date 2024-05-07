@@ -36,14 +36,21 @@ class Migrations
 
     public function getMigrationStatus(string $hash): string
     {
-        return db()->value("SELECT status FROM migrations WHERE hash = ?", $hash);
+        return db()->value(
+            "SELECT status FROM migrations WHERE hash = ?",
+            $hash
+        );
     }
 
     public function setMigrationStatus(string $hash, string $status): void
     {
         $statuses = ["pending", "complete", "failure"];
         if (in_array($status, $statuses)) {
-            db()->value("UPDATE migrations SET status = ? WHERE hash = ?", $status, $hash);
+            db()->value(
+                "UPDATE migrations SET status = ? WHERE hash = ?",
+                $status,
+                $hash
+            );
         }
     }
 
@@ -60,9 +67,16 @@ class Migrations
             if ($file->isFile() && $file->getExtension() === "php") {
                 $pathname = $file->getPathname();
                 $md5 = md5_file($pathname);
-                $exists = db()->fetch("SELECT * FROM migrations WHERE hash = ?", $md5);
+                $exists = db()->fetch(
+                    "SELECT * FROM migrations WHERE hash = ?",
+                    $md5
+                );
                 if (!$exists) {
-                    db()->query("INSERT INTO migrations SET path = ?, hash = ?, status = 'pending'", $pathname, $md5);
+                    db()->query(
+                        "INSERT INTO migrations SET path = ?, hash = ?, status = 'pending'",
+                        $pathname,
+                        $md5
+                    );
                 }
                 $files[] = $pathname;
             }
@@ -82,7 +96,13 @@ class Migrations
     {
         $migs = $this->getMigrations();
         return array_map(
-            fn($path) => ["path" => $path, "name" => basename($path), "hash" => md5_file($path), "status" => $this->getMigrationStatus(md5_file($path)),  "class" => require $path],
+            fn($path) => [
+                "path" => $path,
+                "name" => basename($path),
+                "hash" => md5_file($path),
+                "status" => $this->getMigrationStatus(md5_file($path)),
+                "class" => require $path,
+            ],
             $migs
         );
     }
@@ -102,12 +122,12 @@ class Migrations
     public function up(Migration $migration, string $hash)
     {
         $status = $this->getMigrationStatus($hash);
-        if ($status !== 'complete') {
+        if ($status !== "complete") {
             $result = db()->query($migration->up());
             if ($result) {
-                $this->setMigrationStatus($hash, 'complete');
+                $this->setMigrationStatus($hash, "complete");
             } else {
-                $this->setMigrationStatus($hash, 'failure');
+                $this->setMigrationStatus($hash, "failure");
             }
             return $result;
         }
@@ -117,12 +137,12 @@ class Migrations
     public function down(Migration $migration, string $hash)
     {
         $status = $this->getMigrationStatus($hash);
-        if ($status === 'complete') {
+        if ($status === "complete") {
             $result = db()->query($migration->down());
             if ($result) {
-                $this->setMigrationStatus($hash, 'pending');
+                $this->setMigrationStatus($hash, "pending");
             } else {
-                $this->setMigrationStatus($hash, 'failure');
+                $this->setMigrationStatus($hash, "failure");
             }
             return $result;
         }

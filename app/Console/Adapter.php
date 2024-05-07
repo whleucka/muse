@@ -25,7 +25,10 @@ class Adapter extends CLI
             "generate-key",
             "Generate secure application key"
         );
-        $options->registerCommand("migrations", "See migration list and statuses");
+        $options->registerCommand(
+            "migrations",
+            "See migration list and statuses"
+        );
         $options->registerCommand(
             "migrate-fresh",
             "WARNING: Drops database and migrates fresh database"
@@ -117,7 +120,11 @@ class Adapter extends CLI
         sleep(1);
         $migrations = $this->migrations->mapMigrations();
         foreach ($migrations as $migration) {
-            $msg = sprintf("%s ... %s\n", $migration["name"], $migration["status"]);
+            $msg = sprintf(
+                "%s ... %s\n",
+                $migration["name"],
+                $migration["status"]
+            );
             switch ($migration["status"]) {
                 case "pending":
                     $this->notice($msg);
@@ -155,7 +162,7 @@ class Adapter extends CLI
             $result = $this->migrations->up($class, $hash);
             if ($result) {
                 $this->success(" Migration up: " . $name);
-            } else if (is_null($result)) {
+            } elseif (is_null($result)) {
                 $this->info(" Migration already exists: " . $name);
             } else {
                 $this->error(" Migration error: " . $name);
@@ -172,7 +179,7 @@ class Adapter extends CLI
             $result = $this->migrations->down($class, $hash);
             if ($result) {
                 $this->success(" Migration down: " . $name);
-            } else if (is_null($result)) {
+            } elseif (is_null($result)) {
                 $this->info(" Migration already exists: " . $name);
             } else {
                 $this->error(" Migration error: " . $name);

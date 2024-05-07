@@ -581,7 +581,9 @@ class Module
             : "";
 
         // We may want to limit or get the full result set
-        if (!$this->table_order_by) $this->table_order_by = $this->primary_key;
+        if (!$this->table_order_by) {
+            $this->table_order_by = $this->primary_key;
+        }
         $order_by =
             "ORDER BY " . $this->table_order_by . " " . $this->table_sort;
         $page = max(($this->page - 1) * $this->per_page, 0);
