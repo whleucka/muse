@@ -8,7 +8,6 @@ class Modules extends Module
 {
     public function init(): void
     {
-        $this->create = $this->delete = $this->edit = true;
         $this->table_columns = [
             "ID" => "id",
             "Title" => "title",
@@ -38,7 +37,7 @@ class Modules extends Module
             "Max Permission Level" => "max_permission_level",
             "Parent Module ID" => "parent_module_id",
         ];
-        $this->form_control = [
+        $this->form_controls = [
             "title" => "input",
             "path" => "input",
         ];

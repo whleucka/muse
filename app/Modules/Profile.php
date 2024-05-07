@@ -3,7 +3,6 @@
 namespace App\Modules;
 
 use Nebula\Framework\Admin\Module;
-use Nebula\Framework\Alerts\Flash;
 
 class Profile extends Module
 {

@@ -8,7 +8,6 @@ class Test extends Module
 {
     public function init(): void
     {
-        $this->create = $this->delete = $this->edit = true;
         $this->table_columns = [
             "ID" => "id",
             "Name" => "name",

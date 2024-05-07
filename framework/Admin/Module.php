@@ -10,7 +10,6 @@ use Nebula\Framework\Controller\Controller;
 
 class Module
 {
-    /** Module */
     // Route path
     protected string $path = "";
     // SQL table
@@ -20,15 +19,15 @@ class Module
     // Module title
     protected string $title = "";
     // Edit mode enabled
-    protected bool $edit = false;
+    protected bool $edit = true;
     // Create mode enabled
-    protected bool $create = false;
+    protected bool $create = true;
     // Delete mode enabled
-    protected bool $delete = false;
+    protected bool $delete = true;
     // Validation rules
     protected array $validation_rules = [];
 
-    /** Table */
+
     // SQL columns
     protected array $table_columns = [];
     // GROUP BY clause
@@ -66,18 +65,21 @@ class Module
         2000,
         5000,
     ];
+    // Show table inline row action
     protected bool $row_actions = true;
+    // Show table export CSV action
     protected bool $export_csv = true;
 
-    /** Filters */
+
     // Table filter links
     protected array $filter_links = [];
     // Searchable columns
     protected array $search_columns = [];
 
-    /** Form */
+    // Form columns
     protected array $form_columns = [];
-    protected array $form_control = [];
+    // Form controls
+    protected array $form_controls = [];
 
     public function __construct(
         private object $config,
@@ -98,21 +100,33 @@ class Module
     {
     }
 
+    /**
+     * Set session helper
+     */
     public function setSession(string $key, mixed $value): void
     {
         session()->set($this->path . "_$key", $value);
     }
 
+    /**
+     * Get session helper
+     */
     public function getSession(string $key): mixed
     {
         return session()->get($this->path . "_$key");
     }
 
+    /**
+     * Delete session helper
+     */
     public function deleteSession(string $key): void
     {
         session()->delete($this->path . "_$key");
     }
 
+    /**
+     * Render a GET method view
+     */
     public function render(string $type, ?string $id = null): string
     {
         $content = match ($type) {
@@ -158,6 +172,9 @@ class Module
         }
     }
 
+    /**
+     * Export table view to CSV format
+     */
     protected function exportCsv(): void
     {
         $this->filters();
@@ -238,7 +255,10 @@ class Module
         return $param_array;
     }
 
-    public function getFormColumns()
+    /**
+     * Return the form column array
+     */
+    public function getFormColumns(): array
     {
         return $this->form_columns;
     }
@@ -258,6 +278,7 @@ class Module
 
     /**
      * Does this module have DELETE permission
+     * Delete button appears inline table row action
      */
     public function hasDeletePermission(): bool
     {
@@ -266,18 +287,20 @@ class Module
 
     /**
      * Does this module have EDIT permission
+     * Edit button appears inline table row action
      */
     public function hasEditPermission(): bool
     {
-        return $this->edit;
+        return $this->edit && !empty($this->form_columns);
     }
 
     /**
      * Does this module have CREATE permission
+     * Create button appears at top table actions
      */
     public function hasCreatePermission(): bool
     {
-        return $this->create;
+        return $this->create && !empty($this->form_columns);
     }
 
     /**
@@ -298,6 +321,9 @@ class Module
         return $this->title;
     }
 
+    /**
+     * Return module validation rule array
+     */
     public function getValidationRules(): array
     {
         return $this->validation_rules;
@@ -615,62 +641,69 @@ class Module
 
     /**
      * Override a table value
-     * The data table row may be modifed before output.
-     * Do not style the value here, that is the job of a format method
+     * This overrides the value BEFORE the format method
      * @param &$row current data table row.
      */
     protected function tableValueOverride(object &$row): void
     {
     }
 
+    /**
+     * Override a form value
+     * This overrides the value BEFORE the control method
+     * @param &$row current data table row.
+     */
     protected function editValueOverride(object &$row): void
     {
     }
 
-    private function stripAlias(string $column): mixed
+    /**
+     * Return the column to the alias name
+     */
+    private function getAlias(string $column): mixed
     {
         $arr = explode(" as ", $column);
         return end($arr);
     }
+
     /**
+     * Normalize table columns
+     * to alias name
      * @return array<<missing>,mixed>
      */
-    private function normalizeColumns(): array
+    private function normalizeTableColumns(): array
     {
         $columns = [];
         foreach ($this->table_columns as $title => $column) {
-            $columns[$title] = $this->stripAlias($column);
+            $columns[$title] = $this->getAlias($column);
         }
         return $columns;
     }
 
+    /**
+     * Return column corresponding title
+     */
     private function getColumnTitle(string $column): int|string|bool
     {
         // This is annoying, but we must deal with aliases here
-        $column = $this->stripAlias($column);
-        return array_search($column, $this->normalizeColumns());
+        $column = $this->getAlias($column);
+        return array_search($column, $this->normalizeTableColumns());
     }
 
-    protected function hasRowEdit(object $row): bool
-    {
-        return $this->edit;
-    }
-
-    protected function hasRowDelete(object $row): bool
-    {
-        return $this->delete;
-    }
-
+    /**
+     * Form control method
+     * Return a from control template
+     */
     protected function control(string $column, mixed $value)
     {
         // Deal with form control
-        if (isset($this->form_control[$column])) {
-            $control = $this->form_control[$column];
+        if (isset($this->form_controls[$column])) {
+            $control = $this->form_controls[$column];
             // Using a formatting callback
             if (is_callable($control)) {
                 return $control($column, $value);
             }
-            // Using a pre-defined control method (ie, controlName)
+            // Using a pre-defused control method (ie, controlName)
             $method_name = "control$control";
             if (method_exists($this, $method_name)) {
                 return $this->$method_name($column, $value);
@@ -881,6 +914,9 @@ class Module
         }
     }
 
+    /**
+     * Return data for edit view
+     */
     protected function getEditData(string $id): ?array
     {
         if (!$this->sql_table || !$this->form_columns) {
@@ -913,6 +949,9 @@ class Module
         }
     }
 
+    /**
+     * Return data for create view
+     */
     protected function getCreateData(): ?array
     {
         if (!$this->sql_table || !$this->form_columns) {
@@ -955,10 +994,10 @@ class Module
             return $this->format($column, $value);
         };
         $has_row_edit = function (object $row) {
-            return $this->hasRowEdit($row);
+            return $this->hasEditPermission($row);
         };
         $has_row_delete = function (object $row) {
-            return $this->hasRowDelete($row);
+            return $this->hasDeletePermission($row);
         };
         $search_term = $this->getSession("search_term");
         $filter_link = $this->getSession("filter_link");
@@ -968,7 +1007,7 @@ class Module
                 "flash" => Flash::get(),
             ]),
             "actions" => [
-                "show_create_action" => $this->create,
+                "show_create_action" => $this->hasCreatePermission(),
                 "show_export_action" => $this->export_csv,
             ],
             "filters" => [
@@ -989,8 +1028,8 @@ class Module
                 "headers" => array_keys($this->table_columns),
                 "data" => $this->getIndexData(),
                 "show_row_actions" => $this->row_actions,
-                "has_row_edit" => $has_row_edit,
-                "has_row_delete" => $has_row_delete,
+                "show_row_edit" => $has_row_edit,
+                "show_row_delete" => $has_row_delete,
                 "format" => $format,
             ]),
             "pagination" => template("module/index/pagination.php", [

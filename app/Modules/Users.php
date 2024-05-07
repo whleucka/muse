@@ -9,6 +9,7 @@ class Users extends Module
     public function init(): void
     {
         $user = user();
+        $this->create = $this->delete = $this->edit = false;
         $this->table_columns = [
             "ID" => "id",
             "UUID" => "uuid",
