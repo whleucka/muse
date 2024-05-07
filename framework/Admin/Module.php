@@ -27,7 +27,6 @@ class Module
     // Validation rules
     protected array $validation_rules = [];
 
-
     // SQL columns
     protected array $table_columns = [];
     // GROUP BY clause
@@ -69,7 +68,6 @@ class Module
     protected bool $row_actions = true;
     // Show table export CSV action
     protected bool $export_csv = true;
-
 
     // Table filter links
     protected array $filter_links = [];
@@ -191,7 +189,7 @@ class Module
             $data = $this->getIndexData();
             foreach ($data as $item) {
                 $this->tableValueOverride($item);
-                $values = array_values((array)$item);
+                $values = array_values((array) $item);
                 fputcsv($fp, $values);
             }
             $this->page++;
@@ -454,7 +452,7 @@ class Module
         $search_term = $this->getSession("search_term");
         if ($search_term) {
             $conditions = array_map(
-                fn ($column) => "($column LIKE ?)",
+                fn($column) => "($column LIKE ?)",
                 $this->search_columns
             );
             $this->addHaving(
@@ -586,7 +584,7 @@ class Module
      */
     private function getUpdateQuery(array $request): string
     {
-        $map = array_map(fn ($column) => "$column = ?", array_keys($request));
+        $map = array_map(fn($column) => "$column = ?", array_keys($request));
         $set_stmt = "SET " . $this->formatComma($map);
         return sprintf(
             "UPDATE %s %s WHERE %s = ?",
@@ -612,7 +610,7 @@ class Module
      */
     private function getCreateQuery(array $request): string
     {
-        $map = array_map(fn ($column) => "$column = ?", array_keys($request));
+        $map = array_map(fn($column) => "$column = ?", array_keys($request));
         $set_stmt = "SET " . $this->formatComma($map);
         return sprintf("INSERT INTO %s %s", ...[$this->sql_table, $set_stmt]);
     }
@@ -825,12 +823,12 @@ class Module
         }
         $request = array_filter(
             $request,
-            fn ($key) => in_array($key, $this->form_columns),
+            fn($key) => in_array($key, $this->form_columns),
             ARRAY_FILTER_USE_KEY
         );
         $sql = $this->getUpdateQuery($request);
         // Empty string is null
-        $mapped = array_map(fn ($r) => trim($r) === "" ? null : $r, $request);
+        $mapped = array_map(fn($r) => trim($r) === "" ? null : $r, $request);
         $params = [...array_values($mapped), $id];
         try {
             $result = db()->query($sql, ...$params);
@@ -852,12 +850,12 @@ class Module
         }
         $request = array_filter(
             $request,
-            fn ($key) => in_array($key, $this->form_columns),
+            fn($key) => in_array($key, $this->form_columns),
             ARRAY_FILTER_USE_KEY
         );
         $sql = $this->getCreateQuery($request);
         // Empty string is null
-        $mapped = array_map(fn ($r) => trim($r) === "" ? null : $r, $request);
+        $mapped = array_map(fn($r) => trim($r) === "" ? null : $r, $request);
         $params = array_values($mapped);
         try {
             $result = db()->query($sql, ...$params);
@@ -1034,7 +1032,7 @@ class Module
             ]),
             "pagination" => template("module/index/pagination.php", [
                 "show" =>
-                $this->per_page > $this->total_results ||
+                    $this->per_page > $this->total_results ||
                     $this->total_pages > 1,
                 "current_page" => $this->page,
                 "total_results" => $this->total_results,
@@ -1042,7 +1040,7 @@ class Module
                 "per_page" => $this->per_page,
                 "per_page_options" => array_filter(
                     $this->per_page_options,
-                    fn ($value) => $value <= $this->total_results
+                    fn($value) => $value <= $this->total_results
                 ),
                 "side_links" => $this->side_links,
             ]),
@@ -1056,10 +1054,10 @@ class Module
     public function viewEdit(string $id): string
     {
         $path = $this->path;
-        $request_errors = fn (
+        $request_errors = fn(
             string $field
         ) => $this->controller->getRequestError($field);
-        $has_errors = fn (string $field) => $this->controller->hasRequestError(
+        $has_errors = fn(string $field) => $this->controller->hasRequestError(
             $field
         );
         $control = function (string $column, mixed $value) {
@@ -1086,10 +1084,10 @@ class Module
     public function viewCreate(): string
     {
         $path = $this->path;
-        $request_errors = fn (
+        $request_errors = fn(
             string $field
         ) => $this->controller->getRequestError($field);
-        $has_errors = fn (string $field) => $this->controller->hasRequestError(
+        $has_errors = fn(string $field) => $this->controller->hasRequestError(
             $field
         );
         $control = function (string $column, mixed $value) {
