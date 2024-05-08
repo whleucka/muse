@@ -17,7 +17,9 @@
 		<?= $filters['link'] ?>
 	</div>
 	<section id="table">
-		<?= $table ?>
+		<div class="table-responsive">
+			<?= $table ?>
+		</div>
 		<div id="pagination">
 			<?= $pagination ?>
 		</div>
