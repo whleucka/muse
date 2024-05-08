@@ -87,7 +87,6 @@ class Module
         $this->path = $config->path;
         $this->sql_table = $config->sql_table;
         $this->primary_key = $config->primary_key ?? "id";
-        $this->recordSession();
         $this->init();
     }
 
@@ -205,7 +204,7 @@ class Module
     /**
      * Record a user session
      */
-    private function recordSession(): void
+    public function recordSession(): void
     {
         Session::new([
             "request_uri" => $_SERVER["REQUEST_URI"],
@@ -283,7 +282,7 @@ class Module
      * Does this module have DELETE permission
      * Delete button appears inline table row action
      */
-    public function hasDeletePermission(): bool
+    public function hasDeletePermission(string $id): bool
     {
         return $this->delete;
     }
@@ -292,7 +291,7 @@ class Module
      * Does this module have EDIT permission
      * Edit button appears inline table row action
      */
-    public function hasEditPermission(): bool
+    public function hasEditPermission(string $id): bool
     {
         return $this->edit && !empty($this->form_columns);
     }
@@ -1033,11 +1032,11 @@ class Module
         $format = function (string $column, mixed $value) {
             return $this->format($column, $value);
         };
-        $has_row_edit = function (object $row) {
-            return $this->hasEditPermission($row);
+        $has_row_edit = function (string $id) {
+            return $this->hasEditPermission($id);
         };
-        $has_row_delete = function (object $row) {
-            return $this->hasDeletePermission($row);
+        $has_row_delete = function (string $id) {
+            return $this->hasDeletePermission($id);
         };
         $search_term = $this->getSession("search_term");
         $filter_link = $this->getSession("filter_link");

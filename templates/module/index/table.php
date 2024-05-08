@@ -31,10 +31,10 @@
 							<?php if ($show_row_actions) : ?>
 								<td class="row-action align-top">
 									<div class="w-100 d-flex justify-content-end">
-										<?php if ($show_row_edit($row)) : ?>
+										<?php if ($show_row_edit($row->$primary_key)) : ?>
 											<button type="button" hx-get="/admin/<?= $module ?>/<?= $row->$primary_key ?>" hx-swap="outerHTML" hx-select="#content" hx-target="#content" class="btn btn-sm btn-primary ms-1">Edit</button>
 										<?php endif ?>
-										<?php if ($show_row_delete($row)) : ?>
+										<?php if ($show_row_delete($row->$primary_key)) : ?>
 											<button type="button" hx-delete="/admin/<?= $module ?>/<?= $row->$primary_key ?>" hx-swap="outerHTML" hx-select="#content" hx-target="#content" class="btn btn-sm btn-danger ms-1">Delete</button>
 										<?php endif ?>
 									</div>

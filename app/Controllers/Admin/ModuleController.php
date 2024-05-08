@@ -87,7 +87,7 @@ class ModuleController extends Controller
         if (!is_null($response)) {
             return $response;
         }
-
+        $this->module->recordSession();
         return $this->module->render("index");
     }
 
@@ -100,6 +100,7 @@ class ModuleController extends Controller
             $this->permissionDenied();
         }
 
+        $this->module->recordSession();
         return $this->module->render("create");
     }
 
@@ -108,10 +109,11 @@ class ModuleController extends Controller
     {
         header("Hx-Push-Url: /admin/$path/$id");
 
-        if (!$this->module->hasEditPermission()) {
+        if (!$this->module->hasEditPermission($id)) {
             $this->permissionDenied();
         }
 
+        $this->module->recordSession();
         return $this->module->render("edit", $id);
     }
 
@@ -139,7 +141,7 @@ class ModuleController extends Controller
     #[Patch("/{path}/{id}", "module.update")]
     public function update($path, $id): string
     {
-        if (!$this->module->hasEditPermission()) {
+        if (!$this->module->hasEditPermission($id)) {
             $this->permissionDenied();
         }
         $data = $this->validateRequest($this->module->getValidationRules());
@@ -159,7 +161,7 @@ class ModuleController extends Controller
     #[Delete("/{path}/{id}", "module.destroy")]
     public function destroy($path, $id): string
     {
-        if (!$this->module->hasDeletePermission()) {
+        if (!$this->module->hasDeletePermission($id)) {
             $this->permissionDenied();
         }
         $result = $this->module->processDestroy($id);
