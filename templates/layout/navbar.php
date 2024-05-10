@@ -1,4 +1,4 @@
-<nav id="navbar" class="navbar navbar-expand-sm bg-light">
+<nav id="navbar" class="navbar navbar-expand-sm bg-light" hx-indicator="#page-request">
   <div class="container-fluid">
     <a class="navbar-brand d-flex align-items-center" hx-get="/playlist" hx-target="#main" hx-select="#main" hx-swap="outerHTML"><img src="/img/logo.png" width="32" height="32" /></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#top-nav"
@@ -23,9 +23,3 @@
     </div>
   </div>
 </nav>
-<div id="top-progress">
-  <div class="progress w-100 me-3">
-    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="player-progress"></div>
-    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="preload-progress"></div>
-  </div>
-</div>

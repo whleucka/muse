@@ -1,5 +1,8 @@
 <section id="player" class="d-flex w-100">
-	<img src="/img/no-album.png" alt="cover" class="cover" />
+	<div id="cover-popover" popover>
+		<img src="/img/no-album.png" alt="cover" class="full-cover" />
+	</div>
+	<input popovertarget="cover-popover" type="image" src="/img/no-album.png" class="cover" />
 	<div id="controls" class="d-flex align-items-center justify-content-evenly justify-content-sm-start w-100">
 		<button class="btn prev" onClick="prevTrack()"><i data-feather="skip-back"></i></button>
 		<button class="btn seek-backward" onClick="seekBackward(event)"><i data-feather="rewind"></i></button>

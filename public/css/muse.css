@@ -92,6 +92,18 @@ button:focus { outline: none !important; box-shadow: none !important; }
 	margin: 5px;
 }
 
+#player #cover-popover {
+	border: 0;
+}
+
+#player .full-cover {
+	border-radius: 8px;
+	height: 256px;
+	width: 256px;
+	margin: 0;
+	padding: 0;
+}
+
 #player #controls .btn svg {
 	fill: #444;
 	width: 25px;

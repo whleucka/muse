@@ -20,6 +20,7 @@
 <body>
 	<main class="d-flex flex-column w-100">
 		<?=template("/layout/navbar.php")?>
+		<?=template("/layout/progress.php")?>
 		<?=template("/muse/main/index.php", ["main" => $main])?>
 		<?=template("/muse/player/index.php", ["shuffle" => $shuffle, "repeat" => $repeat])?>
 	</main>

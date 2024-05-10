@@ -181,9 +181,11 @@ const updateTrackRow = () => {
 }
 
 const updatePlayerCover = () => {
-	const cover = document.querySelector("#player img");
+	const player_cover = document.querySelector("#player input[type='image']");
+	const cover_popover = document.querySelector("#cover-popover img");
 	if (currentTrack) {
-		cover.src = currentTrack.cover;
+		player_cover.src = currentTrack.cover;
+		cover_popover.src = currentTrack.cover;
 	}
 }
 

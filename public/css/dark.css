@@ -38,7 +38,7 @@ h1, h2, h3, h4, h5 {
 	color: rgba(255,255,255,0.9) !important;
 }
 
-main, #navbar, #top-progress .progress {
+html, main, #navbar, #top-progress .progress {
 	background-color: #222 !important;
 }
 
@@ -51,6 +51,14 @@ input {
 #player #controls .btn svg {
 	fill: rgba(255,255,255,0.7);
 	stroke: rgba(255,255,255,0.4);
+}
+
+#player #cover-popover {
+	background-color: #222 !important;
+}
+
+#player .full-cover {
+	background-color: #222 !important;
 }
 
 #player {
