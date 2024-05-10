@@ -1,0 +1,56 @@
+html {
+	scrollbar-face-color: #646464;
+	scrollbar-base-color: #646464;
+	scrollbar-3dlight-color: #646464;
+	scrollbar-highlight-color: #646464;
+	scrollbar-track-color: #000;
+	scrollbar-arrow-color: #000;
+	scrollbar-shadow-color: #646464;
+	scrollbar-dark-shadow-color: #646464;
+}
+
+::-webkit-scrollbar { width: 8px; height: 3px;}
+::-webkit-scrollbar-button {  background-color: #444; }
+::-webkit-scrollbar-track {  background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #333;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; }
+::-webkit-scrollbar-corner { background-color: #646464;}}
+::-webkit-resizer { background-color: #666;}
+
+main,
+.navbar-toggler-icon,
+.radio-row .station-name,
+.radio-row .location,
+.navbar-nav .nav-link
+{
+	color: rgba(255,255,255,0.5) !important;
+}
+
+h1, h2, h3, h4, h5 {
+	color: rgba(255,255,255,0.7) !important;
+}
+
+
+main, #navbar, #top-progress .progress {
+	background-color: #222 !important;
+}
+
+#player #controls .btn svg {
+	fill: rgba(255,255,255,0.4);
+}
+
+#player {
+	border-top: 0;
+}
+
+#navbar {
+	border-bottom: 0;
+}
+
+#top-progress .progress {
+	border: 1px solid #222;
+}
+
+#top-progress #preload-progress {
+	background-color: #444;
+}
