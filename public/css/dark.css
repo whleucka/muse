@@ -30,13 +30,24 @@ h1, h2, h3, h4, h5 {
 	color: rgba(255,255,255,0.7) !important;
 }
 
+.track-row.active {
+	color: rgb(0,163,14);
+}
+
 
 main, #navbar, #top-progress .progress {
 	background-color: #222 !important;
 }
 
+input {
+	color: #fff !important;
+	background-color: #222 !important;
+	border-color: #555 !important;
+}
+
 #player #controls .btn svg {
 	fill: rgba(255,255,255,0.4);
+	stroke: rgba(255,255,255,0.1);
 }
 
 #player {
@@ -45,6 +56,10 @@ main, #navbar, #top-progress .progress {
 
 #navbar {
 	border-bottom: 0;
+}
+
+#top-progress {
+	background-color: #333;
 }
 
 #top-progress .progress {

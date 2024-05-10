@@ -107,8 +107,14 @@ button:focus { outline: none !important; box-shadow: none !important; }
     height: 5px;
 }
 
+.btn-danger {
+    color: #fff;
+    background-color: #ff0000 !important;
+    border-color: #dc3545 !important;
+}
+
 #top-progress #player-progress {
-	background: orangered;
+	background: #ff0000;
 }
 
 #top-progress #player-progress.disabled {
