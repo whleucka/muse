@@ -2,11 +2,13 @@
 	/**-------------------------- SIDEBAR CODE ------------------------------*/
 
 	const sidebarFilter = document.querySelector('#sidebar #filter');
-	sidebarFilter.oninput = (e) => {
-		const value = e.currentTarget.value;
-		resetHighlight();
-		highlightMatches(value);
-	};
+	if (sidebarFilter !== null) {
+		sidebarFilter.oninput = (e) => {
+			const value = e.currentTarget.value;
+			resetHighlight();
+			highlightMatches(value);
+		};
+	}
 
 	const highlightMatches = (text) => {
 		if (text.trim() !== '') {
