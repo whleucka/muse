@@ -6,7 +6,6 @@ use Nebula\Framework\Admin\Module;
 use Nebula\Framework\Alerts\Flash;
 use Nebula\Framework\Controller\Controller;
 use StellarRouter\{Delete, Get, Group, Patch, Post};
-use Symfony\Component\HttpFoundation\Response;
 use Nebula\Framework\Auth\Auth;
 
 #[Group(prefix: "/admin", middleware: ["auth"])]
@@ -55,16 +54,14 @@ class ModuleController extends Controller
 
     private function moduleNotFound(): void
     {
-        $response = new Response("Module not found", 404);
-        $response->send();
-        die();
+        header("Location: /page-not-found", response_code: 404);
+        exit;
     }
 
     private function permissionDenied(): void
     {
-        $response = new Response("Permission denied", 403);
-        $response->send();
-        die();
+        header("Location: /permission-denied", response_code: 403);
+        exit;
     }
 
     protected function replaceErrorTitle(string $field, string $message): string

@@ -101,8 +101,8 @@ class Kernel extends SystemKernel implements NebulaInterface
                         true
                     )
                 );
-                //throw new Exception($ex);
-                return new Response("fatal exception", 500);
+                header("Location: /server-error", response_code: 500);
+                exit;;
             } catch (Error $err) {
                 error_log(
                     print_r(
@@ -114,11 +114,12 @@ class Kernel extends SystemKernel implements NebulaInterface
                         true
                     )
                 );
-                //throw new Error($err);
-                return new Response("fatal error", 500);
+                header("Location: /server-error", response_code: 500);
+                exit;
             }
         } else {
-            return new Response("Page not found", 404);
+            header("Location: /page-not-found", response_code: 404);
+            exit;
         }
     }
 

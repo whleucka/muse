@@ -29,6 +29,10 @@
 	color: #fff !important;
 	text-decoration: none;
 }
+#list #table thead a.active {
+	color: lemonchiffon !important;
+}
+
 #list #table .table tbody tr:hover {
 	background-color: #fff5eb;
 }
@@ -53,9 +57,9 @@
 }
 
 #list #table #pagination .page-item.active .page-link {
-	background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+	background-color: #212529;
 	border-color: #ccc;
-	color: azure;
+	color: lemonchiffon;
 	font-weight: bold;
 }
 
@@ -100,8 +104,8 @@
 }
 
 #list .filter-link.active {
-	color: white;
-	background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+	color: lemonchiffon;
+	background-color: #212529;
 	font-weight: bold;
 	opacity: 1;
 }

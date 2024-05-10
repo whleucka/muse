@@ -5,7 +5,7 @@
 			<tr>
 				<?php foreach ($columns as $header => $column) : ?>
 					<th scope="col">
-						<a href="?order=<?=$column?>&sort=<?php if ($column == $order_by): ?><?=($sort === 'ASC' ? 'DESC' : 'ASC')?><?php else: ?>DESC<?php endif ?>">
+						<a class="<?=($column == $order_by ? 'active' : '')?>" href="?order=<?=$column?>&sort=<?php if ($column == $order_by): ?><?=($sort === 'ASC' ? 'DESC' : 'ASC')?><?php else: ?>DESC<?php endif ?>">
 							<?= $header ?>
 							<?php if ($column == $order_by): ?>
 								<?=($sort === "ASC" ? "▴" : "▾")?>
