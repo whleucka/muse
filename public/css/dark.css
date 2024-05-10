@@ -27,18 +27,16 @@ main,
 }
 
 h1, h2, h3, h4, h5 {
-	color: rgba(255,255,255,0.7) !important;
+	color: rgba(255,255,255,0.8) !important;
 }
 
 .track-row {
-	opacity: 0.85;
+	color: rgba(255,255,255,0.8) !important;
 }
 
 .track-row.active {
-	color: rgba(255,255,255,0.8) !important;
-	opacity: 1;
+	color: rgba(255,255,255,0.9) !important;
 }
-
 
 main, #navbar, #top-progress .progress {
 	background-color: #222 !important;
@@ -51,8 +49,8 @@ input {
 }
 
 #player #controls .btn svg {
-	fill: rgba(255,255,255,0.5);
-	stroke: rgba(255,255,255,0.1);
+	fill: rgba(255,255,255,0.7);
+	stroke: rgba(255,255,255,0.4);
 }
 
 #player {
@@ -73,4 +71,11 @@ input {
 
 #top-progress #preload-progress {
 	background-color: #444;
+}
+
+@media (max-width: 575.98px) {
+	.track-row {
+		opacity: 0.9;
+	}
+
 }

@@ -1,7 +1,7 @@
 <?php if ($tracks): ?>
 <div class="table-responsive">
 	<div class="my-2 d-flex">
-		<button class="btn btn-sm btn-danger"
+		<button class="btn btn-sm btn-success"
 			hx-get="/playlist/clear"
 			hx-target="#main"
 			hx-select="#main"

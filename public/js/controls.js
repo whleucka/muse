@@ -62,6 +62,7 @@ const pauseAudio = () => {
 }
 
 const seekForward = (event) => {
+	if (audio.src === "") return;
 	// Seek playback foward
 	const seekForwardButton = document.querySelector(".btn.seek-forward");
 	const skipTime = event.seekOffset || defaultSkipTime;;
@@ -72,6 +73,7 @@ const seekForward = (event) => {
 }
 
 const seekBackward = (event) => {
+	if (audio.src === "") return;
 	// Seek playback backward
 	const seekBackwardButton = document.querySelector(".btn.seek-backward");
 	const skipTime = event.seekOffset || defaultSkipTime;

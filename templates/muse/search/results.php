@@ -1,9 +1,9 @@
 <?php if ($tracks): ?>
 <div class="table-responsive">
 	<div class="my-3 d-flex">
-		<button class="btn btn-sm btn-danger"
+		<button class="btn btn-sm btn-success"
 			hx-get="/playlist/set"
-			hx-swap="none">Add to playlist</button>
+			hx-swap="none">Play all</button>
 	</div>
 </div>
 <script>
