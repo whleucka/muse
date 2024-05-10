@@ -388,7 +388,10 @@ class Module
     public function getNavbar(): string
     {
         $links = $this->buildLinks();
-        return template("layout/navbar.php", ["links" => $links]);
+        return template("layout/navbar.php", [
+            "app_name" => config("application.name"),
+            "links" => $links
+        ]);
     }
 
     /**
@@ -446,6 +449,9 @@ class Module
         }
     }
 
+    /**
+     * Handle the table order_by / sorting
+     */
     private function handleOrderSort(): void
     {
         $order_by = $this->getSession("order_by");
@@ -516,6 +522,9 @@ class Module
         $this->setSession("page", $page);
     }
 
+    /**
+     * Set the session order_by and sort
+     */
     private function setOrderSort(string $order_by, string $sort): void
     {
         $columns = $this->normalizeTableColumns();

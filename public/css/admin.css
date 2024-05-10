@@ -42,6 +42,7 @@
 
 #list #table .table thead th,
 #list #table .table tbody td {
+	white-space: nowrap;
 	font-size: 0.9rem;
 	padding: 6px;
 }
@@ -117,6 +118,12 @@
 #sidebar #filter {
 	border-left: 0;
 	border-right: 0;
+	border-radius: 0;
+	background-image: url("/img/search_icon.webp");
+	background-size: 2rem;
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 40px;
 }
 
 #sidebar .dropdown-toggle {

@@ -1,6 +1,6 @@
 <nav id="navbar" class="navbar navbar-dark bg-dark text-light sticky-top">
   <div class="container-fluid">
-    <span class="navbar-brand">Nebula</span>
+    <span class="navbar-brand"><?=$app_name?></span>
     <div class="ms-auto">
       <select class="d-block d-sm-none form-select" onchange="htmx.ajax('GET', event.currentTarget.value, {target: 'main', select: 'main', swap: 'outerHTML show:no-scroll'});">
         <?php foreach ($links as $link): ?>
