@@ -30,8 +30,13 @@ h1, h2, h3, h4, h5 {
 	color: rgba(255,255,255,0.7) !important;
 }
 
+.track-row {
+	opacity: 0.85;
+}
+
 .track-row.active {
-	color: rgb(0,163,14);
+	color: rgba(255,255,255,0.8) !important;
+	opacity: 1;
 }
 
 
@@ -46,7 +51,7 @@ input {
 }
 
 #player #controls .btn svg {
-	fill: rgba(255,255,255,0.4);
+	fill: rgba(255,255,255,0.5);
 	stroke: rgba(255,255,255,0.1);
 }
 
