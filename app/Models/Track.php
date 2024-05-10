@@ -97,8 +97,9 @@ class Track extends Model
 			WHERE title LIKE ? OR
 			artist LIKE ? OR
 			album LIKE ? OR
-			genre LIKE ?
-			ORDER BY artist,album,track_number", ...array_fill(0, 4, "%" . htmlspecialchars($term) . "%"));
+            genre LIKE ? OR
+            tracks.name LIKE ?
+			ORDER BY artist,album,track_number", ...array_fill(0, 5, "%" . htmlspecialchars($term) . "%"));
         return $results ?? [];
     }
 

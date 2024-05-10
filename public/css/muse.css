@@ -1,10 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+html {
+	overflow: hidden;
+	overscroll-behavior: none;
+}
+
 main {
 	font-family: "Roboto", sans-serif;
 	overflow: hidden;
 	color: #444;
 	min-width: 375px;
+	height: 100vh;
 }
 
 #main {
@@ -55,11 +61,6 @@ button:focus { outline: none !important; box-shadow: none !important; }
 	font-weight: 800;
 }
 
-#search .track-row:hover {
-	cursor: pointer;
-	background-color: rgba(0, 0, 0, 0.05);
-}
-
 .track-row {
 	outline: none !important;
 	box-shadow: none !important;
@@ -84,13 +85,15 @@ button:focus { outline: none !important; box-shadow: none !important; }
 
 #player .cover {
 	border-radius: 4px;
-	height: 50px;
-	width: 50px;
+	height: 35px;
+	width: 35px;
 	margin: 5px;
 }
 
 #player #controls .btn svg {
 	fill: #444;
+	width: 22px;
+	height: 22px;
 }
 
 #player #controls .btn.active svg {
@@ -146,3 +149,8 @@ button:focus { outline: none !important; box-shadow: none !important; }
 	margin-right: 5px;
 }
 
+@media (max-width: 575.98px) {
+	html {
+		font-size: 1.2rem;
+	}
+}
