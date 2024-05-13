@@ -2,6 +2,7 @@
 
 namespace App\Modules;
 
+use App\Models\Modules as Model;
 use Nebula\Framework\Admin\Module;
 
 class Modules extends Module
@@ -69,9 +70,8 @@ class Modules extends Module
 
     public function hasEditPermission(string $id): bool
     {
-        // FIX: should we use a model here?
-        $title = db()->var("SELECT title FROM modules WHERE id = ?", $id);
-        if ($title === "Modules") {
+        $module = Model::find($id);
+        if ($module->title === "Modules") {
             return false;
         }
 
