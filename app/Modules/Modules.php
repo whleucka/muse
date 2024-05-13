@@ -41,6 +41,7 @@ class Modules extends Module
         $this->form_controls = [
             "title" => "input",
             "path" => "input",
+            "max_permission_level" => "select",
             "parent_module_id" => "select",
         ];
         $this->validation_rules = [
@@ -54,9 +55,13 @@ class Modules extends Module
             "parent_module_id" => ["min|0"],
         ];
         $this->select_options = [
+            "max_permission_level" => db()->fetchAll("SELECT id as value, name as label
+                FROM user_types
+                ORDER BY name"),
             "parent_module_id" => db()->fetchAll("SELECT id as value, title as label
                 FROM modules
-                WHERE parent_module_id IS NULL AND id != ?", $this->id ?? 'null'),
+                WHERE parent_module_id IS NULL AND id != ?
+                ORDER BY title", $this->id),
         ];
     }
 
