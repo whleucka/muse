@@ -78,10 +78,13 @@ class Module
     protected array $form_columns = [];
     // Form controls
     protected array $form_controls = [];
+    // Select control options
+    protected array $select_options = [];
 
     public function __construct(
         private object $config,
-        private Controller $controller
+        private Controller $controller,
+        protected ?string $id = null,
     ) {
         $this->title = $config->title;
         $this->path = $config->path;
@@ -764,6 +767,23 @@ class Module
         ]);
     }
 
+    protected function controlSelect(string $column, mixed $value): string
+    {
+        return template("control/select.php", [
+            "column" => $column,
+            "value" => $value,
+            "options" => $this->getSelectOptions($column, $value),
+            "title" => $this->getColumnTitle($column),
+        ]);
+    }
+
+    protected function getSelectOptions(string $column, mixed $value): array
+    {
+        return key_exists($column, $this->select_options)
+            ? $this->select_options[$column]
+            : [];
+    }
+
     /**
      * Template formatting function
      */
@@ -879,6 +899,8 @@ class Module
         $sql = $this->getUpdateQuery($request);
         // Empty string is null
         $mapped = array_map(fn($r) => trim($r) === "" ? null : $r, $request);
+        // "NULL" is null
+        $mapped = array_map(fn($r) => $r === "NULL" ? null : $r, $mapped);
         $params = [...array_values($mapped), $id];
         try {
             $result = db()->query($sql, ...$params);
@@ -906,6 +928,8 @@ class Module
         $sql = $this->getCreateQuery($request);
         // Empty string is null
         $mapped = array_map(fn($r) => trim($r) === "" ? null : $r, $request);
+        // "NULL" is null
+        $mapped = array_map(fn($r) => $r === "NULL" ? null : $r, $mapped);
         $params = array_values($mapped);
         try {
             $result = db()->query($sql, ...$params);

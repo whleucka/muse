@@ -40,6 +40,7 @@ class Modules extends Module
         $this->form_controls = [
             "title" => "input",
             "path" => "input",
+            "parent_module_id" => "select",
         ];
         $this->validation_rules = [
             "title" => ["required", "non_empty_string"],
@@ -51,11 +52,16 @@ class Modules extends Module
             "max_permission_level" => ["min|0"],
             "parent_module_id" => ["min|0"],
         ];
+        $this->select_options = [
+            "parent_module_id" => db()->fetchAll("SELECT id as value, title as label
+                FROM modules
+                WHERE parent_module_id IS NULL AND id != ?", $this->id ?? 'null'),
+        ];
     }
 
     public function hasDeletePermission(string $id): bool
     {
-        if ($id < 10) {
+        if ($id < 8) {
             return false;
         }
         return parent::hasDeletePermission($id);

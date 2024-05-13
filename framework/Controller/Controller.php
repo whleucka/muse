@@ -106,6 +106,7 @@ class Controller
         $request = $this->getRequest();
         foreach ($ruleset as $field => $rules) {
             $value = isset($request[$field]) ? $request[$field] : null;
+            if ($value === "NULL") $value = null;
             $is_required = in_array("required", $rules);
             foreach ($rules as $rule) {
                 $raw = explode("|", $rule);

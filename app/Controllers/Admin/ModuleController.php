@@ -27,7 +27,9 @@ class ModuleController extends Controller
             $this->permissionDenied();
         }
         $class = $module->class_name;
-        $this->module = new $class($module, $this);
+        $params = $this->request()->attributes->get('route')->getParameters();
+        $id = key_exists('id', $params) ? $params['id'] : null;
+        $this->module = new $class($module, $this, $id);
     }
 
     private function init(): ?object
@@ -54,7 +56,7 @@ class ModuleController extends Controller
 
     private function moduleNotFound(): void
     {
-        header("Location: /page-not-found", response_code: 404);
+        header("Location: /page-not-found", response_code: 418);
         exit;
     }
 
