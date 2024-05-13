@@ -53,21 +53,22 @@ class Modules extends Module
         ];
     }
 
-    protected function hasRowDelete(object $row): bool
+    public function hasDeletePermission(string $id): bool
     {
-        if ($row->id < 10) {
+        if ($id < 10) {
             return false;
         }
-
-        return parent::hasRowDelete($row);
+        return parent::hasDeletePermission($id);
     }
 
-    protected function hasRowEdit(object $row): bool
+    public function hasEditPermission(string $id): bool
     {
-        if ($row->title === "Modules") {
+        // FIX: should we use a model here?
+        $title = db()->var("SELECT title FROM modules WHERE id = ?", $id);
+        if ($title === "Modules") {
             return false;
         }
 
-        return parent::hasRowEdit($row);
+        return parent::hasEditPermission($id);
     }
 }

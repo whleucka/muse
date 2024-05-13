@@ -36,7 +36,7 @@ class Migrations
 
     public function getMigrationStatus(string $hash): string
     {
-        return db()->value(
+        return db()->var(
             "SELECT status FROM migrations WHERE hash = ?",
             $hash
         );
@@ -46,7 +46,7 @@ class Migrations
     {
         $statuses = ["pending", "complete", "failure"];
         if (in_array($status, $statuses)) {
-            db()->value(
+            db()->var(
                 "UPDATE migrations SET status = ? WHERE hash = ?",
                 $status,
                 $hash
