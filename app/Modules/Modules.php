@@ -15,6 +15,10 @@ class Modules extends Module
             "Parent" => "(SELECT m.title
 				FROM modules m
 				WHERE m.id = modules.parent_module_id) as parent",
+            "Permission Level" => "(SELECT user_types.name
+                FROM user_types
+                WHERE user_types.permission_level = max_permission_level
+                ORDER BY name) as permission_level",
             "Updated" => "updated_at",
             "Created" => "created_at",
         ];
@@ -26,7 +30,7 @@ class Modules extends Module
             "Root" => "parent IS NULL",
             "Children" => "parent IS NOT NULL",
         ];
-        $this->table_order_by = "parent_module_id";
+        $this->table_order_by = "parent_module_id,max_permission_level,item_order";
         $this->table_sort = "ASC";
         $this->form_columns = [
             "Title" => "title",
@@ -35,7 +39,7 @@ class Modules extends Module
             "SQL Table" => "sql_table",
             "Primary Key" => "primary_key",
             "Item Order" => "item_order",
-            "Max Permission Level" => "max_permission_level",
+            "Permission Level" => "max_permission_level",
             "Parent Module ID" => "parent_module_id",
         ];
         $this->form_controls = [
@@ -45,23 +49,23 @@ class Modules extends Module
             "parent_module_id" => "select",
         ];
         $this->validation_rules = [
-            "title" => ["required", "non_empty_string"],
-            "path" => ["required", "non_empty_string"],
-            "class_name" => ["required", "non_empty_string"],
-            "sql_table" => ["required", "non_empty_string"],
-            "primary_key" => ["required", "non_empty_string"],
+            "title" => ["required", "no_empty_string"],
+            "path" => ["required", "no_empty_string"],
+            "class_name" => ["required", "no_empty_string"],
+            "sql_table" => ["required", "no_empty_string"],
+            "primary_key" => ["required", "no_empty_string"],
             "item_order" => ["min|0"],
             "max_permission_level" => ["min|0"],
             "parent_module_id" => ["min|0"],
         ];
         $this->select_options = [
-            "max_permission_level" => db()->fetchAll("SELECT id as value, name as label
+            "max_permission_level" => db()->fetchAll("SELECT permission_level as value, name as label
                 FROM user_types
-                ORDER BY name"),
+                ORDER BY permission_level,name"),
             "parent_module_id" => db()->fetchAll("SELECT id as value, title as label
                 FROM modules
                 WHERE parent_module_id IS NULL AND id != ?
-                ORDER BY title", $this->id),
+                ORDER BY title", $this->id ?? "NULL"),
         ];
     }
 

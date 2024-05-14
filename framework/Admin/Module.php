@@ -463,8 +463,10 @@ class Module
             $this->table_order_by = $order_by;
             $this->table_sort = $sort;
         } else {
-            $this->table_order_by = $this->primary_key;
-            $this->table_sort = "DESC";
+            if (!$this->table_order_by) {
+                $this->table_order_by = $this->primary_key;
+                $this->table_sort = "DESC";
+            }
         }
     }
 

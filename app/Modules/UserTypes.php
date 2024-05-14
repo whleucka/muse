@@ -25,7 +25,7 @@ class UserTypes extends Module
             "Permission Level" => "permission_level"
         ];
         $this->validation_rules = [
-            "name" => ["required", "non_empty_string"],
+            "name" => ["required", "no_empty_string"],
             "permission_level" => ["min|0"],
         ];
     }
