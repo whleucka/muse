@@ -1,4 +1,4 @@
-<nav id="sidebar" class="d-none d-sm-block" hx-boost="true" hx-target="main" hx-select="main" hx-swap="outerHTML show:no-scroll">
+<nav id="sidebar" class="d-none d-sm-block" hx-boost="true" hx-target="#view" hx-select="#view" hx-swap="outerHTML show:no-scroll">
 	<div class="mb-3">
 		<input type="search" class="form-control" id="filter" placeholder="Filter">
 	</div>

@@ -1,4 +1,5 @@
 <main class="d-flex flex-column flex-grow-1" id="view">
+	<?= $breadcrumbs ?>
 	<section id="content" class="p-3">
 		<section id="module-title" class="mb-3">
 			<h3>

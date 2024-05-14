@@ -8,7 +8,7 @@
 		</div>
 	<?php endforeach ?>
 	<div>
-		<button hx-patch="" name="save" hx-swap="outerHTML" hx-target="#content" hx-select="#content" id="edit-save" type="submit" class="btn btn-primary">Save</button>
-		<button hx-get="/admin/<?= $module ?>/" hx-swap="outerHTML" hx-target="#content" hx-select="#content" class="btn btn-secondary ms-1">Back</button>
+		<button hx-patch="" name="save" hx-swap="outerHTML" hx-target="#view" hx-select="#view" id="edit-save" type="submit" class="btn btn-primary">Save</button>
+		<button hx-get="/admin/<?= $module ?>/" hx-swap="outerHTML" hx-target="#view" hx-select="#view" class="btn btn-secondary ms-1">Back</button>
 	</div>
 </form>

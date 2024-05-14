@@ -135,6 +135,7 @@ class Module
             "edit" => $this->viewEdit($id),
         };
         return $this->controller->render("layout/admin.php", [
+            "breadcrumbs" => $this->getBreadcrumbs($id),
             "navbar" => $this->getNavbar(),
             "module_title" => $this->getTitle(),
             "sidebar" => $this->getSidebar(),
@@ -383,6 +384,37 @@ class Module
             $sidebar_links[] = $link;
         }
         return $sidebar_links;
+    }
+
+    /**
+     * Recursively build the breadcrumb links
+     */
+    private function buildBreadcrumbs(string $module_id, $breadcrumbs = [])
+    {
+        $module = db()->fetch("SELECT * FROM modules WHERE id = ?", $module_id);
+        $breadcrumbs[] = $module;
+        if (intval($module->parent_module_id) > 0) {
+            return $this->buildBreadcrumbs($module->parent_module_id, $breadcrumbs);
+        }
+        return array_reverse($breadcrumbs);
+    }
+
+    /**
+     * Get the breadcrumbs
+     */
+    public function getBreadcrumbs(?string $id): string
+    {
+        $path = $this->getPath();
+        $breadcrumbs = $this->buildBreadcrumbs($this->config->id);
+        if (!is_null($id)) {
+            $breadcrumbs[] = (object)[
+                "path" => "$path/$id",
+                "title" => "Edit $id",
+            ];
+        }
+        return template("layout/breadcrumbs.php", [
+            "breadcrumbs" => $breadcrumbs,
+        ]);
     }
 
     /**
