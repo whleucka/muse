@@ -46,7 +46,7 @@ class Module
     // OFFSET clause
     private int $page = 1;
     // LIMIT clause
-    private int $per_page = 20;
+    private int $per_page = 10;
     // Total number of pages
     private int $total_pages = 1;
     // Total row count
