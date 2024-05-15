@@ -1,4 +1,15 @@
 (function() {
+	/**-------------------------- NAVBAR CODE  ------------------------------*/
+	const menu = document.querySelector("#toggle-sidebar");
+	menu.addEventListener("click", (e) => {
+		const sidebar = document.querySelector("#sidebar");
+		if (sidebar.classList.contains("d-none")) {
+			sidebar.classList.remove("d-none");
+		} else {
+			sidebar.classList.add("d-none");
+		}
+	})
+
 	/**-------------------------- SIDEBAR CODE ------------------------------*/
 
 	const sidebarFilter = document.querySelector('#sidebar #filter');
