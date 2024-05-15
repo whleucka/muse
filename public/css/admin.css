@@ -1,3 +1,4 @@
+/** Layout */
 #body {
 	overflow: hidden;
 }
@@ -10,6 +11,44 @@
 
 #content {
 	overflow: auto;
+}
+
+/** Scrollbar */
+/* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
+/** {
+  scrollbar-width: thin;
+  scrollbar-color: #C0C0C0 #DFE9EB;
+}*/
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 4px;
+  background-color: #EEE;
+}
+
+*::-webkit-scrollbar-track:hover {
+  background-color: #EEE;
+}
+
+*::-webkit-scrollbar-track:active {
+  background-color: #EEE;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #BBB;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: #888;
 }
 
 
