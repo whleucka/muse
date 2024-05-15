@@ -121,29 +121,37 @@ class Controller
             $is_required = in_array("required", $rules);
             foreach ($rules as $idx => $rule) {
                 if ($idx === "custom" && is_array($rule)) {
-                    $method = $rule['method'] ?? false;
-                    $message = $rule['message'] ?? "*message not set*";
+                    $method = $rule["method"] ?? false;
+                    $message = $rule["message"] ?? "*message not set*";
                     $valid &= $method($field, $value);
                     if (!$valid) {
                         $this->addRequestError($field, null, $message);
                     }
                 } else {
                     [$rule, $arg] = $this->ruleArg($rule);
-                    if ((trim($value) === "" || is_null($value) || $value === "NULL") && !$is_required) {
+                    if (
+                        (trim($value) === "" ||
+                            is_null($value) ||
+                            $value === "NULL") &&
+                        !$is_required
+                    ) {
                         $valid &= true;
                     } else {
                         $valid &= match ($rule) {
-                            "not_empty" => trim($value) !== '',
+                            "not_empty" => trim($value) !== "",
                             "array" => is_array($value),
-                            "email" => filter_var($value, FILTER_VALIDATE_EMAIL) !==
-                                false,
+                            "email" => filter_var(
+                                $value,
+                                FILTER_VALIDATE_EMAIL
+                            ) !== false,
                             "match" => $value == $request[$arg],
                             "max" => intval($value) <= intval($arg),
                             "min" => intval($value) >= intval($arg),
                             "maxlength" => strlen($value) <= intval($arg),
                             "minlength" => strlen($value) >= intval($arg),
                             "numeric" => is_numeric($value),
-                            "required" => trim($value) !== "" && $value !== "NULL",
+                            "required" => trim($value) !== "" &&
+                                $value !== "NULL",
                             "string" => is_string($value),
                             "unique" => !db()->fetch(
                                 "SELECT * FROM $arg WHERE $field = ?",
@@ -154,7 +162,11 @@ class Controller
                         };
                     }
                 }
-                if (!$valid && is_string($rule) && isset($this->error_messages[$rule])) {
+                if (
+                    !$valid &&
+                    is_string($rule) &&
+                    isset($this->error_messages[$rule])
+                ) {
                     $message = $this->error_messages[$rule];
                     $this->addRequestError($field, $arg, $message);
                 }

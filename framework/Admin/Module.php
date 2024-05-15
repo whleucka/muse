@@ -393,7 +393,10 @@ class Module
      */
     private function buildBreadcrumbs(string $module_id, $breadcrumbs = [])
     {
-        $module = db()->fetch("SELECT * FROM modules WHERE id = ? AND enabled = 1", $module_id);
+        $module = db()->fetch(
+            "SELECT * FROM modules WHERE id = ? AND enabled = 1",
+            $module_id
+        );
         $breadcrumbs[] = $module;
         if (intval($module->parent_module_id) > 0) {
             return $this->buildBreadcrumbs(
@@ -822,7 +825,7 @@ class Module
     protected function controlCheckbox(string $column, mixed $value): string
     {
         return template("control/checkbox.php", [
-            "checked" => intval($value) === 1 ? 'checked' : '',
+            "checked" => intval($value) === 1 ? "checked" : "",
             "column" => $column,
             "value" => $value,
             "title" => $this->getColumnTitle($column),
@@ -993,7 +996,7 @@ class Module
      */
     protected function formatCheck(string $column, mixed $value): string
     {
-        return intval($value) === 1 ? "✅" : '';
+        return intval($value) === 1 ? "✅" : "";
     }
 
     /**
