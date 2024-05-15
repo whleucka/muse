@@ -804,6 +804,19 @@ class Module
         ]);
     }
 
+    /**
+     * Get options for a select control
+     */
+    protected function getSelectOptions(string $column, mixed $value): array
+    {
+        return key_exists($column, $this->select_options)
+            ? $this->select_options[$column]
+            : [];
+    }
+
+    /**
+     * Select (dropdown) control
+     */
     protected function controlSelect(string $column, mixed $value): string
     {
         return template("control/select.php", [
@@ -814,11 +827,108 @@ class Module
         ]);
     }
 
-    protected function getSelectOptions(string $column, mixed $value): array
+    /**
+     * Number control
+     */
+    protected function controlNumber(string $column, mixed $value): string
     {
-        return key_exists($column, $this->select_options)
-            ? $this->select_options[$column]
-            : [];
+        return template("control/input.php", [
+            "type" => "number",
+            "column" => $column,
+            "value" => $value,
+            "title" => $this->getColumnTitle($column),
+        ]);
+    }
+
+    /**
+     * Date control
+     */
+    protected function controlDate(string $column, mixed $value): string
+    {
+        return template("control/input.php", [
+            "type" => "date",
+            "column" => $column,
+            "value" => $value,
+            "title" => $this->getColumnTitle($column),
+        ]);
+    }
+
+    /**
+     * Time control
+     */
+    protected function controlTime(string $column, mixed $value): string
+    {
+        return template("control/input.php", [
+            "type" => "time",
+            "column" => $column,
+            "value" => $value,
+            "title" => $this->getColumnTitle($column),
+        ]);
+    }
+
+    /**
+     * Date/Time control
+     */
+    protected function controlDateTime(string $column, mixed $value): string
+    {
+        return template("control/input.php", [
+            "type" => "datetime-local",
+            "column" => $column,
+            "value" => $value,
+            "title" => $this->getColumnTitle($column),
+        ]);
+    }
+
+    /**
+     * Email control
+     */
+    protected function controlEmail(string $column, mixed $value): string
+    {
+        return template("control/input.php", [
+            "type" => "email",
+            "column" => $column,
+            "value" => $value,
+            "title" => $this->getColumnTitle($column),
+        ]);
+    }
+
+    /**
+     * Password control
+     */
+    protected function controlPassword(string $column, mixed $value): string
+    {
+        return template("control/input.php", [
+            "type" => "password",
+            "column" => $column,
+            "value" => $value,
+            "title" => $this->getColumnTitle($column),
+        ]);
+    }
+
+    /**
+     * Telephone control
+     */
+    protected function controlTelephone(string $column, mixed $value): string
+    {
+        return template("control/input.php", [
+            "type" => "tel",
+            "column" => $column,
+            "value" => $value,
+            "title" => $this->getColumnTitle($column),
+        ]);
+    }
+
+    /**
+     * URL control
+     */
+    protected function controlUrl(string $column, mixed $value): string
+    {
+        return template("control/input.php", [
+            "type" => "url",
+            "column" => $column,
+            "value" => $value,
+            "title" => $this->getColumnTitle($column),
+        ]);
     }
 
     /**
