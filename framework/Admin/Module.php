@@ -346,12 +346,14 @@ class Module
             $modules = db()->fetchAll("SELECT *
 				FROM modules
 				WHERE parent_module_id IS NULL
+                AND enabled = 1
 				ORDER BY item_order");
         } else {
             $modules = db()->fetchAll(
                 "SELECT *
 				FROM modules
 				WHERE parent_module_id = ?
+                AND enabled = 1
 				ORDER BY item_order",
                 $parent_module_id
             );
@@ -391,7 +393,7 @@ class Module
      */
     private function buildBreadcrumbs(string $module_id, $breadcrumbs = [])
     {
-        $module = db()->fetch("SELECT * FROM modules WHERE id = ?", $module_id);
+        $module = db()->fetch("SELECT * FROM modules WHERE id = ? AND enabled = 1", $module_id);
         $breadcrumbs[] = $module;
         if (intval($module->parent_module_id) > 0) {
             return $this->buildBreadcrumbs(
@@ -815,6 +817,19 @@ class Module
     }
 
     /**
+     * Checkbox control
+     */
+    protected function controlCheckbox(string $column, mixed $value): string
+    {
+        return template("control/checkbox.php", [
+            "checked" => intval($value) === 1 ? 'checked' : '',
+            "column" => $column,
+            "value" => $value,
+            "title" => $this->getColumnTitle($column),
+        ]);
+    }
+
+    /**
      * Select (dropdown) control
      */
     protected function controlSelect(string $column, mixed $value): string
@@ -971,6 +986,14 @@ class Module
             "value" => $value,
             "title" => "IP",
         ]);
+    }
+
+    /**
+     * Format check value
+     */
+    protected function formatCheck(string $column, mixed $value): string
+    {
+        return intval($value) === 1 ? "✅" : '';
     }
 
     /**

@@ -1,3 +1,11 @@
+/** Form events */
+const handleCheck = (e) => {
+	const self = e.currentTarget;
+	const hidden = self.previousElementSibling;
+	hidden.value = self.checked ? 1 : 0;
+	console.log(hidden);
+}
+
 (function() {
 	/**-------------------------- NAVBAR CODE  ------------------------------*/
 	const menu = document.querySelector("#toggle-sidebar");

@@ -21,6 +21,7 @@ class Controller
         "string" => "{title} must be a string",
         "unique" => "{title} must be unique",
         "symbol" => "{title} must contain a special character",
+        "not_empty" => "{title} cannot be empty",
     ];
     protected array $request_errors = [];
 
@@ -115,10 +116,11 @@ class Controller
                 $rule = $raw[0];
                 $arg = isset($raw[1]) ? $raw[1] : "";
                 $rule = strtolower($rule);
-                if (is_null($value) && !$is_required) {
+                if ((trim($value) === "" || is_null($value) || $value === "NULL") && !$is_required) {
                     $valid &= true;
                 } else {
                     $valid &= match ($rule) {
+                        "not_empty" => trim($value) !== '',
                         "array" => is_array($value),
                         "email" => filter_var($value, FILTER_VALIDATE_EMAIL) !==
                             false,
@@ -128,7 +130,7 @@ class Controller
                         "maxlength" => strlen($value) <= intval($arg),
                         "minlength" => strlen($value) >= intval($arg),
                         "numeric" => is_numeric($value),
-                        "required" => $value && trim($value) !== "",
+                        "required" => trim($value) !== "" && $value !== "NULL",
                         "string" => is_string($value),
                         "unique" => !db()->fetch(
                             "SELECT * FROM $arg WHERE $field = ?",

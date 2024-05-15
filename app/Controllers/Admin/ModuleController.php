@@ -46,7 +46,9 @@ class ModuleController extends Controller
         if (key_exists("path", $parameters)) {
             $module_path = $parameters["path"];
             $module = db()->fetch(
-                "SELECT * FROM modules WHERE path = ?",
+                "SELECT *
+                FROM modules
+                WHERE path = ? AND enabled = 1",
                 $module_path
             );
             if ($module) {

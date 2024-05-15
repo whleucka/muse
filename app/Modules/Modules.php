@@ -11,6 +11,7 @@ class Modules extends Module
     {
         $this->table_columns = [
             "ID" => "id",
+            "Enabled" => "enabled",
             "Title" => "title",
             "Parent" => "(SELECT m.title
 				FROM modules m
@@ -23,6 +24,7 @@ class Modules extends Module
             "Created" => "created_at",
         ];
         $this->table_format = [
+            "enabled" => "check",
             "updated_at" => "ago",
             "created_at" => "ago",
         ];
@@ -34,6 +36,7 @@ class Modules extends Module
             "parent_module_id,max_permission_level,item_order";
         $this->table_sort = "ASC";
         $this->form_columns = [
+            "Enabled" => "enabled",
             "Title" => "title",
             "Path" => "path",
             "Class" => "class_name",
@@ -44,19 +47,20 @@ class Modules extends Module
             "Parent Module ID" => "parent_module_id",
         ];
         $this->form_controls = [
+            "enabled" => "checkbox",
             "title" => "input",
             "path" => "input",
             "max_permission_level" => "select",
             "parent_module_id" => "select",
         ];
         $this->validation_rules = [
-            "title" => ["required"],
-            "path" => ["required"],
-            "class_name" => ["required"],
-            "sql_table" => ["required"],
-            "primary_key" => ["required"],
+            "title" => ["not_empty"],
+            "path" => ["not_empty"],
+            "class_name" => ["not_empty"],
+            "sql_table" => ["not_empty"],
+            "primary_key" => ["not_empty"],
             "item_order" => ["min|0", "required"],
-            "max_permission_level" => ["min|0", "required"],
+            "max_permission_level" => ["min|0"],
             "parent_module_id" => ["min|0"],
         ];
         $this->select_options = [

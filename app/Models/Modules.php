@@ -8,6 +8,7 @@ class Modules extends Model
 {
     protected array $columns = [
         "id",
+        "enabled",
         "title",
         "path",
         "class_name",
