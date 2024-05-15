@@ -8,15 +8,15 @@ class Modules extends Model
 {
     protected array $columns = [
         "id",
-		"title",
-		"path",
-		"class_name",
-		"sql_table",
-		"primary_key",
-		"item_order",
-		"max_permission_level",
-		"parent_module_id",
-		"updated_at",
+        "title",
+        "path",
+        "class_name",
+        "sql_table",
+        "primary_key",
+        "item_order",
+        "max_permission_level",
+        "parent_module_id",
+        "updated_at",
         "created_at",
     ];
 
@@ -25,4 +25,3 @@ class Modules extends Model
         parent::__construct("modules", $key);
     }
 }
-

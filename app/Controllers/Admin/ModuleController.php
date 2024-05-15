@@ -27,8 +27,10 @@ class ModuleController extends Controller
             $this->permissionDenied();
         }
         $class = $module->class_name;
-        $params = $this->request()->attributes->get('route')->getParameters();
-        $id = key_exists('id', $params) ? $params['id'] : null;
+        $params = $this->request()
+            ->attributes->get("route")
+            ->getParameters();
+        $id = key_exists("id", $params) ? $params["id"] : null;
         $this->module = new $class($module, $this, $id);
     }
 
@@ -57,13 +59,13 @@ class ModuleController extends Controller
     private function moduleNotFound(): void
     {
         header("Location: /page-not-found", response_code: 418);
-        exit;
+        exit();
     }
 
     private function permissionDenied(): void
     {
         header("Location: /permission-denied", response_code: 403);
-        exit;
+        exit();
     }
 
     protected function replaceErrorTitle(string $field, string $message): string

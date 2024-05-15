@@ -84,7 +84,7 @@ class Module
     public function __construct(
         private object $config,
         private Controller $controller,
-        protected ?string $id = null,
+        protected ?string $id = null
     ) {
         $this->title = $config->title;
         $this->path = $config->path;
@@ -394,7 +394,10 @@ class Module
         $module = db()->fetch("SELECT * FROM modules WHERE id = ?", $module_id);
         $breadcrumbs[] = $module;
         if (intval($module->parent_module_id) > 0) {
-            return $this->buildBreadcrumbs($module->parent_module_id, $breadcrumbs);
+            return $this->buildBreadcrumbs(
+                $module->parent_module_id,
+                $breadcrumbs
+            );
         }
         return array_reverse($breadcrumbs);
     }
@@ -407,7 +410,7 @@ class Module
         $path = $this->getPath();
         $breadcrumbs = $this->buildBreadcrumbs($this->config->id);
         if (!is_null($id)) {
-            $breadcrumbs[] = (object)[
+            $breadcrumbs[] = (object) [
                 "path" => "$path/$id",
                 "title" => "Edit $id",
             ];
@@ -425,7 +428,7 @@ class Module
         $links = $this->buildLinks();
         return template("layout/navbar.php", [
             "app_name" => config("application.name"),
-            "links" => $links
+            "links" => $links,
         ]);
     }
 

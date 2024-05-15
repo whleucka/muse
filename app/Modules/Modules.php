@@ -30,7 +30,8 @@ class Modules extends Module
             "Root" => "parent IS NULL",
             "Children" => "parent IS NOT NULL",
         ];
-        $this->table_order_by = "parent_module_id,max_permission_level,item_order";
+        $this->table_order_by =
+            "parent_module_id,max_permission_level,item_order";
         $this->table_sort = "ASC";
         $this->form_columns = [
             "Title" => "title",
@@ -59,13 +60,17 @@ class Modules extends Module
             "parent_module_id" => ["min|0"],
         ];
         $this->select_options = [
-            "max_permission_level" => db()->fetchAll("SELECT permission_level as value, name as label
+            "max_permission_level" => db()
+                ->fetchAll("SELECT permission_level as value, name as label
                 FROM user_types
                 ORDER BY permission_level,name"),
-            "parent_module_id" => db()->fetchAll("SELECT id as value, title as label
+            "parent_module_id" => db()->fetchAll(
+                "SELECT id as value, title as label
                 FROM modules
                 WHERE parent_module_id IS NULL AND id != ?
-                ORDER BY title", $this->id ?? "NULL"),
+                ORDER BY title",
+                $this->id ?? "NULL"
+            ),
         ];
     }
 

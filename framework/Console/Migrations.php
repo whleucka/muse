@@ -36,10 +36,7 @@ class Migrations
 
     public function getMigrationStatus(string $hash): string
     {
-        return db()->var(
-            "SELECT status FROM migrations WHERE hash = ?",
-            $hash
-        );
+        return db()->var("SELECT status FROM migrations WHERE hash = ?", $hash);
     }
 
     public function setMigrationStatus(string $hash, string $status): void

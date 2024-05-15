@@ -102,7 +102,7 @@ class Kernel extends SystemKernel implements NebulaInterface
                     )
                 );
                 header("Location: /server-error", response_code: 500);
-                exit;;
+                exit();
             } catch (Error $err) {
                 error_log(
                     print_r(
@@ -115,11 +115,11 @@ class Kernel extends SystemKernel implements NebulaInterface
                     )
                 );
                 header("Location: /server-error", response_code: 500);
-                exit;
+                exit();
             }
         } else {
             header("Location: /page-not-found", response_code: 302);
-            exit;
+            exit();
         }
     }
 

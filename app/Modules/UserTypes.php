@@ -8,7 +8,8 @@ class UserTypes extends Module
 {
     public function init(): void
     {
-        $this->create = $this->edit = $this->delete = user()->type()->permission_level == 0;
+        $this->create = $this->edit = $this->delete =
+            user()->type()->permission_level == 0;
         $this->table_columns = [
             "ID" => "id",
             "Name" => "name",
@@ -22,7 +23,7 @@ class UserTypes extends Module
         ];
         $this->form_columns = [
             "Name" => "name",
-            "Permission Level" => "permission_level"
+            "Permission Level" => "permission_level",
         ];
         $this->validation_rules = [
             "name" => ["required"],
