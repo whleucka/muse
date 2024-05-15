@@ -68,6 +68,10 @@
 	font-weight: bold;
 }
 
+#list #table #pagination {
+	margin: 10px 0;
+}
+
 #list #table #pagination .page-item.active a:hover {
 	color: azure !important;
 }

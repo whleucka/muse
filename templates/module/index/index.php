@@ -16,8 +16,8 @@
 	<div id="filter-links" class="my-2">
 		<?= $filters['link'] ?>
 	</div>
-	<section id="table">
-		<div class="table-responsive">
+	<section id="table" class="table-responsive">
+		<div id="container">
 			<?= $table ?>
 		</div>
 		<div id="pagination">
