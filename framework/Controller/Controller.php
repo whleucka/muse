@@ -117,8 +117,6 @@ class Controller
                     $valid &= true;
                 } else {
                     $valid &= match ($rule) {
-                        "no_null" => is_null($value) && $value !== "NULL",
-                        "no_empty_string" => trim($value) !== "",
                         "array" => is_array($value),
                         "email" => filter_var($value, FILTER_VALIDATE_EMAIL) !==
                             false,

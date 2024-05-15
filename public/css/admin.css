@@ -3,6 +3,7 @@
 }
 
 #view {
+	border-top: 1px solid #ddd;
 	height: calc(100vh - 60px);
 	overflow: auto;
 }
@@ -13,7 +14,9 @@
 
 /** Navbar */
 #navbar {
-	height: 60px;
+	padding: 0;
+	background-color: #f0f2f5;
+	height: 40px;
 }
 
 /** Breadcrumbs */
@@ -23,71 +26,71 @@
 
 
 /** Table */
-#list #table .table-responsive {
+ #table .table-responsive {
 	border-radius: 6px;
 }
 
-#list #table .table {
+ #table .table {
 	border: 1px solid #ccc;
 }
-#list #table thead a {
+ #table thead a {
 	color: #fff !important;
 	text-decoration: none;
 }
-#list #table thead a.active {
+ #table thead a.active {
 	color: lemonchiffon !important;
 }
 
-#list #table .table tbody tr:hover {
+ #table .table tbody tr:hover {
 	background-color: #fff5eb;
 }
 
-#list #table .table thead th {
+ #table .table thead th {
 	padding: 0;
 	border-bottom: 0;
 	color: #fff;
 	white-space: nowrap;
 }
 
-#list #table .table thead th,
-#list #table .table tbody td {
+ #table .table thead th,
+ #table .table tbody td {
 	white-space: nowrap;
 	font-size: 0.9rem;
 	padding: 6px;
 }
 
-#list #table .row-action button {
+ #table .row-action button {
 	padding: 2px 4px;
 	font-size: 0.845rem
 }
 
-#list #table #pagination .page-item.active .page-link {
+#pagination .page-item.active .page-link {
 	background-color: #212529;
 	border-color: #ccc;
 	color: lemonchiffon;
 	font-weight: bold;
 }
 
-#list #table #pagination {
+#pagination {
 	margin: 10px 0;
 }
 
-#list #table #pagination .page-item.active a:hover {
+#pagination .page-item.active a:hover {
 	color: azure !important;
 }
 
-#list #table #pagination #per-page select {
+#pagination #per-page select {
 	height: 31px;
 	font-size: 0.9rem;
 	border-radius: 4px;
 	background-color: #fff;
 }
 
-#list #table #pagination #per-page .page-link {
+#pagination #per-page .page-link {
 	background-color: #fff !important;
 }
 
-#list #table #pagination .pagination-link .page-link {
+#pagination .pagination-link .page-link {
 	color: #666;
 }
 
@@ -105,14 +108,14 @@
 	padding-left: 40px;
 }
 
-#list .filter-link {
+.filter-link {
 	cursor: pointer;
 	opacity: 0.8;
 	color: rgba(50, 50, 50, 0.8);
 	border: 1px solid #ccc;
 }
 
-#list .filter-link.active {
+.filter-link.active {
 	color: lemonchiffon;
 	background-color: #212529;
 	font-weight: bold;

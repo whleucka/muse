@@ -118,7 +118,7 @@ class Kernel extends SystemKernel implements NebulaInterface
                 exit;
             }
         } else {
-            header("Location: /page-not-found", response_code: 404);
+            header("Location: /page-not-found", response_code: 302);
             exit;
         }
     }

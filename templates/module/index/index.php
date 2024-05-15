@@ -9,19 +9,17 @@
 	<a type="button" href="?export_csv" class="btn btn-success">Export</a>
 	<?php endif ?>
 </section>
-<section id="filters">
-	<?= $filters['search'] ?>
-</section>
-<section id="list">
-	<div id="filter-links" class="my-2">
+<section id="filters-table">
+	<section id="filters">
+		<?= $filters['search'] ?>
 		<?= $filters['link'] ?>
-	</div>
-	<section id="table" class="table-responsive">
-		<div id="container">
+	</section>
+	<section id="table-pagination">
+		<section id="table" class="table-responsive">
 			<?= $table ?>
-		</div>
-		<div id="pagination">
+		</section>
+		<section id="pagination">
 			<?= $pagination ?>
-		</div>
+		</section>
 	</section>
 </section>

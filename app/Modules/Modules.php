@@ -49,13 +49,13 @@ class Modules extends Module
             "parent_module_id" => "select",
         ];
         $this->validation_rules = [
-            "title" => ["required", "no_empty_string"],
-            "path" => ["required", "no_empty_string"],
-            "class_name" => ["required", "no_empty_string"],
-            "sql_table" => ["required", "no_empty_string"],
-            "primary_key" => ["required", "no_empty_string"],
-            "item_order" => ["min|0"],
-            "max_permission_level" => ["min|0"],
+            "title" => ["required"],
+            "path" => ["required"],
+            "class_name" => ["required"],
+            "sql_table" => ["required"],
+            "primary_key" => ["required"],
+            "item_order" => ["min|0", "required"],
+            "max_permission_level" => ["min|0", "required"],
             "parent_module_id" => ["min|0"],
         ];
         $this->select_options = [

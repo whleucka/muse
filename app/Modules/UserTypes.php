@@ -25,8 +25,16 @@ class UserTypes extends Module
             "Permission Level" => "permission_level"
         ];
         $this->validation_rules = [
-            "name" => ["required", "no_empty_string"],
-            "permission_level" => ["min|0"],
+            "name" => ["required"],
+            "permission_level" => ["min|0", "required"],
         ];
+    }
+
+    public function hasDeletePermission(string $id): bool
+    {
+        if ($id < 5) {
+            return false;
+        }
+        return parent::hasDeletePermission($id);
     }
 }

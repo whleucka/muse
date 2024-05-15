@@ -1,4 +1,4 @@
-<nav id="breadcrumbs" aria-label="breadcrumb" class="my-2 container-fluid" hx-boost="true" hx-target="main" hx-select="main" hx-swap="outerHTML show:no-scroll">
+<nav id="breadcrumbs" aria-label="breadcrumb" class="mt-2 container-fluid" hx-boost="true" hx-target="main" hx-select="main" hx-swap="outerHTML show:no-scroll">
   <ol class="breadcrumb">
 	<?php foreach ($breadcrumbs as $i => $breadcrumb): ?>
 		<?php if ($breadcrumb->path): ?><a href='/admin/<?=$breadcrumb->path?>'><?php endif ?>

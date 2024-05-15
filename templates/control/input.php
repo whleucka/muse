@@ -1,3 +1,3 @@
 <div>
-	<input type="<?= $column ?>" class="form-control" name="<?= $column ?>" id="<?= $column ?>" value="<?= $value ?>" title="<?=$title ?? ''?>" placeholder="">
+	<input type="<?= $type ?? 'input' ?>" class="form-control" name="<?= $column ?>" id="<?= $column ?>" value="<?= $value ?>" title="<?=$title ?? ''?>" placeholder="<?=$placeholder ?? '...'?>">
 </div>
