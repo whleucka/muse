@@ -12,12 +12,14 @@
 	overflow: auto;
 }
 
+
 /** Navbar */
 #navbar {
 	padding: 0;
 	background-color: #f0f2f5;
 	height: 40px;
 }
+
 
 /** Breadcrumbs */
 #breadcrumbs {
@@ -26,44 +28,46 @@
 
 
 /** Table */
- #table .table-responsive {
+#table .table-responsive {
 	border-radius: 6px;
 }
 
- #table .table {
+#table .table {
 	border: 1px solid #ccc;
 }
- #table thead a {
+#table thead a {
 	color: #fff !important;
 	text-decoration: none;
 }
- #table thead a.active {
+#table thead a.active {
 	color: lemonchiffon !important;
 }
 
- #table .table tbody tr:hover {
+#table .table tbody tr:hover {
 	background-color: #fff5eb;
 }
 
- #table .table thead th {
+#table .table thead th {
 	padding: 0;
 	border-bottom: 0;
 	color: #fff;
 	white-space: nowrap;
 }
 
- #table .table thead th,
- #table .table tbody td {
+#table .table thead th,
+#table .table tbody td {
 	white-space: nowrap;
 	font-size: 0.9rem;
 	padding: 6px;
 }
 
- #table .row-action button {
+#table .row-action button {
 	padding: 2px 4px;
 	font-size: 0.845rem
 }
 
+
+/** Pagination */
 #pagination .page-item.active .page-link {
 	background-color: #212529;
 	border-color: #ccc;
@@ -198,9 +202,8 @@
 	list-style-type: none;
 }
 
-/**
- * Flash
- */
+
+/** Flash */
 .flash.alert svg {
 	width: 18px;
 	height: 18px;
