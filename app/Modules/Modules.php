@@ -52,11 +52,15 @@ class Modules extends Module
             "path" => "input",
             "max_permission_level" => "select",
             "parent_module_id" => "select",
+            "item_order" => "number",
         ];
         $this->validation_rules = [
-            "title" => ["not_empty"],
+            "title" => ["required"],
             "path" => ["not_empty"],
-            "class_name" => ["not_empty"],
+            "class_name" => ["custom" => [
+                "method" => fn($column, $value) => class_exists($value),
+                "message" => "Class must exist",
+            ]],
             "sql_table" => ["not_empty"],
             "primary_key" => ["not_empty"],
             "item_order" => ["min|0", "required"],
@@ -64,8 +68,7 @@ class Modules extends Module
             "parent_module_id" => ["min|0"],
         ];
         $this->select_options = [
-            "max_permission_level" => db()
-                ->fetchAll("SELECT permission_level as value, name as label
+            "max_permission_level" => db()->fetchAll("SELECT permission_level as value, name as label
                 FROM user_types
                 ORDER BY permission_level,name"),
             "parent_module_id" => db()->fetchAll(

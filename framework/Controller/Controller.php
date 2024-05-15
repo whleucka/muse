@@ -96,6 +96,14 @@ class Controller
         return $request;
     }
 
+    private function ruleArg(mixed $rule): array
+    {
+        $raw = explode("|", $rule);
+        $rule = $raw[0];
+        $arg = isset($raw[1]) ? $raw[1] : "";
+        return [strtolower($rule), $arg];
+    }
+
     /**
      * Returns a validated request array
      * @param array $ruleset
@@ -103,50 +111,56 @@ class Controller
      */
     public function validateRequest(array $ruleset): bool|array
     {
-        $valid = true;
         $request = $this->getRequest();
         foreach ($ruleset as $field => $rules) {
+            $valid = true;
             $value = isset($request[$field]) ? $request[$field] : null;
             if ($value === "NULL") {
                 $value = null;
             }
             $is_required = in_array("required", $rules);
-            foreach ($rules as $rule) {
-                $raw = explode("|", $rule);
-                $rule = $raw[0];
-                $arg = isset($raw[1]) ? $raw[1] : "";
-                $rule = strtolower($rule);
-                if ((trim($value) === "" || is_null($value) || $value === "NULL") && !$is_required) {
-                    $valid &= true;
+            foreach ($rules as $idx => $rule) {
+                if ($idx === "custom" && is_array($rule)) {
+                    $method = $rule['method'] ?? false;
+                    $message = $rule['message'] ?? "*message not set*";
+                    $valid &= $method($field, $value);
+                    if (!$valid) {
+                        $this->addRequestError($field, null, $message);
+                    }
                 } else {
-                    $valid &= match ($rule) {
-                        "not_empty" => trim($value) !== '',
-                        "array" => is_array($value),
-                        "email" => filter_var($value, FILTER_VALIDATE_EMAIL) !==
-                            false,
-                        "match" => $value == $request[$arg],
-                        "max" => intval($value) <= intval($arg),
-                        "min" => intval($value) >= intval($arg),
-                        "maxlength" => strlen($value) <= intval($arg),
-                        "minlength" => strlen($value) >= intval($arg),
-                        "numeric" => is_numeric($value),
-                        "required" => trim($value) !== "" && $value !== "NULL",
-                        "string" => is_string($value),
-                        "unique" => !db()->fetch(
-                            "SELECT * FROM $arg WHERE $field = ?",
-                            $value
-                        ),
-                        "symbol" => preg_match("/[^\w\s]/", $value),
-                        default => false,
-                    };
+                    [$rule, $arg] = $this->ruleArg($rule);
+                    if ((trim($value) === "" || is_null($value) || $value === "NULL") && !$is_required) {
+                        $valid &= true;
+                    } else {
+                        $valid &= match ($rule) {
+                            "not_empty" => trim($value) !== '',
+                            "array" => is_array($value),
+                            "email" => filter_var($value, FILTER_VALIDATE_EMAIL) !==
+                                false,
+                            "match" => $value == $request[$arg],
+                            "max" => intval($value) <= intval($arg),
+                            "min" => intval($value) >= intval($arg),
+                            "maxlength" => strlen($value) <= intval($arg),
+                            "minlength" => strlen($value) >= intval($arg),
+                            "numeric" => is_numeric($value),
+                            "required" => trim($value) !== "" && $value !== "NULL",
+                            "string" => is_string($value),
+                            "unique" => !db()->fetch(
+                                "SELECT * FROM $arg WHERE $field = ?",
+                                $value
+                            ),
+                            "symbol" => preg_match("/[^\w\s]/", $value),
+                            default => false,
+                        };
+                    }
                 }
-                if (!$valid && isset($this->error_messages[$rule])) {
+                if (!$valid && is_string($rule) && isset($this->error_messages[$rule])) {
                     $message = $this->error_messages[$rule];
                     $this->addRequestError($field, $arg, $message);
                 }
             }
         }
-        return $valid ? $request : false;
+        return empty($this->request_errors) ? $request : false;
     }
 
     protected function replaceErrorTitle(string $field, string $message): string
@@ -154,14 +168,14 @@ class Controller
         return str_replace("{title}", ucfirst($field), $message);
     }
 
-    protected function replaceErrorArg(string $arg, string $message): string
+    protected function replaceErrorArg(?string $arg, string $message): string
     {
         return str_replace("{arg}", $arg, $message);
     }
 
     public function addRequestError(
         string $field,
-        string $arg,
+        ?string $arg,
         string $message
     ): void {
         $message = $this->replaceErrorTitle($field, $message);
