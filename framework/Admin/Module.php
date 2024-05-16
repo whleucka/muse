@@ -1312,7 +1312,10 @@ class Module
         $control = function (string $column, mixed $value) {
             return $this->control($column, $value);
         };
-        $old = fn(string $column, mixed $value) => $this->controller->request($column, $value);
+        $old = fn(string $column, mixed $value) => $this->controller->request(
+            $column,
+            $value
+        );
         return template("module/edit/index.php", [
             "id" => $id,
             "messages" => template("components/flash.php", [
@@ -1344,7 +1347,10 @@ class Module
         $control = function (string $column, mixed $value) {
             return $this->control($column, $value);
         };
-        $old = fn(string $column, mixed $value) => $this->controller->request($column, $value);
+        $old = fn(string $column, mixed $value) => $this->controller->request(
+            $column,
+            $value
+        );
         return template("module/create/index.php", [
             "messages" => template("components/flash.php", [
                 "flash" => Flash::get(),

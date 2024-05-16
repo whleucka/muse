@@ -203,10 +203,8 @@ class Controller
         return isset($this->request_errors[$field]);
     }
 
-    public function request(
-        ?string $key = null,
-        mixed $default = null
-    ): mixed {
+    public function request(?string $key = null, mixed $default = null): mixed
+    {
         if (is_null($key)) {
             return $this->request;
         }
