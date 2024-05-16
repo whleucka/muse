@@ -15,7 +15,9 @@
 </head>
 
 <body id="body">
-	<?php include "main.php" ?>
+	<main class="d-flex flex-column w-100 vh-100 p-2">
+		<?= $main ?>
+	</main>
 	<script src="/js/htmx.min.js"></script>
 	<script src="/js/bootstrap.bundle.min.js"></script>
 	<script src="/js/feather.min.js"></script>

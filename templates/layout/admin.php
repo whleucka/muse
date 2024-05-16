@@ -14,11 +14,23 @@
 	<?= $head ?? '' ?>
 </head>
 
-<body id="body" class="d-flex flex-column">
+<body id="body" class="d-flex flex-column bg-light">
 	<?= $navbar ?>
 	<section class="d-flex flex-grow-1">
 		<?= $sidebar ?>
-		<?php include "main_admin.php" ?>
+		<main class="d-flex flex-column flex-grow-1" id="view">
+			<section id="top" class="sticky-top bg-light">
+				<?= $breadcrumbs ?>
+				<section id="module-title" class="container-fluid">
+					<h3>
+						<?= $module_title ?>
+					</h3>
+				</section>
+			</section>
+			<section id="content" class="px-3 mt-2">
+				<?= $content ?>
+			</section>
+		</main>
 	</section>
 	<script src="/js/htmx.min.js"></script>
 	<script src="/js/bootstrap.bundle.min.js"></script>
