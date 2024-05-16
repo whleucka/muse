@@ -7,6 +7,18 @@ const handleCheck = (e) => {
 }
 
 (function() {
+	document.addEventListener("keydown", (e) => {
+		const filter = document.querySelector("#sidebar #filter");
+		if (e.ctrlKey) {
+			switch (e.which) {
+				// This is ctrl + / key
+				case 191:
+					filter.focus();
+					setTimeout(() => {filter.value = ''}, 0);
+					break;
+			}
+		}
+	})
 	/**-------------------------- NAVBAR CODE  ------------------------------*/
 	const menu = document.querySelector("#toggle-sidebar");
 	menu.addEventListener("click", (e) => {
