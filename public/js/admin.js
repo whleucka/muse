@@ -14,7 +14,6 @@ const handleCheck = (e) => {
 				// This is ctrl + / key
 				case 191:
 					filter.focus();
-					setTimeout(() => {filter.value = ''}, 0);
 					break;
 			}
 		}

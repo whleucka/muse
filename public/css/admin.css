@@ -168,7 +168,7 @@
 
 /** Sidebar */
 #sidebar {
-	width: 200px !important;
+	min-width: 200px !important;
 	max-width: 200px !important;
 	background-color: #f0f2f5;
 	border-right: 2px solid #ddd;
