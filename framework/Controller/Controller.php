@@ -203,7 +203,7 @@ class Controller
         return isset($this->request_errors[$field]);
     }
 
-    protected function request(
+    public function request(
         ?string $key = null,
         mixed $default = null
     ): mixed {

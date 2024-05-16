@@ -7,7 +7,7 @@
 			</div>
 			<div class="col-9 form-content d-flex align-items-center">
 				<div class="w-100">
-					<?= $control($datum->column, $datum->value, $datum->title) ?>
+					<?= $control($datum->column, $old($datum->column, $datum->value), $datum->title) ?>
 					<?= $request_errors($datum->column) ?>
 				</div>
 			</div>

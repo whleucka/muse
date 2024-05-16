@@ -59,7 +59,9 @@ class Modules extends Module
             "path" => ["not_empty"],
             "class_name" => [
                 "custom" => [
-                    "callback" => fn($column, $value) => class_exists($value),
+                    "callback" => fn($column, $value) => trim($value) !== ''
+                        ? class_exists($value)
+                        : true,
                     "message" => "Class must exist",
                 ],
             ],
