@@ -59,7 +59,7 @@ class Modules extends Module
             "path" => ["not_empty"],
             "class_name" => [
                 "custom" => [
-                    "method" => fn($column, $value) => class_exists($value),
+                    "callback" => fn($column, $value) => class_exists($value),
                     "message" => "Class must exist",
                 ],
             ],
@@ -70,10 +70,11 @@ class Modules extends Module
             "parent_module_id" => ["min|0"],
         ];
         $this->select_options = [
-            "max_permission_level" => db()
-                ->fetchAll("SELECT permission_level as value, name as label
+            "max_permission_level" => db()->fetchAll(
+                "SELECT permission_level as value, name as label
                 FROM user_types
-                ORDER BY permission_level,name"),
+                ORDER BY permission_level,name"
+            ),
             "parent_module_id" => db()->fetchAll(
                 "SELECT id as value, title as label
                 FROM modules

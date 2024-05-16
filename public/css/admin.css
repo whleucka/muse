@@ -268,3 +268,24 @@
 	border-left: 4px solid #4772ff;
 	fill: #4772ff;
 }
+
+/**
+ * Form
+ */
+.form-label {
+	color: #333;
+	max-width: 10rem;
+}
+
+.form-content {
+	max-width: 20rem;
+}
+
+/**
+ * Utility
+ */
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

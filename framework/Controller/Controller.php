@@ -96,7 +96,10 @@ class Controller
         return $request;
     }
 
-    private function ruleArg(mixed $rule): array
+    /**
+     * Returns a formatted rule and averment
+     */
+    private function getRuleArg(mixed $rule): array
     {
         $raw = explode("|", $rule);
         $rule = $raw[0];
@@ -112,23 +115,23 @@ class Controller
     public function validateRequest(array $ruleset): bool|array
     {
         $request = $this->getRequest();
-        foreach ($ruleset as $field => $rules) {
+        foreach ($ruleset as $column => $rules) {
             $valid = true;
-            $value = isset($request[$field]) ? $request[$field] : null;
+            $value = isset($request[$column]) ? $request[$column] : null;
             if ($value === "NULL") {
                 $value = null;
             }
             $is_required = in_array("required", $rules);
             foreach ($rules as $idx => $rule) {
                 if ($idx === "custom" && is_array($rule)) {
-                    $method = $rule["method"] ?? false;
+                    $method = $rule["callback"] ?? false;
                     $message = $rule["message"] ?? "*message not set*";
-                    $valid &= $method($field, $value);
+                    $valid &= $method($column, $value);
                     if (!$valid) {
-                        $this->addRequestError($field, null, $message);
+                        $this->addRequestError($column, null, $message);
                     }
                 } else {
-                    [$rule, $arg] = $this->ruleArg($rule);
+                    [$rule, $arg] = $this->getRuleArg($rule);
                     if (
                         (trim($value) === "" ||
                             is_null($value) ||
@@ -154,7 +157,7 @@ class Controller
                                 $value !== "NULL",
                             "string" => is_string($value),
                             "unique" => !db()->fetch(
-                                "SELECT * FROM $arg WHERE $field = ?",
+                                "SELECT * FROM $arg WHERE $column = ?",
                                 $value
                             ),
                             "symbol" => preg_match("/[^\w\s]/", $value),
@@ -168,7 +171,7 @@ class Controller
                     isset($this->error_messages[$rule])
                 ) {
                     $message = $this->error_messages[$rule];
-                    $this->addRequestError($field, $arg, $message);
+                    $this->addRequestError($column, $arg, $message);
                 }
             }
         }
