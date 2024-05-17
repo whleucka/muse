@@ -18,7 +18,7 @@
 	<?= $navbar ?>
 	<section class="d-flex flex-grow-1">
 		<?= $sidebar ?>
-		<main class="d-flex flex-column flex-grow-1" id="view">
+		<main class="d-flex flex-column flex-grow-1 bg-light" id="view">
 			<section id="top" class="sticky-top bg-light">
 				<?= $breadcrumbs ?>
 				<section id="module-title" class="container-fluid">

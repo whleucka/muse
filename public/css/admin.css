@@ -5,7 +5,7 @@
 
 #view {
 	border-top: 1px solid #ddd;
-	height: calc(100vh - 60px);
+	height: calc(100vh - 40px);
 	overflow: auto;
 }
 
