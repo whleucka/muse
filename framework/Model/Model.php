@@ -25,21 +25,33 @@ class Model
         }
     }
 
+    /**
+    * Get the model's primary key
+    */
     public function getKey(): string
     {
         return $this->key;
     }
 
+    /**
+    * Get the model's table name
+    */
     public function getTableName(): string
     {
         return $this->table_name;
     }
 
+    /**
+    * Get the model's parameters
+    */
     public function getParameters(): array
     {
         return $this->parameters;
     }
 
+    /**
+    * Load the model
+    */
     public function load(mixed $key): bool
     {
         $sql = $this->selectQuery(
@@ -54,11 +66,41 @@ class Model
         return !empty($this->parameters);
     }
 
-    public function refresh(): void
+    /**
+    * Model hydration
+    */
+    public function hydrate()
     {
         $this->load($this->getKey());
     }
 
+    /**
+    * Model hydration (alias)
+    */
+    public function refresh(): void
+    {
+        $this->hydrate();
+    }
+
+    /**
+    * Get all models from db
+    */
+    public static function all()
+    {
+        $class = get_called_class();
+        $model = new $class();
+        $sql = $model->selectAllQuery(
+            $model->getTableName(),
+            $model->columns,
+        );
+        $results = db()->fetchAll($sql);
+        $key_column = $model->key_column;
+        return array_map(fn($result) => $model->find($result->$key_column), $results);
+    }
+
+    /**
+    * Find a model from the db by primary key
+    */
     public static function find(mixed $key)
     {
         $class = get_called_class();
@@ -70,6 +112,9 @@ class Model
         }
     }
 
+    /**
+    * Find a model from the db by attribute
+    */
     public static function findByAttribute(string $attribute, mixed $key)
     {
         $class = get_called_class();
@@ -86,6 +131,9 @@ class Model
         }
     }
 
+    /**
+    * Create a new model
+    */
     public static function new(array $data): Model
     {
         $class = get_called_class();
@@ -100,6 +148,9 @@ class Model
         }
     }
 
+    /**
+    * Save model to db
+    */
     public function save(): bool
     {
         $sql = $this->updateQuery(
@@ -110,12 +161,15 @@ class Model
         $data = [...$this->getParameters(), $this->getKey()];
         $result = db()->query($sql, ...array_values($data));
         if ($result) {
-            $this->refresh();
+            $this->hydrate();
             return true;
         }
         return false;
     }
 
+    /**
+    * Delete model from db
+    */
     public function delete(): bool
     {
         $sql = $this->deleteQuery($this->getTableName(), $this->key_column);
@@ -123,7 +177,10 @@ class Model
         return $result ? true : false;
     }
 
-    public function selectQuery(
+    /**
+    * Get the select query
+    */
+    private function selectQuery(
         string $table_name,
         array $data,
         string $key_column
@@ -138,7 +195,10 @@ class Model
         return $sql;
     }
 
-    public function updateQuery(
+    /**
+    * Get the update query
+    */
+    private function updateQuery(
         string $table_name,
         array $data,
         string $key_column
@@ -154,7 +214,10 @@ class Model
         return $sql;
     }
 
-    public function insertQuery(string $table_name, array $data): string
+    /**
+    * Get the insert query
+    */
+    private function insertQuery(string $table_name, array $data): string
     {
         $columns = implode(", ", array_keys($data));
         $values = implode(", ", array_fill(0, count($data), "?"));
@@ -167,7 +230,10 @@ class Model
         return $sql;
     }
 
-    public function deleteQuery(string $table_name, string $key_column): string
+    /**
+    * Get the delete query
+    */
+    private function deleteQuery(string $table_name, string $key_column): string
     {
         $sql = sprintf(
             "DELETE FROM `%s` WHERE %s = ?",
