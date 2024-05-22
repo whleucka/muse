@@ -47,7 +47,7 @@ class Modules extends Module
             "Parent Module ID" => "parent_module_id",
         ];
         $this->form_controls = [
-            "enabled" => "checkbox",
+            "enabled" => "switch",
             "title" => "input",
             "path" => "input",
             "max_permission_level" => "select",
@@ -80,7 +80,7 @@ class Modules extends Module
             "parent_module_id" => db()->fetchAll(
                 "SELECT id as value, title as label
                 FROM modules
-                WHERE parent_module_id IS NULL AND id != ?
+                WHERE id != ?
                 ORDER BY title",
                 $this->id ?? "NULL"
             ),

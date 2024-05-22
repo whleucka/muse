@@ -832,6 +832,17 @@ class Module
         ]);
     }
 
+    protected function controlSwitch(string $column, mixed $value)
+    {
+        return template("control/checkbox.php", [
+            "checked" => intval($value) === 1 ? "checked" : "",
+            "class" => "form-switch",
+            "column" => $column,
+            "value" => $value,
+            "title" => $this->getColumnTitle($column),
+        ]);
+    }
+
     /**
      * Select (dropdown) control
      */

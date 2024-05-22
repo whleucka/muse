@@ -3,13 +3,12 @@ const handleCheck = (e) => {
 	const self = e.currentTarget;
 	const hidden = self.previousElementSibling;
 	hidden.value = self.checked ? 1 : 0;
-	console.log(hidden);
 }
 
 (function() {
 	document.addEventListener("keydown", (e) => {
 		const filter = document.querySelector("#sidebar #filter");
-		if (e.ctrlKey) {
+		if (filter !== null && e.ctrlKey) {
 			switch (e.which) {
 				// This is ctrl + / key
 				case 191:
@@ -20,14 +19,16 @@ const handleCheck = (e) => {
 	})
 	/**-------------------------- NAVBAR CODE  ------------------------------*/
 	const menu = document.querySelector("#toggle-sidebar");
-	menu.addEventListener("click", (e) => {
-		const sidebar = document.querySelector("#sidebar");
-		if (sidebar.classList.contains("d-none")) {
-			sidebar.classList.remove("d-none");
-		} else {
-			sidebar.classList.add("d-none");
-		}
-	})
+	if (menu !== null) {
+		menu.addEventListener("click", (e) => {
+			const sidebar = document.querySelector("#sidebar");
+			if (sidebar.classList.contains("d-none")) {
+				sidebar.classList.remove("d-none");
+			} else {
+				sidebar.classList.add("d-none");
+			}
+		})
+	}
 
 	/**-------------------------- SIDEBAR CODE ------------------------------*/
 
