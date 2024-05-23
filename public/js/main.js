@@ -36,24 +36,3 @@ const postData = async (endpoint, data) => {
 	});
 	return response.json();
 }
-
-const toggleDarkMode = (e) => {
-	const checked = e.currentTarget.checked;
-	if (checked) {
-		darkModeOn();
-		return;
-	}
-	darkModeOff();
-}
-
-const darkModeOn = () => {
-	const tag = document.querySelector("#dark-mode");
-	tag.href = "/css/dark.css";
-}
-// default dark mode on
-darkModeOn();
-
-const darkModeOff = () => {
-	const tag = document.querySelector("#dark-mode");
-	tag.href = "#";
-}

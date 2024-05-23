@@ -14,6 +14,7 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/ico/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/ico/favicon-16x16.png">
 	<link rel="manifest" href="/ico/site.webmanifest">
+	<script src="/js/theme.js?<?=time()?>" defer></script>
 	<?= $head ?? '' ?>
 </head>
 
