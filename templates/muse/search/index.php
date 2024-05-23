@@ -6,7 +6,7 @@
 			</div>
 		</span>
 	</h3>
-	<div id="search-input" class="mt-4">
+	<div id="search-input" class="mt-1">
 		<form onkeydown="return event.key != 'Enter';">
 			<?=$csrf()?>
 			<input id="input"
