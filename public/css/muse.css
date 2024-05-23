@@ -38,7 +38,7 @@ button:focus { outline: none !important; box-shadow: none !important; }
 }
 
 .bg-app {
-    background-color: #fff;
+	background-color: #fff;
 }
 
 .btn-app {
@@ -53,7 +53,7 @@ button:focus { outline: none !important; box-shadow: none !important; }
 }
 
 .smooth {
-  transition: all 1s ease-in;
+	transition: all 1s ease-in;
 }
 
 #navbar {
@@ -141,16 +141,15 @@ button:focus { outline: none !important; box-shadow: none !important; }
 
 #top-progress .progress {
 	border-bottom: 1px solid #ddd;
-    background-color: #eee;
-    height: 8px;
+	background-color: #eee;
+	height: 8px;
 	border-radius: 0;
 }
 
 #top-progress #player-progress {
-	background: #ff00cc;  /* fallback for old browsers */
-	background: -webkit-linear-gradient(to right, #333399, #ff00cc);  /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to right, #333399, #ff00cc); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+	background: #f12711;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #f5af19, #f12711);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #f5af19, #f12711); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 #top-progress #player-progress.disabled {
@@ -162,9 +161,9 @@ button:focus { outline: none !important; box-shadow: none !important; }
 }
 
 .truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .radio-row .cover {
