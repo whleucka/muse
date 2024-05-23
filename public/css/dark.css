@@ -32,10 +32,16 @@ main,
 h1, h2, h3, h4, h5 {
 	color: rgba(255,255,255,0.8) !important;
 }
-.track-row {
+.track-row, .radio-row .station-name {
+	color: rgba(255,255,255,0.6) !important;
+	opacity: 0.9;
+}
+.radio-row .location {
+	color: rgba(255,255,255,0.8) !important;
 	opacity: 0.6;
 }
 .track-row.active {
+	color: rgba(255,255,255,1);
 	opacity: 1;
 }
 
