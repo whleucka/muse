@@ -2,6 +2,7 @@ let hls = new Hls();
 
 const radioPlay = async (event) => {
 	if (!loading) {
+		showSpinner("#radio");
 		loading = true;
 		await playRadio(event.currentTarget.dataset);
 		loading = false;

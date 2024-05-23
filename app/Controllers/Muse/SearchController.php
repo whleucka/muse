@@ -59,4 +59,12 @@ class SearchController extends Controller
 		}
 		return null;
 	}
+
+	#[Post("/music/reset", "search.music.reset")]
+	public function reset()
+	{
+		session()->delete("search_term");
+		return $this->index();
+	}
+
 }

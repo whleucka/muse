@@ -179,21 +179,42 @@ class Adapter extends CLI
         exit();
     }
 
+    private function removeOrphans(): int
+    {
+        $tracks = Track::all();
+        $removed = 0;
+        foreach ($tracks as $track) {
+            if (!file_exists($track->name)) {
+                $removed++;
+                $track->delete();
+            }
+        }
+        return $removed;
+    }
+
+    private function scanNew(array $files)
+    {
+        $new = 0;
+        foreach ($files as $file) {
+            $exists = Track::findByAttribute("name", $file);
+            if (!$exists) {
+                $new++;
+                Track::new(["name" => $file]);
+            }
+        }
+        return $new;
+    }
+
     private function synchronize(array $files): void
     {
         $this->info(" Now scanning music directory...");
         sleep(1);
         $file_count = count($files);
-        $new = 0;
-        foreach ($files as $file) {
-            $exists = db()->fetch("SELECT * FROM tracks WHERE name = ?", $file);
-            if (!$exists) {
-                Track::new(["name" => $file]);
-                $new++;
-            }
-        }
+        $new = $this->scanNew($files);
+        $removed = $this->removeOrphans();
         $this->info(" File count: $file_count");
         $this->info(" New files: $new");
+        $this->info(" Removed orphans: $removed");
         $this->success(" Scan complete.");
     }
 
@@ -201,16 +222,16 @@ class Adapter extends CLI
     {
         $this->info(" Updating track metadata...");
         sleep(1);
-        $tracks = db()->run("SELECT id FROM tracks")->fetchAll(PDO::FETCH_COLUMN);
+        $tracks = db()->run("SELECT id FROM tracks WHERE NOT EXISTS (SELECT * FROM track_meta WHERE track_id = tracks.id)")->fetchAll(PDO::FETCH_COLUMN);
         foreach ($tracks as $id) {
             $track = new Track($id);
             $tags = $track->analyze();
-            $comments = $tags["comments_html"];
+            $comments = $tags["comments_html"] ?? [];
             TrackMeta::new([
                 "track_id" => $track->id,
                 "cover" => $track->cover(),
-                "filesize" => intval($tags["filesize"]),
-                "bitrate" => intval($tags["bitrate"]),
+                "filesize" => intval($tags["filesize"] ?? 0),
+                "bitrate" => intval($tags["bitrate"] ?? 0),
                 "mime_type" => $tags["mime_type"] ?? "unknown",
                 "playtime_string" => $tags["playtime_string"] ?? "0:00",
                 "playtime_seconds" => round($tags["playtime_seconds"] ?? 0),

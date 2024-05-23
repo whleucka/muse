@@ -90,7 +90,7 @@ class Track extends Model
 
     public static function search(string $term): ?array
     {
-        if (strlen($term) < 3) return [];
+        if (strlen($term) < 2) return [];
         $results = db()->fetchAll("SELECT tracks.uuid, track_meta.*
 			FROM tracks
 			INNER JOIN track_meta ON track_meta.track_id = tracks.id
@@ -99,8 +99,17 @@ class Track extends Model
 			album LIKE ? OR
             genre LIKE ? OR
             tracks.name LIKE ?
-			ORDER BY artist,album,track_number", ...array_fill(0, 5, "%" . htmlspecialchars($term) . "%"));
+			ORDER BY album,track_number", ...array_fill(0, 5, "%" . htmlspecialchars($term) . "%"));
         return $results ?? [];
+    }
+
+    public static function random(): ?array
+    {
+        return db()->fetchAll("SELECT DISTINCT tracks.uuid, track_meta.*
+			FROM tracks
+			INNER JOIN track_meta ON track_meta.track_id = tracks.id
+            ORDER BY RAND(),album,track_number
+            LIMIT 200");
     }
 
     public function transcode()

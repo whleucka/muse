@@ -1,5 +1,6 @@
 const trackRowPlay = async (event) => {
 	if (!loading) {
+		showSpinner("#search");
 		loading = true;
 		await playTrack(event.currentTarget.dataset);
 		loading = false;

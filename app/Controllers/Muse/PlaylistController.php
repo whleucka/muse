@@ -17,6 +17,17 @@ class PlaylistController extends Controller
 		return $this->render("layout/base.php", ["main" => $content]);
 	}
 
+	#[Get("/random", "playlist.random")]
+	public function random(): string
+	{
+		$tracks = Track::random();
+		if ($tracks) {
+			session()->set("playlist_tracks", $tracks);
+			session()->set("playlist_index", 0);
+		}
+		return $this->index();
+	}
+
 	#[Get("/load", "playlist.load")]
 	public function load(): string
 	{

@@ -22,6 +22,18 @@ let shuffleOn = true;
 let repeatOn = true;
 let loading = false;
 
+const showSpinner = (el = '') => {
+	const spinner = document.querySelector(`${el} .htmx-indicator`);
+	spinner.style.display = "block";
+	spinner.style.opacity = 1.0;
+}
+
+const hideSpinner = (el = '') => {
+	const spinner = document.querySelector(`${el} .htmx-indicator`);
+	spinner.style.display = "none";
+	spinner.style.opacity = 0.0;
+}
+
 const updatePlayPause = () => {
 	if (audio.src === "") return;
 	// Update play/pause icon
@@ -217,6 +229,7 @@ const updatePositionState = () => {
 
 audio.addEventListener("play", function() {
 	navigator.mediaSession.playbackState = 'playing';
+	hideSpinner();
 });
 
 audio.addEventListener('pause', function() {

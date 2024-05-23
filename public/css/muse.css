@@ -13,8 +13,17 @@ main {
 	height: 100vh;
 }
 
+.bg-darkness {
+	background-color: #222;
+}
+
+main .sticky-top {
+	top: -10px;
+}
+
 #main {
 	overflow: auto;
+	padding-top: 10px;
 }
 
 #main > section {
@@ -115,10 +124,15 @@ button:focus { outline: none !important; box-shadow: none !important; }
 	fill: #00a30e;
 }
 
+#top-progress {
+	margin-bottom: 5px;
+}
+
 #top-progress .progress {
 	border-bottom: 1px solid #ddd;
     background-color: #eee;
-    height: 5px;
+    height: 8px;
+	border-radius: 0;
 }
 
 #top-progress #player-progress {

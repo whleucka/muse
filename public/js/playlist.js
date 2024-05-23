@@ -1,5 +1,6 @@
 const playlistRowPlay = async (event) => {
 	if (!loading) {
+		showSpinner("#playlist");
 		loading = true;
 		await playPlaylist(event.currentTarget.dataset);
 		loading = false;

@@ -67,6 +67,19 @@ class Model
         }
     }
 
+    public static function all()
+    {
+        $class = get_called_class();
+        $model = new $class();
+        $sql = $model->selectAllQuery(
+            $model->getTableName(),
+            $model->columns,
+        );
+        $results = db()->fetchAll($sql);
+        $key_column = $model->key_column;
+        return array_map(fn($result) => $model->find($result->$key_column), $results);
+    }
+
     public static function findByAttribute(string $attribute, mixed $key)
     {
         $class = get_called_class();
@@ -118,6 +131,17 @@ class Model
         $sql = $this->deleteQuery($this->getTableName(), $this->key_column);
         $result = db()->query($sql, $this->getKey());
         return $result ? true : false;
+    }
+
+    public function selectAllQuery(string $table_name, array $data)
+    {
+        $columns = implode(", ", array_values($data));
+        $sql = sprintf(
+            "SELECT %s FROM %s",
+            $columns,
+            $table_name,
+        );
+        return $sql;
     }
 
     public function selectQuery(

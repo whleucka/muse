@@ -14,7 +14,7 @@
 				hx-trigger="load, input changed delay:500ms, search"
 				hx-sync="closest form:abort"
 				hx-target="#results"
-				hx-indicator=".htmx-indicator"
+				hx-indicator="#search .htmx-indicator"
 				class="form-control"
 				type="search"
 				name="term"
