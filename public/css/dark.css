@@ -17,25 +17,22 @@ html {
 ::-webkit-scrollbar-corner { background-color: #646464;}}
 ::-webkit-resizer { background-color: #666;}
 
+
 main,
 .navbar-toggler-icon,
-.radio-row .station-name,
-.radio-row .location,
 .navbar-nav .nav-link
 {
-	color: rgba(255,255,255,0.5) !important;
+	color: rgba(255,255,255,0.5);
 }
 
 h1, h2, h3, h4, h5 {
 	color: rgba(255,255,255,0.8) !important;
 }
-
 .track-row {
-	color: rgba(255,255,255,0.8) !important;
+	opacity: 0.6;
 }
-
 .track-row.active {
-	color: rgba(255,255,255,0.9) !important;
+	opacity: 1;
 }
 
 html, main, #navbar, #top-progress .progress {
@@ -43,7 +40,7 @@ html, main, #navbar, #top-progress .progress {
 }
 
 input {
-	color: #fff !important;
+	color: rgba(255,255,255,0.6) !important;
 	background-color: #222 !important;
 	border-color: #555 !important;
 }
@@ -79,11 +76,4 @@ input {
 
 #top-progress #preload-progress {
 	background-color: #444;
-}
-
-@media (max-width: 575.98px) {
-	.track-row {
-		opacity: 0.9;
-	}
-
 }

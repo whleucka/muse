@@ -1,8 +1,11 @@
 const podcastPlay = async (event) => {
 	if (!loading) {
+		showSpinner("#podcasts");
 		loading = true;
 		await playPodcast(event.currentTarget.dataset);
 		loading = false;
+		clearTrackRows();
+		event.currentTarget.classList.add('active');
 	}
 }
 

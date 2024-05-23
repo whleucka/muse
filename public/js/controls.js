@@ -181,12 +181,16 @@ const repeat = async () => {
 	repeatBtn.disabled = false;
 }
 
+const clearTrackRows = () => {
+	const rows = document.querySelectorAll(".track-row");
+	rows.forEach((el) => {
+		el.classList.remove("active");
+	});
+}
+
 const updateTrackRow = () => {
 	if (document.getElementById(currentTrack.uuid)) {
-		const rows = document.querySelectorAll(".track-row");
-		rows.forEach((el) => {
-			el.classList.remove("active");
-		});
+		clearTrackRows();
 		document.getElementById(currentTrack.uuid).focus();
 		document.getElementById(currentTrack.uuid).classList.add("active");
 	}
