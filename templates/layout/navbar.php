@@ -19,6 +19,9 @@
         <li class="nav-item" data-link="podcast">
           <a class="nav-link text-secondary" href="#" hx-get="/podcast" hx-target="#main" hx-select="#main" hx-swap="outerHTML"><span data-feather="mic" class="me-2" width="16px"></span> Podcasts</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-secondary" href="#"><div class="form-check form-switch"><input onclick="toggleDarkMode(event)" class="form-check-input" type="checkbox" id="dark-mode-switch" checked> <span data-feather="moon" width="16px"></span></div></a>
+        </li>
       </ul>
     </div>
   </div>
