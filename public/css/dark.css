@@ -9,7 +9,7 @@ html {
 	scrollbar-dark-shadow-color: #646464;
 }
 
-.bg-darkness {
+.bg-app {
 	background-color: #222;
 }
 
@@ -21,6 +21,16 @@ html {
 ::-webkit-scrollbar-corner { background-color: #646464;}}
 ::-webkit-resizer { background-color: #666;}
 
+.btn-app {
+	background: #333;
+	color: rgba(255,255,255,0.8);
+	border: 0;
+	opacity: 0.8;
+}
+.btn-app:hover {
+	color: #fff;
+	opacity: 1;
+}
 
 main,
 .navbar-toggler-icon,

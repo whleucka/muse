@@ -13,10 +13,6 @@ main {
 	height: 100vh;
 }
 
-.bg-darkness {
-    background-color: #fff;
-}
-
 main .sticky-top {
 	top: -12px;
 }
@@ -39,6 +35,21 @@ button:focus { outline: none !important; box-shadow: none !important; }
 #main h5 {
 	font-family: "Russo One", sans-serif;
 	color: #444;
+}
+
+.bg-app {
+    background-color: #fff;
+}
+
+.btn-app {
+	background: gainsboro;
+	color: #555;
+	border: 0;
+	opacity: 0.8;
+}
+.btn-app:hover {
+	opacity: 1;
+	color: #222;
 }
 
 .smooth {
@@ -136,7 +147,10 @@ button:focus { outline: none !important; box-shadow: none !important; }
 }
 
 #top-progress #player-progress {
-	background: #ff0000;
+	background: #ff00cc;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #333399, #ff00cc);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #333399, #ff00cc); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 
 #top-progress #player-progress.disabled {

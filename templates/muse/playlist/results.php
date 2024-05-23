@@ -1,7 +1,7 @@
-<div class="table-responsive sticky-top bg-darkness">
+<div class="table-responsive sticky-top bg-app">
 	<div class="my-2 d-flex">
 		<?php if ($tracks): ?>
-		<button class="btn btn-sm btn-primary me-2"
+		<button class="btn btn-sm btn-app me-2"
 			hx-get="/playlist/clear"
 			hx-target="#main"
 			hx-select="#main"
@@ -9,7 +9,7 @@
 			hx-indicator="#playlist .htmx-indicator"
 			>Reset</button>
 		<?php endif ?>
-		<button class="btn btn-sm btn-primary"
+		<button class="btn btn-sm btn-app"
 			hx-get="/playlist/random"
 			hx-target="#main"
 			hx-select="#main"
