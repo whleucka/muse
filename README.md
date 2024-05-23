@@ -10,11 +10,9 @@ Muse is a web application inspired by Plex, built with **htmx** and **PHP** for 
 <em>Please note: this project is a work in progress 👷</em>
 </div>
 
-Stack
-- OS: <ins>L</ins>inux
-- Web server: <ins>N</ins>ginX
+PMx Stack
+- Server: <ins>P</ins>HP (Nebula Framework)
 - DB: <ins>M</ins>ySQL
-- Backend: <ins>P</ins>HP (Nebula Framework)
 - Frontend: htm<ins>x</ins>
 
 ### Features
@@ -23,6 +21,7 @@ Stack
 - Web-Based Music Player: Access and play your entire music library from anywhere in the world through a user-friendly web interface.
 - Built with htmx & PHP: Leverages the power of htmx for a responsive and dynamic user experience, with a robust PHP backend powered by your custom Nebula framework.
 - Podcasts with ListenNote: Explore a world of podcasts using the ListenNote integration. Discover new shows, subscribe, and listen seamlessly.
+- Light/Dark Theme: Personalize your experience with light and dark theme options. Switch between themes effortlessly to match your environment and reduce eye strain during extended listening sessions.
 
 ### Future Features
 - Custom User Playlists: Create and curate your own playlists. Organize your music by mood, genre, or any other criteria you like.
