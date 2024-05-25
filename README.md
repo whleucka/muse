@@ -4,10 +4,10 @@ Muse is a web application inspired by Plex, built with **htmx** and **PHP** for 
 
 
 <div align="center">
-    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/08582494-1caa-40d9-b5b5-e3c0f12449d9" width="200" style="margin-right: 5px;" />
-    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/4f81cac4-a319-4416-b2d4-9aa577f6b5d5" width="200" style="margin-right: 5px;" /><br>
-    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/95dc35f9-0f0b-4ffb-9172-7b4550248ec6" width="200" style="margin-right: 5px;" />
-    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/48cb3da3-0b9c-407a-afe5-255dcb0d723f" width="200" style="margin-right: 5px;" /><br>
+    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/08582494-1caa-40d9-b5b5-e3c0f12449d9" width="140" style="margin-right: 5px;" />
+    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/4f81cac4-a319-4416-b2d4-9aa577f6b5d5" width="140" style="margin-right: 5px;" /><br>
+    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/95dc35f9-0f0b-4ffb-9172-7b4550248ec6" width="140" style="margin-right: 5px;" />
+    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/48cb3da3-0b9c-407a-afe5-255dcb0d723f" width="140" style="margin-right: 5px;" /><br>
     <em>Note: this project is a work in progress 👷</em>
 </div>
 
