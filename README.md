@@ -3,11 +3,11 @@
 Muse is a web application inspired by Plex, built with **htmx** and **PHP** for a seamless user experience. The magic happens under the hood with **Nebula**, a custom framework designed specifically for crafting rich web applications using **htmx**.
 
 <div align="center">
-    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/0d907ae9-a400-4fdc-8949-e33f4547f85a" width="400" style="margin-right: 5px;" />
-    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/ccdb830c-d71d-48db-a318-b1eb0ee4d176" width="400" style="margin-right: 5px;" />
-    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/7a00b24c-f9b6-4407-9ba2-3549142e76aa" width="400" style="margin-right: 5px;" />
-    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/7a50c52c-9efa-4b46-921d-fac11e291a5e" width="400" /><br>
-<em>Please note: this project is a work in progress 👷</em>
+    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/ec1b1888-67fc-4d03-99ce-0957d0657eab" width="400" style="margin-right: 5px;" />
+    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/e5a82d4a-4494-481c-9caf-6ccae9b3a813" width="400" style="margin-right: 5px;" /><br>
+    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/95dc35f9-0f0b-4ffb-9172-7b4550248ec6" width="400" style="margin-right: 5px;" />
+    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/48cb3da3-0b9c-407a-afe5-255dcb0d723f" width="400" style="margin-right: 5px;" /><br>
+    <em>Note: this project is a work in progress 👷</em>
 </div>
 
 PMx Stack
