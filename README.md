@@ -11,7 +11,7 @@ Muse is a web application inspired by Plex, built with **htmx** and **PHP** for 
     <em>Note: this project is a work in progress 👷</em>
 </div>
 
-PMx Stack
+### Stack
 - Server: <ins>P</ins>HP (Nebula Framework)
 - DB: <ins>M</ins>ySQL
 - Frontend: htm<ins>x</ins>
@@ -64,7 +64,7 @@ PMx Stack
         ./bin/console music-scan /path/to/music
         ```
 
-    - Access your music library & HD radio through the web interface!
+    - Access your music library, podcasts, or HD radio through the web interface!
 
 ### Contribute
 
