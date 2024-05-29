@@ -63,8 +63,6 @@ button:focus { outline: none !important; box-shadow: none !important; }
 
 #navbar #top-nav {
 	font-size: 0.9rem;
-	background: #fff;
-	z-index: 10000;
 }
 
 #navbar .navbar-brand {
@@ -137,7 +135,7 @@ button:focus { outline: none !important; box-shadow: none !important; }
 }
 
 #top-progress {
-	margin: 10px 0;
+	margin-bottom: 5px;
 }
 
 #top-progress .progress {

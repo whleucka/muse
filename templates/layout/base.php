@@ -17,7 +17,6 @@
 	<script src="/js/theme.js?<?=time()?>" defer></script>
 	<link href="/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/css/main.css" rel="stylesheet">
-	<link href="/css/admin.css" rel="stylesheet">
 	<?= $head ?? '' ?>
 </head>
 
