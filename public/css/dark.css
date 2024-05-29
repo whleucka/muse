@@ -22,8 +22,8 @@ html {
 ::-webkit-resizer { background-color: #666;}
 
 .btn-app {
-	background: #333;
-	color: rgba(255,255,255,0.8);
+	background: #333 !important;
+	color: rgba(255,255,255,0.8) !important;
 	border: 0;
 	opacity: 0.8;
 }
@@ -43,6 +43,13 @@ main,
 .navbar-nav .nav-link
 {
 	color: rgba(255,255,255,0.5);
+}
+
+#navbar #top-nav {
+	background: #222 !important;
+}
+#navbar .nav-link:hover {
+	color: rgba(255,255,255,0.8) !important;
 }
 
 h1, h2, h3, h4, h5 {

@@ -42,7 +42,7 @@ button:focus { outline: none !important; box-shadow: none !important; }
 }
 
 .btn-app {
-	background: gainsboro;
+	background: gainsboro !important;
 	color: #555;
 	border: 0;
 	opacity: 0.8;
@@ -59,11 +59,12 @@ button:focus { outline: none !important; box-shadow: none !important; }
 #navbar {
 	margin: 0;
 	padding: 5px;
-	border-bottom: 1px solid #ddd;
 }
 
 #navbar #top-nav {
 	font-size: 0.9rem;
+	background: #fff;
+	z-index: 10000;
 }
 
 #navbar .navbar-brand {
@@ -74,7 +75,7 @@ button:focus { outline: none !important; box-shadow: none !important; }
 }
 
 #navbar .nav-item {
-	margin-right: 10px;
+	margin: 0 10px;
 }
 
 #navbar .nav-item.active {
@@ -136,7 +137,7 @@ button:focus { outline: none !important; box-shadow: none !important; }
 }
 
 #top-progress {
-	margin-bottom: 5px;
+	margin: 10px 0;
 }
 
 #top-progress .progress {
