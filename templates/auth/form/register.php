@@ -19,7 +19,7 @@
 	<div>
 		<label>Password (again)</label><br>
 		<input class="form-control" name="password_match" type="password" value="" />
-		<?= $request_errors("password_match", "Password") ?>
+		<?= $request_errors("password_match") ?>
 	</div>
 	<div class="mt-2">
 		<p><a hx-boost="true" href="/sign-in" hx-select="main" hx-target="main">Already have an account?</a></p>

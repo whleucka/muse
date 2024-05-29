@@ -1,0 +1,1 @@
+<span title="<?= $title ?? '' ?>" id="<?=$column?>"><?=$value?></span>

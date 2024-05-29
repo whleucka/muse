@@ -32,7 +32,7 @@ class Application
         return $this->kernel->router();
     }
 
-    protected function initDatabase(): ?DB
+    private function initDatabase(): ?DB
     {
         $config = config("database");
         if (!$config["enabled"]) {

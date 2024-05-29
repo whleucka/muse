@@ -91,17 +91,37 @@ class Kernel extends SystemKernel implements NebulaInterface
                 }
                 return new Response($content, 200, $headers);
             } catch (Exception $ex) {
-                throw new Exception($ex);
-                //return new Response($ex->getMessage(), 500);
+                error_log(
+                    print_r(
+                        [
+                            "type" => "Exception",
+                            "message" => $ex->getMessage(),
+                            "file" => $ex->getFile() . ":" . $ex->getLine(),
+                        ],
+                        true
+                    )
+                );
+                header("Location: /server-error", response_code: 500);
+                exit();
             } catch (Error $err) {
-                throw new Error($err);
-                //return new Response($err->getMessage(), 500);
+                error_log(
+                    print_r(
+                        [
+                            "type" => "Error",
+                            "message" => $err->getMessage(),
+                            "file" => $err->getFile() . ":" . $err->getLine(),
+                        ],
+                        true
+                    )
+                );
+                header("Location: /server-error", response_code: 500);
+                exit();
             }
         } else {
-            return new Response("Page not found", 404);
+            header("Location: /page-not-found", response_code: 302);
+            exit();
         }
     }
-
 
     /**
      * Get framework middleware class

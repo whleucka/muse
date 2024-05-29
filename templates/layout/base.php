@@ -15,6 +15,9 @@
 	<link rel="icon" type="image/png" sizes="16x16" href="/ico/favicon-16x16.png">
 	<link rel="manifest" href="/ico/site.webmanifest">
 	<script src="/js/theme.js?<?=time()?>" defer></script>
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/main.css" rel="stylesheet">
+	<link href="/css/admin.css" rel="stylesheet">
 	<?= $head ?? '' ?>
 </head>
 

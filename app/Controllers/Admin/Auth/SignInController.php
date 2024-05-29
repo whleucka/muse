@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Auth;
+namespace App\Controllers\Admin\Auth;
 
 use Nebula\Framework\Auth\Auth;
 use Nebula\Framework\Controller\Controller;
@@ -10,8 +10,8 @@ class SignInController extends Controller
 {
     protected function bootstrap(): void
     {
-        if (Auth::user()) {
-            Auth::redirectHome();
+        if (user()) {
+            Auth::redirectProfile();
         }
     }
 
@@ -35,14 +35,13 @@ class SignInController extends Controller
     public function post(): string
     {
         $data = $this->validateRequest([
-            "remember_me" => [],
             "email" => ["required", "email"],
             "password" => ["required"],
         ]);
         if ($data) {
             $user = Auth::userAuth($data);
             if ($user) {
-                Auth::signIn($user, intval($data["remember_me"]) === 1);
+                Auth::signIn($user, intval($data["remember_me"] ?? 0) === 1);
             } else {
                 $this->request_errors["password"][] =
                     "bad email and/or password";
