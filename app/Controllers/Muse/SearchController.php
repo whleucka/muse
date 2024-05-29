@@ -3,6 +3,7 @@
 namespace App\Controllers\Muse;
 
 use App\Models\Track;
+use Error;
 use Nebula\Framework\Controller\Controller;
 use StellarRouter\{Get, Group, Post};
 use ListenNotes\PodcastApi\Client;
@@ -45,16 +46,27 @@ class SearchController extends Controller
 		]);
 		if (isset($data["term"])) {
 			$key = config("muse.podcast_key");
-			$client = new Client($key);
-			$res = $client->search([
-				"q" => $data["term"],
-				"type" => "episode",
-				"sort_by_date" => 1,
-				"language" => "English",
-			]);
-			$results = json_decode($res);
-			if ($results) {
-				return template("muse/podcast/results.php", ["results" => $results]);
+			try {
+				$client = new Client($key);
+				$res = $client->search([
+					"q" => $data["term"],
+					"type" => "episode",
+					"sort_by_date" => 1,
+					"language" => "English",
+				]);
+				$results = json_decode($res);
+				error_log(print_r($results, true));
+				if ($results) {
+					return template("muse/podcast/results.php", ["results" => $results]);
+				}
+			} catch (Error $ex) {
+				error_log("listennotes error");
+				error_log(print_r([
+					"term" => $data["term"],
+					"message" => $ex->getMessage(),
+					"file" => $ex->getFile() . ':' . $ex->getLine(),
+				], true));
+				return "listennotes error";
 			}
 		}
 		return null;
