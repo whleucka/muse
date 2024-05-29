@@ -1,4 +1,5 @@
-<nav id="navbar" class="navbar navbar-expand-sm bg-light p-2 d-flex align-items-center">
+<nav id="navbar" class="navbar my-2 navbar-expand-md bg-light">
+  <div class="container-fluid">
     <a class="navbar-brand d-flex align-items-center" hx-get="/playlist" hx-target="#main" hx-select="#main" hx-swap="outerHTML"><img src="/img/logo.png" width="32" height="32" /></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#top-nav"
       aria-controls="top-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,4 +24,5 @@
         </li>
       </ul>
     </div>
+  </div>
 </nav>
