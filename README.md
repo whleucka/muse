@@ -23,7 +23,7 @@ Muse is a web application inspired by Plex, built with **htmx** and **PHP** for 
 - Developers interested in exploring htmx and the Nebula framework.
 
 ### Getting Started
-- Clone the repository: git clone https://github.com/whleucka/muse.git
+- Clone the repository: `git clone https://github.com/whleucka/muse.git`
 - Follow the setup instructions in the README for dependencies and configuration *WIP*
     - Install composer dependencies
 
