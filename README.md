@@ -1,6 +1,6 @@
 ## Muse
 
-Muse is a web application inspired by Plex, built with **htmx** and **PHP** for a seamless user experience. The magic happens under the hood with **Nebula**, a custom framework designed specifically for crafting rich web applications using **htmx**.
+Muse is a web application inspired by *Plex*, *Spotify*, and *Winamp*, crafted with **htmx** and **PHP** to provide a seamless user experience.
 
 <div align="center">
     <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/3ce6099c-ef8a-429b-826e-34b981fc0031" width="100%" style="margin-right: 5px;" /><br>
@@ -15,7 +15,7 @@ Muse is a web application inspired by Plex, built with **htmx** and **PHP** for 
 - Podcasts with ListenNote: Explore a world of podcasts using the ListenNote integration. Discover new shows, subscribe, and listen seamlessly.
 - Light/Dark Theme: Personalize your experience with light and dark theme options. Switch between themes effortlessly to match your environment and reduce eye strain during extended listening sessions.
 
-### Future Features
+### To do
 - Custom User Playlists: Create and curate your own playlists. Organize your music by mood, genre, or any other criteria you like.
 
 ### Perfect for...
