@@ -133,7 +133,7 @@ class Controller
                 } else {
                     [$rule, $arg] = $this->getRuleArg($rule);
                     if (
-                        (trim($value) === "" ||
+                        ((is_string($value) && trim($value) === "") ||
                             is_null($value) ||
                             $value === "NULL") &&
                         !$is_required
