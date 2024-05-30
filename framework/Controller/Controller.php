@@ -153,7 +153,7 @@ class Controller
                             "maxlength" => strlen($value) <= intval($arg),
                             "minlength" => strlen($value) >= intval($arg),
                             "numeric" => is_numeric($value),
-                            "required" => trim($value) !== "" &&
+                            "required" => !is_null($value) && trim($value) !== "" &&
                                 $value !== "NULL",
                             "string" => is_string($value),
                             "unique" => !db()->fetch(
