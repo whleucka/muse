@@ -7,11 +7,6 @@ Muse is a web application inspired by Plex, built with **htmx** and **PHP** for 
     <em>Note: this project is a work in progress 👷</em>
 </div>
 
-### Stack
-- Server: <ins>P</ins>HP (Nebula Framework)
-- DB: <ins>M</ins>ySQL
-- Frontend: htm<ins>x</ins>
-
 ### Features
 - Scan and Manage Your Music: Use the included muse cli to scan your personal music collection, adding it to your centralized library.
 - HD Radio: Introducing HD radio streaming! Now you can listen to high-quality radio stations directly within Muse. Simply select your favorite station and enjoy crystal-clear sound.
