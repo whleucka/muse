@@ -6,7 +6,7 @@ use Nebula\Framework\Controller\Controller;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-final class ControllerTest extends TestCase
+final class ValidationTest extends TestCase
 {
 	public function testValidateRequestString(): void
 	{

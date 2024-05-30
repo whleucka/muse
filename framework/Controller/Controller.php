@@ -137,7 +137,7 @@ class Controller
                 } else {
                     [$rule, $arg] = $this->getRuleArg($rule);
                     if (
-                        (trim($value) === "" ||
+                        ((is_string($value) && trim($value) === "") ||
                             is_null($value) ||
                             $value === "NULL") &&
                         !$is_required
@@ -157,7 +157,7 @@ class Controller
                             "maxlength" => strlen($value) <= intval($arg),
                             "minlength" => strlen($value) >= intval($arg),
                             "numeric" => is_numeric($value),
-                            "required" => trim($value) !== "" &&
+                            "required" => !is_null($value) && trim($value) !== "" &&
                                 $value !== "NULL",
                             "string" => is_string($value),
                             "unique" => !db()->fetch(
