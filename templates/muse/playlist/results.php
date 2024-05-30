@@ -7,15 +7,18 @@
 			hx-select="#main"
 			hx-swap="outerHTML"
 			hx-indicator="#playlist .htmx-indicator"
-			>Reset</button>
-		<?php endif ?>
+			>Reset Playlist</button>
+		<button class="btn btn-sm btn-app ms-2" disabled>Save Playlist</button>
+		<?php else: ?>
 		<button class="btn btn-sm btn-app"
 			hx-get="/playlist/random"
 			hx-target="#main"
 			hx-select="#main"
 			hx-swap="outerHTML"
 			hx-indicator="#playlist .htmx-indicator"
-			>Random</button>
+			>Random Playlist</button>
+		<button class="btn btn-sm btn-app ms-2" disabled>Most Played</button>
+		<?php endif ?>
 	</div>
 </div>
 

@@ -30,7 +30,7 @@
         "nesbot/carbon": "^3.3",
         "james-heinrich/getid3": "^1.9",
         "php-ffmpeg/php-ffmpeg": "^1.2",
-        "listennotes/podcast-api": "^1.1"
+        "listennotes/podcast-api": "^1.1.6"
     },
     "scripts": {
     },

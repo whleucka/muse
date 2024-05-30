@@ -32,6 +32,8 @@ class SearchController extends Controller
 			if ($tracks) {
 				session()->set("search_term", $data["term"]);
 				return template("muse/search/results.php", ["tracks" => $tracks]);
+			} else {
+				return "<p class='mt-3'>No results found.</p>";
 			}
 		}
 		session()->delete("search_term");
@@ -54,10 +56,14 @@ class SearchController extends Controller
 					"sort_by_date" => 1,
 					"language" => "English",
 				]);
-				$results = json_decode($res);
-				error_log(print_r($results, true));
-				if ($results) {
-					return template("muse/podcast/results.php", ["results" => $results]);
+				if ($res) {
+					$results = json_decode($res);
+					if ($results) {
+						error_log(print_r($results, true));
+						return template("muse/podcast/results.php", ["results" => $results]);
+					} else {
+						return "<p class='mt-3'>No results found.</p>";
+					}
 				}
 			} catch (Error $ex) {
 				error_log("listennotes error");
@@ -65,8 +71,10 @@ class SearchController extends Controller
 					"term" => $data["term"],
 					"message" => $ex->getMessage(),
 					"file" => $ex->getFile() . ':' . $ex->getLine(),
+					"trace" => $ex->getTraceAsString(),
 				], true));
-				return "listennotes error";
+				header('HX-Location: {"path": "/server-error", "target": "#main", "select": "#main"}');
+				http_response_code(500);
 			}
 		}
 		return null;
