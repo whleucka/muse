@@ -4,7 +4,7 @@ Muse is a web application inspired by *Plex*, *Spotify*, and *Winamp*, crafted w
 
 <div align="center">
     <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/3ce6099c-ef8a-429b-826e-34b981fc0031" width="100%" style="margin-right: 5px;" /><br>
-    <em>Note: this project is a work in progress 👷</em>
+    <em>Note: work in progress 👷</em>
 </div>
 
 ### Features
