@@ -16,7 +16,7 @@
 			hx-swap="outerHTML"
 			hx-indicator="#playlist .htmx-indicator"
 			>Random Playlist</button>
-		<button class="btn btn-sm btn-app ms-2" disabled>Most Played</button>-->
+		<button class="btn btn-sm btn-app ms-2" disabled>Most played</button>-->
 		<?php endif ?>
 	</div>
 </div>
