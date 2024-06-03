@@ -9,15 +9,15 @@
 			hx-indicator="#playlist .htmx-indicator"
 			>Reset playlist</button>
 		<?php else: ?>
-		<!--<button class="btn btn-sm btn-app"
+		<!--<button class="btn btn-sm btn-app ms-2" disabled>Most played</button>-->
+		<?php endif ?>
+		<button class="btn btn-sm btn-app"
 			hx-get="/playlist/random"
 			hx-target="#main"
 			hx-select="#main"
 			hx-swap="outerHTML"
 			hx-indicator="#playlist .htmx-indicator"
-			>Random Playlist</button>
-		<button class="btn btn-sm btn-app ms-2" disabled>Most played</button>-->
-		<?php endif ?>
+			>Generate playlist</button>
 	</div>
 </div>
 
@@ -32,6 +32,6 @@
 })();
 </script>
 <?php else: ?>
-	<p class="mt-2"><em>Playlist is empty</em></p>
+	<p class="mt-2">Playlist is <strong class="text-secondary">empty</strong></p>
 <?php endif ?>
 
