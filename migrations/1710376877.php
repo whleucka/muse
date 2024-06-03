@@ -9,11 +9,11 @@ return new class implements Migration
 {
 		public function up()
 		{
-			return Schema::run(fn(SQL $sql) => $sql->migrationFile("/radio/insert.sql"));
+			return Schema::run(fn(SQL $sql) => $sql->migrationFile("/radio/table/up.sql"));
 		}
 
 		public function down()
 		{
-			return Schema::run(fn(SQL $sql) => $sql->migrationFile("/radio/delete.sql"));
+			return Schema::run(fn(SQL $sql) => $sql->migrationFile("/radio/table/down.sql"));
 		}
 };

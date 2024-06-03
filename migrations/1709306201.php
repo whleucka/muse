@@ -9,11 +9,11 @@ return new class implements Migration
 {
 		public function up()
 		{
-			return Schema::run(fn(SQL $sql) => $sql->migrationFile("/track_meta/up.sql"));
+			return Schema::run(fn(SQL $sql) => $sql->migrationFile("/track_meta/table/up.sql"));
 		}
 
 		public function down()
 		{
-			return Schema::run(fn(SQL $sql) => $sql->migrationFile("/track_meta/down.sql"));
+			return Schema::run(fn(SQL $sql) => $sql->migrationFile("/track_meta/table/down.sql"));
 		}
 };
