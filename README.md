@@ -61,4 +61,4 @@ Muse is a web application inspired by *Plex*, crafted with **htmx** and **PHP** 
 
 We welcome contributions to Muse! Feel free to fork the repository and submit pull requests.
 
-<small>✨ Created with <a href="https://github.com/libra-php/nebula" title="Nebula">Nebula Framework</a></small>
+<small>✨ Created with <a href="https://github.com/libra-php/nebula" title="Nebula">Nebula</a></small>
