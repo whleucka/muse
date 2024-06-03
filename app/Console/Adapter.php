@@ -5,6 +5,10 @@ namespace App\Console;
 use Nebula\Framework\Console\Migrations;
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
+use App\Muse\Music\Scan;
+use App\Models\Track;
+use App\Models\TrackMeta;
+use PDO;
 
 class Adapter extends CLI
 {
