@@ -9,14 +9,14 @@
 			hx-indicator="#playlist .htmx-indicator"
 			>Reset playlist</button>
 		<?php else: ?>
-		<button class="btn btn-sm btn-app"
+		<!--<button class="btn btn-sm btn-app"
 			hx-get="/playlist/random"
 			hx-target="#main"
 			hx-select="#main"
 			hx-swap="outerHTML"
 			hx-indicator="#playlist .htmx-indicator"
 			>Random Playlist</button>
-		<button class="btn btn-sm btn-app ms-2" disabled>Most Played</button>
+		<button class="btn btn-sm btn-app ms-2" disabled>Most Played</button>-->
 		<?php endif ?>
 	</div>
 </div>
