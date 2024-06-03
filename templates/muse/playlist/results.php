@@ -7,7 +7,7 @@
 			hx-select="#main"
 			hx-swap="outerHTML"
 			hx-indicator="#playlist .htmx-indicator"
-			>Reset Playlist</button>
+			>Reset playlist</button>
 		<?php else: ?>
 		<button class="btn btn-sm btn-app"
 			hx-get="/playlist/random"
