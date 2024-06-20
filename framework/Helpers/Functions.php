@@ -37,6 +37,62 @@ function user_ip()
     return $ip;
 }
 
+function curlRequest($url, $method = 'GET', $data = [], $headers = []) {
+    $ch = curl_init();
+
+    // Set URL
+    if ($method === 'GET' && !empty($data)) {
+        $url .= '?' . http_build_query($data);
+    }
+    curl_setopt($ch, CURLOPT_URL, $url);
+
+    // Set request method
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+
+    // If POST request, set POST fields
+    if ($method === 'POST' && !empty($data)) {
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    }
+
+    // Set headers
+    if (!empty($headers)) {
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    }
+
+    // Return the response as a string instead of outputting it
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    // Set cURL options to capture detailed error information
+    curl_setopt($ch, CURLOPT_VERBOSE, true);
+    curl_setopt($ch, CURLOPT_FAILONERROR, false);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    // Execute the request
+    $response = curl_exec($ch);
+
+    // Check for errors
+    if ($response === false) {
+        $error = curl_error($ch);
+        curl_close($ch);
+        return ['error' => $error];
+    }
+
+    // Get HTTP response code
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    // Close the cURL session
+    curl_close($ch);
+
+    // Decode the JSON response
+    $decodedResponse = json_decode($response, true);
+
+    // Return the decoded response along with the HTTP status code
+    return [
+        'http_code' => $httpCode,
+        'response' => $decodedResponse,
+    ];
+}
+
 function json(mixed $data)
 {
     return json_encode($data, JSON_PRETTY_PRINT);

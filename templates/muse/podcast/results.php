@@ -1,5 +1,5 @@
-<?php foreach ($results->results as $i => $podcast) : ?>
-	<?=template("muse/podcast/row.php", ["podcast" => $podcast])?>
+<?php foreach ($results as $i => $podcast) : ?>
+	<?=template("muse/podcast/row.php", ["podcast" => (object)$podcast])?>
 <?php endforeach ?>
 
 <?php if (!$results): ?>
