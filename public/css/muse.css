@@ -58,7 +58,7 @@ button:focus { outline: none !important; box-shadow: none !important; }
 
 #navbar {
 	margin: 0;
-	padding: 5px;
+	padding: 5px 0;
 }
 
 #navbar #top-nav {

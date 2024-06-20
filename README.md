@@ -55,6 +55,14 @@ Muse is a web application inspired by *Plex*, crafted with **htmx** and **PHP** 
         ./bin/console music-scan /path/to/music
         ```
 
+    - Create a storage directory and give the proper permissions. Create a sym link in the public directory
+
+        ```bash
+        mkdir ./storage
+        chown -R www-data:www-data storage
+        cd public && ln -s ../storage
+        ```
+
     - Access your music library, podcasts, or HD radio through the web interface!
 
 ### Contribute
