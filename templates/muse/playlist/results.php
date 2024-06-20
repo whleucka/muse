@@ -1,5 +1,6 @@
 <div class="table-responsive sticky-top bg-app">
 	<div class="my-2 d-flex">
+	<?php if ($has_tracks): ?>
 		<?php if ($tracks): ?>
 		<button class="btn btn-sm btn-app me-2"
 			hx-get="/playlist/clear"
@@ -18,6 +19,7 @@
 			hx-swap="outerHTML"
 			hx-indicator="#playlist .htmx-indicator"
 			>Generate playlist</button>
+	<?php endif ?>
 	</div>
 </div>
 

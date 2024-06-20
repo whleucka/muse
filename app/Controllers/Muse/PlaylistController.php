@@ -32,8 +32,9 @@ class PlaylistController extends Controller
 	public function load(): string
 	{
 		$playlist = session()->get("playlist_tracks");
+		$has_tracks = db()->fetch("SELECT * FROM tracks LIMIT 1");
 
-		return template("muse/playlist/results.php", ["tracks" => $playlist ?? []]);
+		return template("muse/playlist/results.php", ["tracks" => $playlist ?? [], "has_tracks" => $has_tracks]);
 	}
 
 	// We redirect to the playlist here
