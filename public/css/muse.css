@@ -89,12 +89,14 @@ button:focus {
 }
 
 .track-row {
-	opacity: 0.8;
 	outline: none !important;
 	box-shadow: none !important;
 	user-select: none;
-	cursor: pointer;
 	font-size: 0.9rem;
+}
+
+.track-row .dropdown-menu {
+	background: #fff;
 }
 
 .track-row.active {

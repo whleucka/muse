@@ -54,7 +54,7 @@ class PlayerController extends Controller
 	#[Get("/shuffle/toggle", "player.shuffle-toggle", ["api"])]
 	public function shuffleToggle(): int
 	{
-		if (!session()->has("shuffle")) session()->set("shuffle", true);
+		if (!session()->has("shuffle")) session()->set("shuffle", false);
 		$shuffle = session()->get("shuffle") === true;
 		session()->set("shuffle", !$shuffle);
 		return !$shuffle ? 1 : 0;
@@ -74,7 +74,7 @@ class PlayerController extends Controller
 	{
 		$playlist = session()->get("playlist_tracks");
 		$playlist_index = session()->get("playlist_index");
-		$shuffle = session()->get("shuffle") ?? true;
+		$shuffle = session()->get("shuffle") ?? false;
 		$repeat = session()->get("repeat") ?? true;
 		if ($playlist && count($playlist) > 0) {
 			$next_index = $this->nextIndex($playlist, $playlist_index, $shuffle, $repeat);
@@ -103,7 +103,7 @@ class PlayerController extends Controller
 	{
 		$playlist = session()->get("playlist_tracks");
 		$playlist_index = session()->get("playlist_index");
-		$shuffle = session()->get("shuffle") ?? true;
+		$shuffle = session()->get("shuffle") ?? false;
 		$repeat = session()->get("repeat") ?? true;
 		if ($playlist && count($playlist) > 0) {
 			$prev_index = $this->prevIndex($playlist, $playlist_index, $shuffle, $repeat);

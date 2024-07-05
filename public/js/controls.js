@@ -20,7 +20,7 @@ const defaultSkipTime = 10;
 let playlist = [];
 let index = 0;
 let currentTrack = {};
-let shuffleOn = true;
+let shuffleOn = false;
 let repeatOn = true;
 let loading = false;
 
@@ -300,3 +300,7 @@ try {
 } catch (error) {
 	console.log('Warning! The "seekto" media session action is not supported.');
 }
+
+(function() {
+	getShuffle();
+})();
