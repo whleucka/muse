@@ -12,7 +12,7 @@ body {
 }
 
 main {
-	font-family: "Inter", sans-serif;
+	font-family: "Roboto", sans-serif;
 	overflow: hidden;
 	color: #444;
 	min-width: 375px;
@@ -40,6 +40,7 @@ button:focus {
 .dropend .dropdown-toggle::after {
 	padding: 0 !important;
 	margin: 0 !important;
+	color: #777 !important;
 }
 
 #main h1,

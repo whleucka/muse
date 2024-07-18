@@ -113,5 +113,5 @@ input {
 	background-color: #444;
 }
 .dropend .dropdown-toggle::after {
-	color: #fff !important;
+	color: #777 !important;
 }
