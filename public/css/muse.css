@@ -107,8 +107,14 @@ button:focus {
 }
 
 .track-row.active {
-	opacity: 1;
 	font-weight: bold;
+}
+
+.track-row > span {
+	opacity: 0.7;
+}
+.track-row.active > span {
+	opacity: 1;
 }
 
 .track-row .cover {
@@ -242,6 +248,7 @@ button:focus {
 	#player #controls .btn {
 		margin: 0;
 		padding: 0;
+		margin-left: 2px;
 	}
 
 	#player #controls .btn svg {
