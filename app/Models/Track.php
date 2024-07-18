@@ -88,41 +88,18 @@ class Track extends Model
         }
     }
 
-    public static function search(string $term, string $type = "fuzzy"): ?array
+    public static function search(string $term): ?array
     {
         if (strlen($term) < 2) return [];
-        $fuzzy = [
-            "title LIKE ?",
-            "artist LIKE ?",
-            "album LIKE ?",
-            "genre LIKE ?",
-            "tracks.name LIKE ?",
-        ];
-        $fuzzy_where = implode(" OR ", $fuzzy);
-        $results = match($type) {
-            'fuzzy' => db()->fetchAll("SELECT tracks.uuid, track_meta.*
-                FROM tracks
-                INNER JOIN track_meta ON track_meta.track_id = tracks.id
-                WHERE $fuzzy_where
-                ORDER BY album,track_number", ...array_fill(0, count($fuzzy), "%" . htmlspecialchars($term) . "%")),
-            'artist' => db()->fetchAll("SELECT tracks.uuid, track_meta.*
-                FROM tracks
-                INNER JOIN track_meta ON track_meta.track_id = tracks.id
-                WHERE artist = ?
-                ORDER BY album,track_number", htmlspecialchars($term)),
-            'album' => db()->fetchAll("SELECT tracks.uuid, track_meta.*
-                FROM tracks
-                INNER JOIN track_meta ON track_meta.track_id = tracks.id
-                WHERE album = ?
-                ORDER BY album,track_number", htmlspecialchars($term)),
-            'genre' => db()->fetchAll("SELECT tracks.uuid, track_meta.*
-                FROM tracks
-                INNER JOIN track_meta ON track_meta.track_id = tracks.id
-                WHERE genre = ?
-                ORDER BY album,track_number", htmlspecialchars($term)),
-            default => throw new \Error("unknown search type")
-        };
-
+        $results = db()->fetchAll("SELECT tracks.uuid, track_meta.*
+			FROM tracks
+			INNER JOIN track_meta ON track_meta.track_id = tracks.id
+			WHERE title LIKE ? OR
+			artist LIKE ? OR
+			album LIKE ? OR
+            genre LIKE ? OR
+            tracks.name LIKE ?
+			ORDER BY album,track_number", ...array_fill(0, 5, "%" . htmlspecialchars($term) . "%"));
         return $results ?? [];
     }
 

@@ -12,8 +12,7 @@
                 loading="lazy" />
         </button>
         <ul class="dropdown-menu">
-            <li>
-            <a class="dropdown-item"
+            <li><a class="dropdown-item"
                 onClick="trackRowPlay(event);"
                 data-uuid="<?=$track->uuid?>"
                 data-title="<?=$track->title?>"

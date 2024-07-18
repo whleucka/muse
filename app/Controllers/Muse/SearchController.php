@@ -20,6 +20,25 @@ class SearchController extends Controller
         return $this->render("layout/base.php", ["main" => $content]);
 	}
 
+	#[Get("/music", "search.music")]
+	public function gmusic()
+	{
+		$data = $this->validateRequest([
+			"term" => ["required"],
+		]);
+		if (isset($data["term"])) {
+			$tracks = Track::search($data["term"], "artist");
+			if ($tracks) {
+				session()->set("search_term", $data["term"]);
+				return template("muse/search/results.php", ["tracks" => $tracks]);
+			} else {
+				return "<p class='mt-3'>No results found.</p>";
+			}
+		}
+		session()->delete("search_term");
+		return null;
+	}
+
 	#[Post("/music", "search.music")]
 	public function music(): ?string
 	{
