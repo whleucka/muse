@@ -3,7 +3,7 @@
 	class="track-row playlist-row d-flex align-items-center w-100 px-1 mt-2">
     <div class="btn-group dropend">
         <button type="button" class="btn dropdown-toggle m-0 p-0 pe-2" data-bs-toggle="dropdown" aria-expanded="false">
-            <img class="cover me-2"
+            <img class="cover me-1"
                 src="/cover/<?=$track->uuid?>/28/28"
                 width="28"
                 height="28"
