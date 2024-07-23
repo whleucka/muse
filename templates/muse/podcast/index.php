@@ -13,13 +13,15 @@
 			<?=$csrf()?>
 			<div class="input-group">
 				<input id="input"
-					hx-sync="closest form:abort"
 					class="form-control"
 					type="search"
 					name="term"
-					value=""
+					value="<?=$term?>"
 					placeholder="What do you want to listen to?" />
-				<button id="search-submit" type="submit" class="btn btn-app" hx-sync="closest form:abort">OK</button>
+				<button id="search-submit"
+					hx-sync="closest form:abort"
+					type="submit"
+					class="btn btn-app">OK</button>
 			</div>
 		</form>
 	</div>

@@ -6,8 +6,16 @@
 			hx-target="#main"
 			hx-select="#main"
 			hx-swap="outerHTML"
-			hx-indicator="#playlist .htmx-indicator"
+			hx-indicator="#podcasts .htmx-indicator"
 			>Reset</button>
+		<?php if ($has_more): ?>
+		<button class="btn btn-sm btn-app me-2"
+			hx-get="/podcast/next"
+			hx-target="#results"
+			hx-swap="innerHTML"
+			hx-indicator="#podcasts .htmx-indicator"
+			>Next page</button>
+		<?php endif ?>
 	</div>
 </div>
 <?php endif ?>
