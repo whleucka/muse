@@ -50,6 +50,7 @@ class SearchController extends Controller
 		return null;
 	}
 
+	// This is a better example
 	#[Get("/artist", "search.artist")]
 	public function artist()
 	{
@@ -58,6 +59,8 @@ class SearchController extends Controller
             $tracks = Track::search($artist, "artist");
             session()->set("search_tracks", $tracks);
 		}
+		// Let's go!
+		header('HX-Location: {"path":"/search", "swap":"outerHTML", "target":"#main", "select":"#main"}');
 	}
 
 	#[Post("/podcast", "search.podcast")]

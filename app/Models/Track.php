@@ -96,7 +96,7 @@ class Track extends Model
                 FROM tracks
                 INNER JOIN track_meta ON track_meta.track_id = tracks.id
                 WHERE artist = ?
-                ORDER BY album,track_number", htmlspecialchars($term));
+                ORDER BY album,track_number", $term);
         } else {
             $results = db()->fetchAll("SELECT tracks.uuid, track_meta.*
                 FROM tracks
@@ -106,7 +106,7 @@ class Track extends Model
                 album LIKE ? OR
                 genre LIKE ? OR
                 tracks.name LIKE ?
-                ORDER BY album,track_number", ...array_fill(0, 5, "%" . htmlspecialchars($term) . "%"));
+                ORDER BY album,track_number", ...array_fill(0, 5, "%" . $term . "%"));
         }
         return $results ?? [];
     }

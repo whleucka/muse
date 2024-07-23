@@ -5,23 +5,22 @@
         <button type="button" class="btn dropdown-toggle m-0 p-0 pe-2" data-bs-toggle="dropdown" aria-expanded="false">
             <img class="cover me-2"
                 src="/cover/<?=$track->uuid?>/28/28"
-                width="28"
-                height="28"
+                width="30"
+                height="30"
                 title="<?=$track->album?>"
                 alt="cover"
                 loading="lazy" />
         </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item"
+            <a class="dropdown-item"
                 onClick="trackRowPlay(event);"
                 data-uuid="<?=$track->uuid?>"
                 data-title="<?=$track->title?>"
                 data-artist="<?=$track->artist?>"
                 data-album="<?=$track->album?>"
                 data-cover="<?=$track->cover?>"
-                data-src="<?='/track/stream/'.$track->uuid?>">Play track</a></li>
-
-            <li><a class="dropdown-item" href="/search/artist?term=<?=urlencode($track->artist)?>">Search artist</a></li>
+                data-src="<?='/track/stream/'.$track->uuid?>"><li>Play track</li></a>
+            <a class="dropdown-item" hx-get="/search/artist?term=<?=urlencode($track->artist)?>"><li>Search artist</li></a>
         </ul>
     </div>
 	<span class="truncate"><?=$track->artist?></span>
