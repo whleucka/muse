@@ -71,7 +71,7 @@ class SearchController extends Controller
 			$tracks = Track::search($artist, "artist");
 			session()->set("search_tracks", $tracks);
 		}
-		location([
+		hx_location([
 			"path" => "/search",
 			"swap" => "outerHTML",
 			"target" => "#main",
@@ -91,7 +91,7 @@ class SearchController extends Controller
 			session()->delete("playlist_index");
 			$this->clear();
 		}
-		location([
+		hx_location([
 			"path" => "/playlist",
 			"swap" => "outerHTML",
 			"target" => "#main",
