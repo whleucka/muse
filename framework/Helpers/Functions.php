@@ -37,7 +37,7 @@ function user_ip()
     return $ip;
 }
 
-function curlRequest($url, $method = 'GET', $data = [], $headers = []) {
+function curl($url, $method = 'GET', $data = [], $headers = []) {
     $ch = curl_init();
 
     // Set URL

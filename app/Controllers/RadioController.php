@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Muse;
+namespace App\Controllers;
 
 use Nebula\Framework\Controller\Controller;
 use StellarRouter\{Get, Group};

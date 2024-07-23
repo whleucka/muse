@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Muse;
+namespace App\Controllers;
 
 use App\Models\Track;
 use Nebula\Framework\Controller\Controller;

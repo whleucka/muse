@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Muse;
+namespace App\Controllers;
 
 use Nebula\Framework\Controller\Controller;
 use StellarRouter\Get;
@@ -9,6 +9,21 @@ use App\Models\Track;
 
 class MuseController extends Controller
 {
+    #[Get("/", "basic.index")]
+    public function index(): string
+    {
+        $content = $this->render("basic/index.php", [
+            "message" => "Hello, world " . time(),
+        ]);
+
+        return $this->render("layout/base.php", ["main" => $content]);
+    }
+
+    #[Get("/test", "basic.answer", ["api"])]
+    public function answer(): mixed
+    {
+        return 42;
+    }
 	#[Get("/colours", "muse.colors")]
 	public function colours_red(): string
 	{
@@ -73,4 +88,3 @@ class MuseController extends Controller
 		return null;
     }
 }
-

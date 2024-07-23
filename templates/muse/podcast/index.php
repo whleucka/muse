@@ -7,7 +7,7 @@
 		</span>
 	</h3>
 	<div id="search-input" class="mt-1">
-		<form hx-post="/search/podcast"
+		<form hx-post="/podcast"
 			hx-target="#results"
 			hx-indicator="#podcasts .htmx-indicator">
 			<?=$csrf()?>
@@ -23,6 +23,6 @@
 			</div>
 		</form>
 	</div>
-	<div id="results" class="mt-3">
+	<div id="results" class="mt-3" hx-get="/podcast/load" hx-indicator="#playlist .htmx-indicator" hx-trigger="load">
 	</div>
 </section>
