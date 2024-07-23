@@ -8,7 +8,7 @@
 			hx-target="#main"
 			hx-swap="outerHTML">Reset</button>
 		<button class="btn btn-sm btn-app"
-			hx-get="/search/playlist/set"
+			hx-get="/search/playlist/all"
 			hx-indicator="#search .htmx-indicator"
 			hx-swap="none">Play all</button>
 	</div>

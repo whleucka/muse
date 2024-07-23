@@ -71,19 +71,14 @@ class SearchController extends Controller
 			$tracks = Track::search($artist, "artist");
 			session()->set("search_tracks", $tracks);
 		}
-		hx_location([
-			"path" => "/search",
-			"swap" => "outerHTML",
-			"target" => "#main",
-			"select" => "#main",
-		]);
+		hx_location("/search");
 	}
 
 	/**
 	 * Set search results to playlist action
 	 */
-	#[Get("/playlist/set", "search.playlist-set")]
-	public function set_playlist(): void
+	#[Get("/playlist/all", "search.playlist-all")]
+	public function play_all(): void
 	{
 		$tracks = session()->get("search_tracks");
 		if ($tracks) {
@@ -91,12 +86,7 @@ class SearchController extends Controller
 			session()->delete("playlist_index");
 			$this->clear();
 		}
-		hx_location([
-			"path" => "/playlist",
-			"swap" => "outerHTML",
-			"target" => "#main",
-			"select" => "#main",
-		]);
+		hx_location("/playlist");
 	}
 
 	/**

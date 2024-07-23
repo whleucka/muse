@@ -208,9 +208,8 @@ function template(string $path, array $data = [], bool $decode = false): string
 /**
 * Creates a HX-Location headers
 */
-function hx_location(array $options)
+function hx_location(string $path, string $select = "#main", $target = "#main", $swap = "outerHTML")
 {
-    if (empty($options)) return;
-    $header =  sprintf("HX-Location:%s", json_encode($options));
+    $header =  sprintf("HX-Location:%s", json_encode(get_defined_vars()));
     header($header);
 }
