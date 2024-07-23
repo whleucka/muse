@@ -3,7 +3,7 @@
 	<?php if ($has_tracks): ?>
 		<?php if ($tracks): ?>
 		<button class="btn btn-sm btn-app me-2"
-			hx-get="/playlist/clear"
+			hx-get="/playlist/reset"
 			hx-target="#main"
 			hx-select="#main"
 			hx-swap="outerHTML"
