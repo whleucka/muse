@@ -12,7 +12,6 @@
                 loading="lazy" />
         </button>
         <ul class="dropdown-menu">
-            <li>
             <a class="dropdown-item"
                 data-playlist_index="<?=$index?>"
                 onClick="playlistRowPlay(event);"
@@ -21,9 +20,8 @@
                 data-artist="<?=$track->artist?>"
                 data-album="<?=$track->album?>"
                 data-cover="<?=$track->cover?>"
-                data-src="<?='/track/stream/'.$track->uuid?>">Play track</a></li>
-            <!-- <li><a class="dropdown-item" href="#">Search artist</a> </li> -->
-            <!-- <li><a class="dropdown-item" href="#">Search album</a></li> -->
+                data-src="<?='/track/stream/'.$track->uuid?>"><li>Play track</li></a>
+            <a class="dropdown-item" href="/search/artist?term=<?=urlencode($track->artist)?>"><li>Search artist</li></a>
         </ul>
     </div>
 	<span class="truncate"><?=$track->artist?></span>

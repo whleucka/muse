@@ -6,6 +6,6 @@
 			</div>
 		</span>
 	</h3>
-	<div id="load" hx-get="/playlist/load" hx-trigger="load">
+	<div id="load" hx-get="/playlist/load" hx-indicator="#playlist .htmx-indicator" hx-trigger="load">
 	</div>
 </section>

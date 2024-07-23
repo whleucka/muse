@@ -37,23 +37,22 @@ class PlaylistController extends Controller
 		return template("muse/playlist/results.php", ["tracks" => $playlist ?? [], "has_tracks" => $has_tracks]);
 	}
 
+	// This is the search action "Play all"
 	// We redirect to the playlist here
 	// NOTE: formatting is important for hx-location header
 	#[Get("/set", "playlist.set", ['HX-Location={"path": "/playlist", "target": "#main", "select": "#main", "swap": "outerHTML"}'])]
 	public function playlist(): void
 	{
-		$term = session()->get("search_term");
-		if ($term) {
-			$tracks = Track::search($term);
-			if ($tracks) {
-				// This might have a size limitation
-				session()->set("playlist_tracks", $tracks);
-				// Alwyays start on index 0,
-				// the first track in the playlist
-				session()->set("playlist_index", 0);
-				// Forget the search term
-				session()->delete("search_term");
-			}
+		$tracks = session()->get("search_tracks");
+		if ($tracks) {
+			// This might have a size limitation
+			session()->set("playlist_tracks", $tracks);
+			// Alwyays start on index 0,
+			// the first track in the playlist
+			session()->set("playlist_index", null);
+			// Forget the search term
+			session()->delete("search_term");
+			session()->delete("search_tracks");
 		}
 	}
 

@@ -59,7 +59,7 @@ class MuseController extends Controller
                     echo $imagick->getImageBlob();
                     exit;
                 } else {
-                    // Serve the
+                    // Serve the no album png
 					$public_path = config("path.public");
                     $no_album = $public_path . "/img/no-album.png";
                     readfile($no_album);

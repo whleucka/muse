@@ -88,18 +88,26 @@ class Track extends Model
         }
     }
 
-    public static function search(string $term): ?array
+    public static function search(string $term, ?string $mode = null): ?array
     {
         if (strlen($term) < 2) return [];
-        $results = db()->fetchAll("SELECT tracks.uuid, track_meta.*
-			FROM tracks
-			INNER JOIN track_meta ON track_meta.track_id = tracks.id
-			WHERE title LIKE ? OR
-			artist LIKE ? OR
-			album LIKE ? OR
-            genre LIKE ? OR
-            tracks.name LIKE ?
-			ORDER BY album,track_number", ...array_fill(0, 5, "%" . htmlspecialchars($term) . "%"));
+        if ($mode === "artist") {
+            $results = db()->fetchAll("SELECT tracks.uuid, track_meta.*
+                FROM tracks
+                INNER JOIN track_meta ON track_meta.track_id = tracks.id
+                WHERE artist = ?
+                ORDER BY album,track_number", htmlspecialchars($term));
+        } else {
+            $results = db()->fetchAll("SELECT tracks.uuid, track_meta.*
+                FROM tracks
+                INNER JOIN track_meta ON track_meta.track_id = tracks.id
+                WHERE title LIKE ? OR
+                artist LIKE ? OR
+                album LIKE ? OR
+                genre LIKE ? OR
+                tracks.name LIKE ?
+                ORDER BY album,track_number", ...array_fill(0, 5, "%" . htmlspecialchars($term) . "%"));
+        }
         return $results ?? [];
     }
 

@@ -20,8 +20,8 @@
                 data-album="<?=$track->album?>"
                 data-cover="<?=$track->cover?>"
                 data-src="<?='/track/stream/'.$track->uuid?>">Play track</a></li>
-            <!-- <li><a class="dropdown-item" href="#">Search artist</a> </li> -->
-            <!-- <li><a class="dropdown-item" href="#">Search album</a></li> -->
+
+            <li><a class="dropdown-item" href="/search/artist?term=<?=urlencode($track->artist)?>">Search artist</a></li>
         </ul>
     </div>
 	<span class="truncate"><?=$track->artist?></span>

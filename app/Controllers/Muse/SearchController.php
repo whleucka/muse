@@ -14,29 +14,20 @@ class SearchController extends Controller
 	public function index(): string
 	{
 		$content = template("muse/search/index.php", [
-			"term" => session()->get("search_term")
+			"term" => session()->get("search_term"),
 		]);
 
         return $this->render("layout/base.php", ["main" => $content]);
 	}
 
-	#[Get("/music", "search.music")]
-	public function gmusic()
+	#[Get("/load", "search.music")]
+	public function music_load(): ?string
 	{
-		$data = $this->validateRequest([
-			"term" => ["required"],
-		]);
-		if (isset($data["term"])) {
-			$tracks = Track::search($data["term"], "artist");
-			if ($tracks) {
-				session()->set("search_term", $data["term"]);
-				return template("muse/search/results.php", ["tracks" => $tracks]);
-			} else {
-				return "<p class='mt-3'>No results found.</p>";
-			}
-		}
-		session()->delete("search_term");
-		return null;
+        $tracks = session()->get("search_tracks");
+        if ($tracks) {
+		    return template("muse/search/results.php", ["tracks" => $tracks]);
+        }
+        return null;
 	}
 
 	#[Post("/music", "search.music")]
@@ -48,6 +39,7 @@ class SearchController extends Controller
 		if (isset($data["term"])) {
 			$tracks = Track::search($data["term"]);
 			if ($tracks) {
+                session()->set("search_tracks", $tracks);
 				session()->set("search_term", $data["term"]);
 				return template("muse/search/results.php", ["tracks" => $tracks]);
 			} else {
@@ -56,6 +48,16 @@ class SearchController extends Controller
 		}
 		session()->delete("search_term");
 		return null;
+	}
+
+	#[Get("/artist", "search.artist")]
+	public function artist()
+	{
+		$artist = $this->request()->get("term");
+		if ($artist) {
+            $tracks = Track::search($artist, "artist");
+            session()->set("search_tracks", $tracks);
+		}
 	}
 
 	#[Post("/podcast", "search.podcast")]
@@ -109,6 +111,7 @@ class SearchController extends Controller
 	public function reset()
 	{
 		session()->delete("search_term");
+		session()->delete("search_tracks");
 		return $this->index();
 	}
 

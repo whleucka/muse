@@ -59,7 +59,7 @@ button:focus {
 .btn-app {
 	background: gainsboro !important;
 	color: #555;
-	border: 0;
+	border: 1px solid #fff;
 	opacity: 0.8;
 }
 
@@ -103,8 +103,11 @@ button:focus {
 }
 
 .track-row .dropdown-menu {
-	z-index: 10000 !important;
 	background: #fff;
+}
+.dropdown-menu .dropdown-item {
+	z-index: 9001 !important;
+	position: relative;
 }
 
 .track-row.active {

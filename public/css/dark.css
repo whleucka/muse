@@ -56,7 +56,6 @@ h1, h2, h3, h4, h5 {
 }
 .track-row, .radio-row .station-name {
 	color: rgba(255,255,255,0.6) !important;
-	opacity: 0.9;
 }
 .dropend .dropdown-toggle::after {
 	color: white;
@@ -67,7 +66,6 @@ h1, h2, h3, h4, h5 {
 }
 .track-row.active {
 	color: rgba(255,255,255,1);
-	opacity: 1;
 }
 
 html, main, #navbar, #top-progress .progress {

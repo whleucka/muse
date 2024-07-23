@@ -77,7 +77,7 @@ class PlayerController extends Controller
 		$shuffle = session()->get("shuffle") ?? false;
 		$repeat = session()->get("repeat") ?? true;
 		if ($playlist && count($playlist) > 0) {
-			$next_index = $this->nextIndex($playlist, $playlist_index, $shuffle, $repeat);
+			$next_index = is_null($playlist_index) ? 0 : $this->nextIndex($playlist, $playlist_index, $shuffle, $repeat);
 			if (isset($playlist[$next_index])) {
 				session()->set("playlist_index", $next_index);
 				$playlist_track = $playlist[$next_index] ?? null;
@@ -106,7 +106,7 @@ class PlayerController extends Controller
 		$shuffle = session()->get("shuffle") ?? false;
 		$repeat = session()->get("repeat") ?? true;
 		if ($playlist && count($playlist) > 0) {
-			$prev_index = $this->prevIndex($playlist, $playlist_index, $shuffle, $repeat);
+			$prev_index = is_null($playlist_index) ? 0 : $this->prevIndex($playlist, $playlist_index, $shuffle, $repeat);
 			if (isset($playlist[$prev_index])) {
 				session()->set("playlist_index", $prev_index);
 				$playlist_track = $playlist[$prev_index] ?? null;
