@@ -7,7 +7,7 @@
 		</span>
 	</h3>
 	<div id="search-input" class="mt-1">
-        <form hx-post="/search/music"
+        <form hx-post="/search"
             hx-indicator="#search .htmx-indicator"
             hx-target="#results">
             <?=$csrf()?>

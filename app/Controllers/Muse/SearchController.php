@@ -10,58 +10,6 @@ use StellarRouter\{Get, Group, Post};
 #[Group(prefix: "/search")]
 class SearchController extends Controller
 {
-	#[Get("/", "search.index", ["HX-Replace-Url=/search"])]
-	public function index(): string
-	{
-		$content = template("muse/search/index.php", [
-			"term" => session()->get("search_term"),
-		]);
-
-        return $this->render("layout/base.php", ["main" => $content]);
-	}
-
-	#[Get("/load", "search.music")]
-	public function music_load(): ?string
-	{
-        $tracks = session()->get("search_tracks");
-        if ($tracks) {
-		    return template("muse/search/results.php", ["tracks" => $tracks]);
-        }
-        return null;
-	}
-
-	#[Post("/music", "search.music")]
-	public function music(): ?string
-	{
-		$data = $this->validateRequest([
-			"term" => ["required"],
-		]);
-		if (isset($data["term"])) {
-			$tracks = Track::search($data["term"]);
-			if ($tracks) {
-                session()->set("search_tracks", $tracks);
-				session()->set("search_term", $data["term"]);
-				return template("muse/search/results.php", ["tracks" => $tracks]);
-			} else {
-				return "<p class='mt-3'>No results found.</p>";
-			}
-		}
-		session()->delete("search_term");
-		return null;
-	}
-
-	// This is a better example
-	#[Get("/artist", "search.artist")]
-	public function artist()
-	{
-		$artist = $this->request()->get("term");
-		if ($artist) {
-            $tracks = Track::search($artist, "artist");
-            session()->set("search_tracks", $tracks);
-		}
-		// Let's go!
-		header('HX-Location: {"path":"/search", "swap":"outerHTML", "target":"#main", "select":"#main"}');
-	}
 
 	#[Post("/podcast", "search.podcast")]
 	public function podcast(): ?string
@@ -109,13 +57,4 @@ class SearchController extends Controller
 		}
 		return null;
 	}
-
-	#[Post("/music/reset", "search.music.reset")]
-	public function reset()
-	{
-		session()->delete("search_term");
-		session()->delete("search_tracks");
-		return $this->index();
-	}
-
 }

@@ -1,14 +1,14 @@
 <?php if ($tracks): ?>
 <div class="table-responsive bg-app sticky-top">
-	<div class="my-2 d-flex">
+	<div id="actions" class="my-2 d-flex">
 		<button class="btn btn-sm btn-app me-2"
-			hx-post="/search/music/reset"
+			hx-post="/search/reset"
 			hx-indicator="#search .htmx-indicator"
 			hx-select="#main"
 			hx-target="#main"
 			hx-swap="outerHTML">Reset</button>
 		<button class="btn btn-sm btn-app"
-			hx-get="/playlist/set"
+			hx-get="/search/playlist/set"
 			hx-indicator="#search .htmx-indicator"
 			hx-swap="none">Play all</button>
 	</div>

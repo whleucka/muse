@@ -21,7 +21,7 @@
                 data-album="<?=$track->album?>"
                 data-cover="<?=$track->cover?>"
                 data-src="<?='/track/stream/'.$track->uuid?>"><li>Play track</li></a>
-            <a class="dropdown-item" hx-get="/search/artist?term=<?=urlencode($track->artist)?>"><li>Search artist</li></a>
+            <a class="dropdown-item" hx-get="/search/artist?term=<?=urlencode($track->artist)?>" hx-swap="none"><li>Search artist</li></a>
         </ul>
     </div>
 	<span class="truncate"><?=$track->artist?></span>

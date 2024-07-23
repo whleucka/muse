@@ -204,3 +204,13 @@ function template(string $path, array $data = [], bool $decode = false): string
         ? html_entity_decode($engine->render("$template/$path", $data))
         : $engine->render("$template/$path", $data);
 }
+
+/**
+* Creates a HX-Location headers
+*/
+function location(array $options)
+{
+    if (empty($options)) return;
+    $header =  sprintf("HX-Location:%s", json_encode($options));
+    header($header);
+}
