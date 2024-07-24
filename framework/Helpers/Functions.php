@@ -206,10 +206,26 @@ function template(string $path, array $data = [], bool $decode = false): string
 }
 
 /**
-* Creates a HX-Location headers
+* Creates a HX-Location header
 */
-function hx_location(string $path, string $select = "#main", $target = "#main", $swap = "outerHTML")
+function hx_location(string $path, string $select = "#main", string $target = "#main", string $swap = "outerHTML", int $response_code = 200)
 {
     $header =  sprintf("HX-Location:%s", json_encode(get_defined_vars()));
-    header($header);
+    header($header, true, $response_code);
+}
+
+/**
+* Creates a HX-Redirect header
+*/
+function hx_redirect(string $path)
+{
+    header("HX-Redirect: $path");
+}
+
+/**
+* Creates a Location header
+*/
+function location(string $path, int $response_code = 200)
+{
+    header("Location: $path", true, $response_code);
 }

@@ -14,7 +14,7 @@
 			hx-target="#results"
 			hx-swap="innerHTML"
 			hx-indicator="#podcasts .htmx-indicator"
-			>Next page</button>
+			>Load more</button>
 		<?php endif ?>
 	</div>
 </div>
