@@ -63,12 +63,41 @@ class SearchController extends Controller
 	/**
 	 * Search by artist
 	 */
-	#[Get("/artist", "search.artist")]
-	public function artist()
+	#[Get("/artist/{uuid}", "search.artist")]
+	public function artist(string $uuid)
 	{
-		$artist = $this->request()->get("term");
-		if ($artist) {
-			$tracks = Track::search($artist, "artist");
+        $track = Track::findByAttribute("uuid", $uuid);
+		if ($track) {
+			$tracks = Track::search($track->meta()->artist, "artist");
+			session()->set("search_tracks", $tracks);
+		}
+		hx_location("/search");
+	}
+
+	/**
+	 * Search by album
+	 */
+	#[Get("/album/{uuid}", "search.album")]
+	public function album(string $uuid)
+	{
+        $track = Track::findByAttribute("uuid", $uuid);
+		if ($track) {
+			$tracks = Track::search($track->meta()->album, "album");
+			session()->set("search_tracks", $tracks);
+		}
+		hx_location("/search");
+	}
+
+	/**
+	 * Search by directory
+	 */
+	#[Get("/directory/{uuid}", "search.directory")]
+	public function directory(string $uuid)
+	{
+        $track = Track::findByAttribute("uuid", $uuid);
+		if ($track) {
+            $dir = dirname($track->name);
+			$tracks = Track::search($dir, "directory");
 			session()->set("search_tracks", $tracks);
 		}
 		hx_location("/search");

@@ -266,6 +266,6 @@ class Model
 
     public function __get(mixed $name): mixed
     {
-        return $this->parameters[$name];
+        return $this->parameters[$name] ?? null;
     }
 }

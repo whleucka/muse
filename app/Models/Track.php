@@ -97,6 +97,18 @@ class Track extends Model
                 INNER JOIN track_meta ON track_meta.track_id = tracks.id
                 WHERE artist = ?
                 ORDER BY album,track_number", $term);
+        } else if ($mode === "album") {
+            $results = db()->fetchAll("SELECT tracks.uuid, track_meta.*
+                FROM tracks
+                INNER JOIN track_meta ON track_meta.track_id = tracks.id
+                WHERE album = ?
+                ORDER BY album,track_number", $term);
+        } else if ($mode === "directory") {
+            $results = db()->fetchAll("SELECT tracks.uuid, track_meta.*
+                FROM tracks
+                INNER JOIN track_meta ON track_meta.track_id = tracks.id
+                WHERE tracks.name LIKE ?
+                ORDER BY album,track_number", "$term%");
         } else {
             $results = db()->fetchAll("SELECT tracks.uuid, track_meta.*
                 FROM tracks
