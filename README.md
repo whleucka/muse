@@ -3,7 +3,7 @@
 Muse is a web application inspired by *Plex*, crafted with **htmx** and **PHP** to provide a seamless user experience.
 
 <div align="center">
-    <img alt="screen" src="https://github.com/whleucka/muse/assets/71740767/0bc08dfa-512f-4dbb-a7e3-d4a42126241a" width="100%" style="margin-right: 5px;" /><br>
+    <img alt="screen" src="https://github.com/user-attachments/assets/8993fcd3-628f-4dda-9000-65d7f90196cc" style="margin-right: 5px; max-width: 350px;" /><br>
     <em>Note: work in progress 👷</em>
 </div>
 
