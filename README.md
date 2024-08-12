@@ -1,6 +1,6 @@
 ## Muse
 
-Muse is a web application inspired by *Plex*, crafted with **htmx** and **PHP** to provide a seamless user experience.
+Muse is a personal project, inspired by Plex, that I crafted using htmx and PHP to deliver a seamless user experience.
 
 <div align="center">
     <img alt="screen" src="https://github.com/user-attachments/assets/a732e0c2-f860-43d0-a098-c523b7e9fd03" style="margin-right: 5px; max-width: 350px;" /><br>
