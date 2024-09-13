@@ -12,7 +12,7 @@ Muse is a personal project, inspired by Plex, that I crafted using htmx and PHP 
 - HD Radio: Introducing HD radio streaming! Now you can listen to high-quality radio stations directly within Muse. Simply select your favorite station and enjoy crystal-clear sound.
 - Web-Based Music Player: Access and play your entire music library from anywhere through a user-friendly web interface.
 - Podcasts with ListenNote: Explore a world of podcasts using the ListenNote integration.
-- Built with htmx & PHP: Leverages the power of htmx for a responsive and dynamic user experience, with a robust PHP backend powered by your custom Nebula framework.
+- Built with htmx & PHP: Leverages the power of htmx for a responsive and dynamic user experience.
 - Light/Dark Theme: Personalize your experience with light and dark theme options. Switch between themes effortlessly to match your environment and reduce eye strain during extended listening sessions.
 
 ### To do
