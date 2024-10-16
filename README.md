@@ -1,12 +1,13 @@
 ## Muse
-
-Muse is a personal project, inspired by Plex, that I crafted using htmx and PHP to deliver a seamless user experience.
-
 <div align="center">
-    <img alt="screen" src="https://github.com/user-attachments/assets/a732e0c2-f860-43d0-a098-c523b7e9fd03" style="margin-right: 5px; max-width: 350px;" /><br>
-    <em>Note: work in progress 👷</em>
+    <img alt="screen" src="https://github.com/user-attachments/assets/ff43e215-8c9c-422f-a871-5250e3a6960d" style="margin-right: 5px; width: 256px; max-width: 256x;" />
 </div>
 
+<p align="center">
+    <br>
+    Muse is a web music player that I crafted using htmx and PHP to deliver a seamless user experience.
+</p>
+    
 ### Features
 - Scan and Manage Your Music: Use the included muse cli to scan your personal music collection, adding it to your centralized library.
 - HD Radio: Introducing HD radio streaming! Now you can listen to high-quality radio stations directly within Muse. Simply select your favorite station and enjoy crystal-clear sound.
@@ -15,8 +16,13 @@ Muse is a personal project, inspired by Plex, that I crafted using htmx and PHP 
 - Built with htmx & PHP: Leverages the power of htmx for a responsive and dynamic user experience.
 - Light/Dark Theme: Personalize your experience with light and dark theme options. Switch between themes effortlessly to match your environment and reduce eye strain during extended listening sessions.
 
-### To do
-- Custom User Playlists: Create and curate your own playlists. Organize your music by mood, genre, or any other criteria you like.
+  
+### Screenshot
+<div align="center">
+    <img alt="screen" src="https://github.com/user-attachments/assets/1c911040-248f-4c29-8456-f0715f793030" style="margin-right: 5px; max-width: 350px;" /><br>
+    <em>Note: work in progress 👷</em>
+</div>
+
 
 ### Perfect for...
 - Music enthusiasts who want a personal, cloud-accessible music library.
@@ -64,6 +70,7 @@ Muse is a personal project, inspired by Plex, that I crafted using htmx and PHP 
         ```
 
     - Access your music library, podcasts, or HD radio through the web interface!
+
 
 ### Contribute
 
