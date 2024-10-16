@@ -1,46 +1,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 html {
-	font-size: 1rem;
-	overflow: hidden;
-	overscroll-behavior: none;
+    font-size: 1rem;
+    overflow: hidden;
+    overscroll-behavior: none;
 }
 
 body {
-	font-size: 100%;
-	height: 100%;
+    font-size: 100%;
+    height: 100%;
 }
 
 main {
-	font-family: "Noto Sans", sans-serif;
-	overflow: hidden;
-	color: #444;
-	min-width: 375px;
-	height: 100%;
+    font-family: "Noto Sans", sans-serif;
+    overflow: hidden;
+    color: #444;
+    min-width: 375px;
+    height: 100%;
 }
 
 main .sticky-top {
-	top: -12px;
+    top: -12px;
 }
 
 #main {
-	overflow: auto;
-	padding-top: 10px;
+    overflow: auto;
+    padding-top: 10px;
 }
 
 #main>section {
-	padding: 10px;
+    padding: 10px;
 }
 
 button:focus {
-	outline: none !important;
-	box-shadow: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .dropend .dropdown-toggle::after {
-	padding: 0 !important;
-	margin: 0 !important;
-	color: #777 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #777 !important;
 }
 
 #main h1,
@@ -48,215 +48,227 @@ button:focus {
 #main h3,
 #main h4,
 #main h5 {
-	font-family: "Russo One", sans-serif;
-	color: #444;
+    font-family: "Russo One", sans-serif;
+    color: #444;
 }
 
 .bg-app {
-	background-color: #fff;
+    background-color: #fff;
 }
 
 .btn-app {
-	background: gainsboro !important;
-	color: #555;
-	border: 1px solid #fff;
-	opacity: 0.8;
+    background: gainsboro !important;
+    color: #555;
+    border: 1px solid #fff;
+    opacity: 0.8;
 }
 
 .btn-app:hover {
-	opacity: 1;
-	color: #222;
+    opacity: 1;
+    color: #222;
 }
 
 .smooth {
-	transition: all 1s ease-in;
+    transition: all 1s ease-in;
 }
 
 #navbar {
-	margin: 0;
-	padding: 5px 0;
+    margin: 0;
+    padding: 5px 0;
 }
 
 #navbar #top-nav {
-	font-size: 0.9rem;
+    font-size: 0.9rem;
 }
 
 #navbar .navbar-brand {
-	font-family: "Russo One", sans-serif;
-	font-size: 1.4rem;
-	cursor: pointer;
-	color: #444;
+    font-family: "Russo One", sans-serif;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #444;
 }
 
 #navbar .nav-item {
-	margin: 0 10px;
+    margin: 0 10px;
 }
 
 #navbar .nav-item.active {
-	font-weight: 800;
+    font-weight: 800;
 }
 
+#navbar .navbar-brand {
+    position: relative;
+    display: inline-block;
+}
+
+#navbar .logo {
+    width: 32px;
+    height: 32px;
+    display: block;
+}
+
+
 .track-row {
-	outline: none !important;
-	box-shadow: none !important;
-	user-select: none;
+    outline: none !important;
+    box-shadow: none !important;
+    user-select: none;
 }
 
 .track-row .dropdown-menu {
-	background: #fff;
+    background: #fff;
 }
 .dropdown-menu .dropdown-item {
-	z-index: 9001 !important;
-	position: relative;
+    z-index: 9001 !important;
+    position: relative;
 }
 
 .track-row.active {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .track-row > span {
-	opacity: 0.7;
+    opacity: 0.7;
 }
 .track-row.active > span {
-	opacity: 1;
+    opacity: 1;
 }
 
 .track-row .cover {
-	border-radius: 4px;
-	height: 30px;
-	width: 30px;
+    border-radius: 4px;
+    height: 30px;
+    width: 30px;
 }
 
 #player {
-	border-top: solid 1px #ddd;
+    border-top: solid 1px #ddd;
 }
 
 #player .cover {
-	border-radius: 4px;
-	height: 40px;
-	width: 40px;
-	margin: 5px;
+    border-radius: 4px;
+    height: 40px;
+    width: 40px;
+    margin: 5px;
 }
 
 #player #cover-popover {
-	border: 0;
+    border: 0;
 }
 
 #player .full-cover {
-	border-radius: 8px;
-	height: 256px;
-	width: 256px;
-	margin: 0;
-	padding: 0;
+    border-radius: 8px;
+    height: 256px;
+    width: 256px;
+    margin: 0;
+    padding: 0;
 }
 
 #player #controls .btn {
-	margin-left: 4px;
+    margin-left: 4px;
 }
 
 #player #controls .btn svg {
-	fill: #444;
-	width: 28px;
-	height: 28px;
+    fill: #444;
+    width: 28px;
+    height: 28px;
 }
 
 #player #controls .btn.active svg {
-	stroke: #00a30e;
-	fill: #00a30e;
+    stroke: #00a30e;
+    fill: #00a30e;
 }
 
 #top-progress {
-	margin-bottom: 5px;
+    margin-bottom: 5px;
 }
 
 #top-progress .progress {
-	border-bottom: 1px solid #ddd;
-	background-color: #eee;
-	height: 8px;
-	border-radius: 0;
+    border-bottom: 1px solid #ddd;
+    background-color: #eee;
+    height: 8px;
+    border-radius: 0;
 }
 
 #top-progress #player-progress {
-	background: #f12711;
-	/* fallback for old browsers */
-	background: -webkit-linear-gradient(to right, #f5af19, #f12711);
-	/* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to right, #f5af19, #f12711);
-	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #f12711;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f5af19, #f12711);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f5af19, #f12711);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 #top-progress #player-progress.disabled {
-	background: #aaa;
+    background: #aaa;
 }
 
 #top-progress #preload-progress {
-	background: #ddd;
+    background: #ddd;
 }
 
 .truncate {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .radio-row .cover {
-	border-radius: 5px;
-	height: 38px;
-	width: 38px;
-	margin-right: 5px;
+    border-radius: 5px;
+    height: 38px;
+    width: 38px;
+    margin-right: 5px;
 }
 
 .radio-row .station-name {
-	font-size: 1.05em;
-	color: #666;
+    font-size: 1.05em;
+    color: #666;
 }
 
 .radio-row .location {
-	font-size: 0.85em;
-	color: #777;
+    font-size: 0.85em;
+    color: #777;
 
 }
 
 .podcast-row .cover {
-	border-radius: 5px;
-	height: 54px;
-	width: 54px;
-	margin-right: 5px;
+    border-radius: 5px;
+    height: 54px;
+    width: 54px;
+    margin-right: 5px;
 }
 
 @media (max-width: 575.98px) {
-	html {
-		font-size: 1.2rem;
-	}
+    html {
+        /*font-size: 1.2rem;*/
+    }
 
-	.track-row .cover {
-		height: 36px;
-		width: 36px;
-	}
+    .track-row .cover {
+        height: 36px;
+        width: 36px;
+    }
 
-	.radio-row .cover {
-		height: 48px;
-		width: 48px;
-	}
+    .radio-row .cover {
+        height: 48px;
+        width: 48px;
+    }
 
-	.podcast-row .cover {
-		height: 80px;
-		width: 80px;
-	}
+    .podcast-row .cover {
+        height: 80px;
+        width: 80px;
+    }
 
-	#player .cover {
-		height: 56px;
-		width: 56px;
-	}
+    #player .cover {
+        height: 56px;
+        width: 56px;
+    }
 
-	#player #controls .btn {
-		margin: 0;
-		padding: 0;
-		margin-left: 2px;
-	}
+    #player #controls .btn {
+        margin: 0;
+        padding: 0;
+        margin-left: 2px;
+    }
 
-	#player #controls .btn svg {
-		width: 30px;
-		height: 30px;
-	}
+    #player #controls .btn svg {
+        width: 30px;
+        height: 30px;
+    }
 }
