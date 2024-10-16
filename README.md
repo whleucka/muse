@@ -1,22 +1,28 @@
 ## Muse
-
-Muse is a web application inspired by *Plex*, crafted with **htmx** and **PHP** to provide a seamless user experience.
-
 <div align="center">
-    <img alt="screen" src="https://github.com/user-attachments/assets/8993fcd3-628f-4dda-9000-65d7f90196cc" style="margin-right: 5px; max-width: 350px;" /><br>
-    <em>Note: work in progress 👷</em>
+    <img alt="screen" src="https://github.com/user-attachments/assets/ff43e215-8c9c-422f-a871-5250e3a6960d" style="margin-right: 5px; width: 256px; max-width: 256x;" />
 </div>
 
+<p align="center">
+    <br>
+    Muse is a web music player that I crafted using htmx and PHP to deliver a seamless user experience.
+</p>
+    
 ### Features
 - Scan and Manage Your Music: Use the included muse cli to scan your personal music collection, adding it to your centralized library.
 - HD Radio: Introducing HD radio streaming! Now you can listen to high-quality radio stations directly within Muse. Simply select your favorite station and enjoy crystal-clear sound.
 - Web-Based Music Player: Access and play your entire music library from anywhere through a user-friendly web interface.
 - Podcasts with ListenNote: Explore a world of podcasts using the ListenNote integration.
-- Built with htmx & PHP: Leverages the power of htmx for a responsive and dynamic user experience, with a robust PHP backend powered by your custom Nebula framework.
+- Built with htmx & PHP: Leverages the power of htmx for a responsive and dynamic user experience.
 - Light/Dark Theme: Personalize your experience with light and dark theme options. Switch between themes effortlessly to match your environment and reduce eye strain during extended listening sessions.
 
-### To do
-- Custom User Playlists: Create and curate your own playlists. Organize your music by mood, genre, or any other criteria you like.
+  
+### Screenshot
+<div align="center">
+    <img alt="screen" src="https://github.com/user-attachments/assets/1c911040-248f-4c29-8456-f0715f793030" style="margin-right: 5px; max-width: 350px;" /><br>
+    <em>Note: work in progress 👷</em>
+</div>
+
 
 ### Perfect for...
 - Music enthusiasts who want a personal, cloud-accessible music library.
@@ -65,8 +71,7 @@ Muse is a web application inspired by *Plex*, crafted with **htmx** and **PHP** 
 
     - Access your music library, podcasts, or HD radio through the web interface!
 
+
 ### Contribute
 
 We welcome contributions to Muse! Feel free to fork the repository and submit pull requests.
-
-<small>✨ Created with <a href="https://github.com/libra-php/nebula" title="Nebula">Nebula</a></small>
