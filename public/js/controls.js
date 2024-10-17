@@ -235,6 +235,7 @@ const updatePositionState = () => {
 
 audio.addEventListener("play", function() {
 	navigator.mediaSession.playbackState = 'playing';
+    requestAnimationFrame(updateProgressBar);
 	hideSpinner();
 });
 
@@ -246,15 +247,30 @@ audio.addEventListener('ended', function() {
 	nextTrack();
 });
 
-audio.addEventListener("timeupdate", function() {
-	// HAVE_ENOUGH_DATA, prevents console errors
-	if (audio.readyState === 4) {
-		const preloaded = (audio.buffered.end(0) / audio.duration) * 100;
-		const progress = (audio.currentTime / audio.duration) * 100;
-		playerProgress.style.width = progress + "%";
-		preloadedBar.style.width = preloaded - progress + "%";
-	}
-});
+const updateProgressBar = () => {
+    if (!audio.paused && !audio.ended) {
+        // HAVE_ENOUGH_DATA prevents console errors
+        if (audio.readyState === 4) {
+            let preloaded = 0;
+            if (audio.buffered.length > 0) {
+                try {
+                    preloaded = (audio.buffered.end(0) / audio.duration) * 100;
+                } catch (e) {
+                    console.warn("Buffered data not available:", e);
+                }
+            }
+            const progress = (audio.currentTime / audio.duration) * 100;
+            playerProgress.style.width = progress + "%";
+
+            if (preloaded > 0) {
+                preloadedBar.style.width = Math.max(preloaded - progress, 0) + "%";
+            }
+        }
+        
+        // Continue calling the function for the next frame
+        requestAnimationFrame(updateProgressBar);
+    }
+}
 
 navigator.mediaSession.setActionHandler('previoustrack', function() {
 	prevTrack();
