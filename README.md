@@ -5,7 +5,7 @@
 
 <p align="center">
     <br>
-    Muse is a web music player that I crafted using htmx and PHP to deliver a seamless user experience.
+    Muse is a web music player using htmx and PHP to deliver a seamless user experience.
 </p>
     
 ### Features
