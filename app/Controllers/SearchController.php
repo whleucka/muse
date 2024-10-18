@@ -32,17 +32,14 @@ class SearchController extends Controller
 	#[Get("/load", "search.load")]
 	public function load(): ?string
 	{
-		$tracks = session()->get("search_tracks");
-		if ($tracks) {
-			return template("muse/search/results.php", ["tracks" => $tracks]);
-		}
-		return null;
+		$tracks = session()->get("search_tracks") ?? [];
+		return template("muse/search/results.php", ["tracks" => $tracks]);
 	}
 
 	/**
 	 * Search tracks
 	 */
-	#[Post("/", "search.search")]
+	#[Post("/", "search.search", ["HX-Replace-Url=/search"])]
 	public function search(): ?string
 	{
 		$term = $this->request()->get("term");
@@ -51,13 +48,12 @@ class SearchController extends Controller
 			if ($tracks) {
 				session()->set("search_tracks", $tracks);
 				session()->set("search_term", $term);
-				return template("muse/search/results.php", ["tracks" => $tracks]);
-			} else {
-				return "<p class='mt-3'>No results found.</p>";
 			}
-		}
+        } else {
+		    session()->delete("search_tracks");
+        }
 		session()->delete("search_term");
-		return null;
+        return $this->index();
 	}
 
 	/**
