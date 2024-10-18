@@ -1,5 +1,5 @@
 <nav id="navbar" class="navbar navbar-expand-md">
-  <div class="container-fluid ps-2 pe-0 d-flex">
+  <div class="container-fluid ps-2 pe-0 d-flex align-items-center">
     <a class="navbar-brand d-flex align-items-center" hx-get="/playlist" hx-target="#main" hx-select="#main" hx-swap="outerHTML"><img src="/img/logo.png" class="logo" width="32" height="32" /></a>
     <div id="search-input" class='flex-grow-1'>
         <form hx-post="/search"
