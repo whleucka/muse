@@ -9,7 +9,7 @@
             <div class="input-group"> <input id="input" class="form-control" type="search"
                     name="term"
                     value=""
-                    placeholder="search" />
+                    placeholder="Search..." />
                 <button id="search-submit" type="submit" class="btn btn-app" hx-sync="closest form:abort">
                     OK
                 </button>
