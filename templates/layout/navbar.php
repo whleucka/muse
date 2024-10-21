@@ -3,7 +3,7 @@
     <a class="navbar-brand d-flex align-items-center" hx-get="/playlist" hx-target="#main" hx-select="#main" hx-swap="outerHTML"><img src="/img/logo.png" class="logo" width="32" height="32" /></a>
     <div id="search-input" class='flex-grow-1'>
         <form hx-get="/search/query"
-            hx-push-url="true"
+            hx-push-url="false"
             hx-indicator="#search .htmx-indicator"
             hx-target="#main" hx-select="#main" hx-swap="outerHTML">
             <div class="input-group"> <input id="input" class="form-control" type="search"
