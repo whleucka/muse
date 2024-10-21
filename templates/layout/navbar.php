@@ -10,7 +10,9 @@
                     name="term"
                     value=""
                     placeholder="search" />
-                <button id="search-submit" type="submit" class="btn btn-app" hx-sync="closest form:abort">ok</button>
+                <button id="search-submit" type="submit" class="btn btn-app" hx-sync="closest form:abort">
+                    OK
+                </button>
             </div>
         </form>
     </div>
