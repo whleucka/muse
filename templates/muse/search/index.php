@@ -6,6 +6,6 @@
 			</div>
 		</span>
 	</h3>
-	<div id="results" hx-get="/search/load" hx-indicator="#search .htmx-indicator" hx-trigger="load">
+    <div id="results" hx-get="/search/load?term=<?=$term?>" hx-indicator="#search .htmx-indicator" hx-trigger="load">
 	</div>
 </section>

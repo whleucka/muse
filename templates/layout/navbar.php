@@ -2,23 +2,20 @@
   <div class="container-fluid ps-2 pe-0 d-flex align-items-center">
     <a class="navbar-brand d-flex align-items-center" hx-get="/playlist" hx-target="#main" hx-select="#main" hx-swap="outerHTML"><img src="/img/logo.png" class="logo" width="32" height="32" /></a>
     <div id="search-input" class='flex-grow-1'>
-        <form hx-post="/search"
+        <form hx-get="/search/query"
+            hx-push-url="true"
             hx-indicator="#search .htmx-indicator"
             hx-target="#main" hx-select="#main" hx-swap="outerHTML">
-            <?=$csrf()?>
-            <div class="input-group">
-                <input id="input"
-                    class="form-control"
-                    type="search"
+            <div class="input-group"> <input id="input" class="form-control" type="search"
                     name="term"
                     value=""
-                    placeholder="Search" />
-                <button id="search-submit" type="submit" class="btn btn-app" hx-sync="closest form:abort">OK</button>
+                    placeholder="search" />
+                <button id="search-submit" type="submit" class="btn btn-app" hx-sync="closest form:abort">ok</button>
             </div>
         </form>
     </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#top-nav"
-      aria-controls="top-nav" aria-expanded="false" aria-label="Toggle navigation">
+      aria-controls="top-nav" aria-expanded="false" aria-label="toggle navigation">
       <span class="navbar-toggler-icon"><span data-feather="menu"></span></span>
     </button>
     <div class="collapse navbar-collapse" id="top-nav">
