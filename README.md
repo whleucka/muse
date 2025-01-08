@@ -1,12 +1,9 @@
 ## Muse
-<div align="center">
-    <img alt="screen" src="https://github.com/user-attachments/assets/ff43e215-8c9c-422f-a871-5250e3a6960d" style="margin-right: 5px; width: 256px; max-width: 256x;" />
-</div>
 
-<p align="center">
-    <br>
-    Muse is a web music player built with htmx and PHP to deliver a seamless user experience.
-</p>
+<div align="center">
+    <img alt="screen" src="https://github.com/user-attachments/assets/1c911040-248f-4c29-8456-f0715f793030" style="margin-right: 5px; max-width: 350px;" /><br>
+    <em>Muse is a web music player built with htmx and PHP to deliver a seamless user experience.</em>
+</div>
     
 ### Features
 - Scan and Manage Your Music: Use the included muse cli to scan your personal music collection, adding it to your centralized library.
@@ -18,10 +15,7 @@
 
   
 ### Screenshot
-<div align="center">
-    <img alt="screen" src="https://github.com/user-attachments/assets/1c911040-248f-4c29-8456-f0715f793030" style="margin-right: 5px; max-width: 350px;" /><br>
-    <em>Note: work in progress 👷</em>
-</div>
+
 
 
 ### Perfect for...
@@ -70,6 +64,10 @@
         ```
 
     - Access your music library, podcasts, or HD radio through the web interface!
+ 
+<div align="center">
+    <img alt="screen" src="https://github.com/user-attachments/assets/ff43e215-8c9c-422f-a871-5250e3a6960d" style="margin-right: 5px; width: 256px; max-width: 256x;" />
+</div>
 
 
 ### Contribute
