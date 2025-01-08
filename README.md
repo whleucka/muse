@@ -65,11 +65,14 @@
 
     - Access your music library, podcasts, or HD radio through the web interface!
  
-<div align="center">
-    <img alt="screen" src="https://github.com/user-attachments/assets/ff43e215-8c9c-422f-a871-5250e3a6960d" style="margin-right: 5px; width: 256px; max-width: 256x;" />
-</div>
 
 
 ### Contribute
 
 We welcome contributions to Muse! Feel free to fork the repository and submit pull requests.
+
+<br><br>
+<div align="center">
+    <img alt="screen" src="https://github.com/user-attachments/assets/ff43e215-8c9c-422f-a871-5250e3a6960d" style="margin-right: 5px; width: 128px; max-width: 128x;" /><br />
+    <em>Muse is a web music player built with htmx and PHP to deliver a seamless user experience.</em>
+</div>
