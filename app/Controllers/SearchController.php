@@ -117,7 +117,12 @@ class SearchController extends Controller
 		$tracks = session()->get("search_tracks");
 		if ($tracks) {
 			session()->set("playlist_tracks", $tracks);
-			session()->delete("playlist_index");
+
+		    $shuffle = session()->get("shuffle") === true;
+            if (!$shuffle) {
+                // Reset to top of playlist
+			    session()->delete("playlist_index");
+            }
 			$this->clear();
 		}
 		hx_location("/playlist");
