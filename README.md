@@ -2,16 +2,16 @@
 
 <div align="center">
     <img alt="screen" src="https://github.com/user-attachments/assets/1c911040-248f-4c29-8456-f0715f793030" style="margin-right: 5px; max-width: 350px;" /><br>
-    <em>Muse is a web music player built with htmx and PHP to deliver a seamless user experience.</em>
+    <em>Muse is a web music player</em>
 </div>
     
 ### Features
 - Scan and Manage Your Music: Use the included muse cli to scan your personal music collection, adding it to your centralized library.
-- HD Radio: Introducing HD radio streaming! Now you can listen to high-quality radio stations directly within Muse. Simply select your favorite station and enjoy crystal-clear sound.
+- HD Radio: Now you can listen to high-quality radio stations directly within Muse. Simply select your favorite station and enjoy crystal-clear sound.
 - Web-Based Music Player: Access and play your entire music library from anywhere through a user-friendly web interface.
 - Podcasts with ListenNote: Explore a world of podcasts using the ListenNote integration.
 - Built with htmx & PHP: Leverages the power of htmx for a responsive and dynamic user experience.
-- Light/Dark Theme: Personalize your experience with light and dark theme options. Switch between themes effortlessly to match your environment and reduce eye strain during extended listening sessions.
+- Light/Dark Theme: Personalize your experience with light and dark theme options.
 
   
 ### Screenshot
@@ -20,7 +20,6 @@
 
 ### Perfect for...
 - Music enthusiasts who want a personal, cloud-accessible music library.
-- Developers interested in exploring htmx and the Nebula framework.
 
 ### Getting Started
 - Clone the repository: `git clone https://github.com/whleucka/muse.git`
